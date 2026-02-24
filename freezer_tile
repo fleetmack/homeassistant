@@ -1,0 +1,36 @@
+type: custom:config-template-card
+entities:
+  - sensor.chest_freezer
+  - sensor.basement_freezer
+  - sensor.kitchen_freezer
+card:
+  type: markdown
+  content: >
+    {% set sensors = [
+      ('sensor.chest_freezer','Chest Freezer'),
+      ('sensor.basement_freezer','Basement Freezer'),
+      ('sensor.kitchen_freezer','Kitchen Freezer')
+    ] %}
+
+    <table style="width: 100%; border-collapse: collapse; border: none;">
+    {% for s in sensors -%}
+      {% set t = states[s[0]].state | float(0) %}
+      {% set updated = relative_time(states[s[0]].last_changed) %}
+      {% set color = 'blue' if t < 20 else ('yellow' if t <= 30 else 'red') %}
+
+      <tr>
+        <td style="width: 25px; padding: 6px 0; border: none;">
+          <font color="{{ color }}">❄</font>
+        </td>
+        <td style="width: 160px; font-family: monospace; padding: 6px 0; border: none;">
+          {{ s[1] }}
+        </td>
+        <td style="width: 80px; font-family: monospace; text-align: right; padding: 6px 0; border: none;">
+          <b>{{ "%5.1f"|format(t) }}F</b>
+        </td>
+        <td style="width: 130px; font-family: monospace; text-align: right; opacity: 0.7; padding: 6px 0; border: none;">
+          {{ updated }} ago
+        </td>
+      </tr>
+    {%- endfor %}
+    </table>
