@@ -17,35 +17,31 @@ card:
       ('binary_sensor.garage_yard_door_sensor_contact', 'lock.garage_yard_lock', 'Garage Yard'),
       ('binary_sensor.kitching_sliding_door_sensor_contact', 'binary_sensor.kitchen_sliding_door_lock_lr_contact', 'Kitchen Sliding')
     ] %}
-
-    <table style="width: 100%; border-collapse: collapse; border: none;"> {% for
-    d in doors -%}
+    <table style="width: 100%; border-collapse: collapse; border: none;">
+    {% for d in doors -%}
       {% set contact = states(d[0]) %}
       {% set lock_state = states(d[1]) %}
       {% set last_ch = as_local(states[d[0]].last_changed).strftime('%b %d - %H:%M') %}
-      
-      {# Unified Lock Logic: Works for both 'lock' entities and 'binary_sensor' contacts #}
-      {# For the sliding door contact: 'off' usually means closed/locked, 'on' means open/unlocked #}
       {% set is_locked = lock_state == 'locked' or lock_state == 'off' %}
-      
       {% set lock_bg = '#2e7d32' if is_locked else '#d32f2f' %}
       {% set lock_icon = 'mdi:lock' if is_locked else 'mdi:lock-open-variant' %}
-      
-      {# Contact UI #}
-      {% set contact_label = 'Open' if contact == 'on' else 'Closed' %}
-      {% set contact_color = '#f44336' if contact == 'on' else '#4caf50' %}
-
+      {% set status_text = 'Open' if contact == 'on' else 'Closed' %}
+      {% set color = 'red' if contact == 'on' else 'green' %}
       <tr>
-        <td style="width: 45px; padding: 10px 0; border: none;">
-          <div style="background-color: {{ lock_bg }}; border-radius: 6px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0px 2px 4px rgba(0,0,0,0.3);">
-            <ha-icon icon="{{ lock_icon }}" style="color: white !important; --mdc-icon-size: 22px;"></ha-icon>
+        <td style="width: 45px; padding: 6px 0; border: none;">
+          <div style="background-color: {{ lock_bg }}; border-radius: 4px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+            <ha-icon icon="{{ lock_icon }}" style="color: white !important; --mdc-icon-size: 20px;"></ha-icon>
           </div>
         </td>
-        <td style="padding: 10px; border: none; font-size: 16px;">
-          {{ d[2] }}: <b><font color="{{ contact_color }}">{{ contact_label }}</font></b>
+        <td style="width: 160px; font-family: monospace; padding: 6px 0; border: none;">
+          {{ d[2] }}
         </td>
-        <td style="width: 120px; border: none; text-align: right; font-family: monospace; opacity: 0.8;">
+        <td style="width: 80px; font-family: monospace; text-align: right; padding: 6px 0; border: none;">
+          <b><font color="{{ color }}">{{ status_text }}</font></b>
+        </td>
+        <td style="width: 130px; font-family: monospace; text-align: right; opacity: 0.7; padding: 6px 0; border: none;">
           {{ last_ch }}
         </td>
       </tr>
-    {%- endfor %} </table>
+    {%- endfor %}
+    </table>
