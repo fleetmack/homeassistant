@@ -1,65 +1,63 @@
-type: custom:config-template-card
-entities:
-  - sensor.chest_freezer
-  - sensor.basement_freezer
-  - sensor.kitchen_freezer
-  - sensor.kitchen_fridge_temp_sensor_temperature
-  - sensor.basement_fridge_temp_sensor_temperature
-  - sensor.keezer_temp_lr_temperature
-card:
-  type: markdown
-  content: >
-    <table style="width: 100%; border-collapse: collapse; border: none; table-layout: fixed;">
-    {% set freezers = [
-      ('sensor.chest_freezer','Chest Freezer'),
-      ('sensor.basement_freezer','Basement Freezer'),
-      ('sensor.kitchen_freezer','Kitchen Freezer')
-    ] %}
-    {% set fridges = [
-      ('sensor.kitchen_fridge_temp_sensor_temperature','Kitchen Fridge'),
-      ('sensor.basement_fridge_temp_sensor_temperature','Basement Fridge'),
-      ('sensor.keezer_temp_lr_temperature','Kegerator')
-    ] %}
+type: markdown
+card_mod:
+  style: |
+    ha-card {
+      background: rgba(0,0,0,0.3) !important;
+      border-radius: 12px;
+      padding: 10px;
+    }
+content: >
+  <table style="width: 100%; border-collapse: collapse; border: none; table-layout: fixed;">
+  {% set freezers = [
+    ('sensor.chest_freezer','Chest Freezer'),
+    ('sensor.basement_freezer','Basement Freezer'),
+    ('sensor.kitchen_freezer','Kitchen Freezer')
+  ] %}
+  {% set fridges = [
+    ('sensor.kitchen_fridge_temp_sensor_temperature','Kitchen Fridge'),
+    ('sensor.basement_fridge_temp_sensor_temperature','Basement Fridge'),
+    ('sensor.keezer_temp_lr_temperature','Kegerator')
+  ] %}
 
-    {# FREEZERS #}
-    {% for s in freezers -%}
-      {% set t = states[s[0]].state | float(0) %}
-      {% set updated = relative_time(states[s[0]].last_changed) | replace(' ago', '') %}
-      {% set color = 'blue' if t < 20 else ('yellow' if t <= 30 else 'red') %}
-      <tr>
-        <td style="width: 30px; padding: 4px 0; border: none; text-align: center;">
-          <font color="{{ color }}" style="font-size: 16px;">❄</font>
-        </td>
-        <td style="width: 160px; font-family: monospace; font-size: 13px; border: none; white-space: nowrap;">
-          {{ s[1] }}
-        </td>
-        <td style="width: 70px; font-family: monospace; text-align: right; border: none; white-space: nowrap;">
-          <font color="{{ color }}">{{ "%5.1f"|format(t) }}°F</font>
-        </td>
-        <td style="width: 110px; font-family: monospace; text-align: right; opacity: 0.7; border: none; white-space: nowrap; font-size: 12px;">
-          {{ updated }}
-        </td>
-      </tr>
-    {%- endfor %}
+  {# FREEZERS #}
+  {% for s in freezers -%}
+    {% set t = states(s[0]) | float(0) %}
+    {% set updated = relative_time(states[s[0]].last_changed) | replace(' ago', '') if states[s[0]] else 'Unknown' %}
+    {% set color = 'blue' if t < 20 else ('yellow' if t <= 30 else 'red') %}
+    <tr>
+      <td style="width: 30px; padding: 4px 0; border: none; text-align: center;">
+        <font color="{{ color }}" style="font-size: 16px;">❄</font>
+      </td>
+      <td style="width: 160px; font-family: monospace; font-size: 13px; border: none; white-space: nowrap;">
+        {{ s[1] }}
+      </td>
+      <td style="width: 70px; font-family: monospace; text-align: right; border: none; white-space: nowrap;">
+        <font color="{{ color }}">{{ "%5.1f"|format(t) }}°F</font>
+      </td>
+      <td style="width: 110px; font-family: monospace; text-align: right; opacity: 0.7; border: none; white-space: nowrap; font-size: 12px;">
+        {{ updated }}
+      </td>
+    </tr>
+  {%- endfor %}
 
-    {# REFRIGERATORS #}
-    {% for s in fridges -%}
-      {% set t = states[s[0]].state | float(0) %}
-      {% set updated = relative_time(states[s[0]].last_changed) | replace(' ago', '') %}
-      {% set color = 'blue' if t <= 38 else ('yellow' if t <= 45 else 'red') %}
-      <tr>
-        <td style="width: 30px; padding: 4px 0; border: none; text-align: center;">
-          <font color="{{ color }}" style="font-size: 16px;">❄</font>
-        </td>
-        <td style="width: 160px; font-family: monospace; font-size: 13px; border: none; white-space: nowrap;">
-          {{ s[1] }}
-        </td>
-        <td style="width: 70px; font-family: monospace; text-align: right; border: none; white-space: nowrap;">
-          <font color="{{ color }}">{{ "%5.1f"|format(t) }}°F</font>
-        </td>
-        <td style="width: 110px; font-family: monospace; text-align: right; opacity: 0.7; border: none; white-space: nowrap; font-size: 12px;">
-          {{ updated }}
-        </td>
-      </tr>
-    {%- endfor %}
-    </table>
+  {# REFRIGERATORS #}
+  {% for s in fridges -%}
+    {% set t = states(s[0]) | float(0) %}
+    {% set updated = relative_time(states[s[0]].last_changed) | replace(' ago', '') if states[s[0]] else 'Unknown' %}
+    {% set color = 'blue' if t <= 38 else ('yellow' if t <= 45 else 'red') %}
+    <tr>
+      <td style="width: 30px; padding: 4px 0; border: none; text-align: center;">
+        <font color="{{ color }}" style="font-size: 16px;">❄</font>
+      </td>
+      <td style="width: 160px; font-family: monospace; font-size: 13px; border: none; white-space: nowrap;">
+        {{ s[1] }}
+      </td>
+      <td style="width: 70px; font-family: monospace; text-align: right; border: none; white-space: nowrap;">
+        <font color="{{ color }}">{{ "%5.1f"|format(t) }}°F</font>
+      </td>
+      <td style="width: 110px; font-family: monospace; text-align: right; opacity: 0.7; border: none; white-space: nowrap; font-size: 12px;">
+        {{ updated }}
+      </td>
+    </tr>
+  {%- endfor %}
+  </table>
