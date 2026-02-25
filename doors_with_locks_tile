@@ -6,26 +6,32 @@ entities:
   - lock.garage_house_lock
   - binary_sensor.garage_yard_door_sensor_contact
   - lock.garage_yard_lock
+  - binary_sensor.kitching_sliding_door_sensor_contact
+  - binary_sensor.kitchen_sliding_door_lock_lr_contact
 card:
   type: markdown
   content: >
     {% set doors = [
       ('binary_sensor.front_door_sensor_contact', 'lock.front_door_lock', 'Front Door'),
       ('binary_sensor.garage_house_door_sensor_contact', 'lock.garage_house_lock', 'Garage House'),
-      ('binary_sensor.garage_yard_door_sensor_contact', 'lock.garage_yard_lock', 'Garage Yard')
+      ('binary_sensor.garage_yard_door_sensor_contact', 'lock.garage_yard_lock', 'Garage Yard'),
+      ('binary_sensor.kitching_sliding_door_sensor_contact', 'binary_sensor.kitchen_sliding_door_lock_lr_contact', 'Kitchen Sliding')
     ] %}
 
-    <table style="width: 100%; border-collapse: collapse; border: none;">
-    {% for d in doors -%}
+    <table style="width: 100%; border-collapse: collapse; border: none;"> {% for
+    d in doors -%}
       {% set contact = states(d[0]) %}
       {% set lock_state = states(d[1]) %}
       {% set last_ch = as_local(states[d[0]].last_changed).strftime('%b %d - %H:%M') %}
       
-      {# Lock UI: Locked = Solid Green, Unlocked = Solid Red #}
-      {% set lock_bg = '#2e7d32' if lock_state == 'locked' else '#d32f2f' %}
-      {% set lock_icon = 'mdi:lock' if lock_state == 'locked' else 'mdi:lock-open-variant' %}
+      {# Unified Lock Logic: Works for both 'lock' entities and 'binary_sensor' contacts #}
+      {# For the sliding door contact: 'off' usually means closed/locked, 'on' means open/unlocked #}
+      {% set is_locked = lock_state == 'locked' or lock_state == 'off' %}
       
-      {# Contact UI: Closed = Green Text, Open = Red Text #}
+      {% set lock_bg = '#2e7d32' if is_locked else '#d32f2f' %}
+      {% set lock_icon = 'mdi:lock' if is_locked else 'mdi:lock-open-variant' %}
+      
+      {# Contact UI #}
       {% set contact_label = 'Open' if contact == 'on' else 'Closed' %}
       {% set contact_color = '#f44336' if contact == 'on' else '#4caf50' %}
 
@@ -42,5 +48,4 @@ card:
           {{ last_ch }}
         </td>
       </tr>
-    {%- endfor %}
-    </table>
+    {%- endfor %} </table>
