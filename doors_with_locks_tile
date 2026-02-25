@@ -1,0 +1,46 @@
+type: custom:config-template-card
+entities:
+  - binary_sensor.front_door_sensor_contact
+  - lock.front_door_lock
+  - binary_sensor.garage_house_door_sensor_contact
+  - lock.garage_house_lock
+  - binary_sensor.garage_yard_door_sensor_contact
+  - lock.garage_yard_lock
+card:
+  type: markdown
+  content: >
+    {% set doors = [
+      ('binary_sensor.front_door_sensor_contact', 'lock.front_door_lock', 'Front Door'),
+      ('binary_sensor.garage_house_door_sensor_contact', 'lock.garage_house_lock', 'Garage House'),
+      ('binary_sensor.garage_yard_door_sensor_contact', 'lock.garage_yard_lock', 'Garage Yard')
+    ] %}
+
+    <table style="width: 100%; border-collapse: collapse; border: none;">
+    {% for d in doors -%}
+      {% set contact = states(d[0]) %}
+      {% set lock_state = states(d[1]) %}
+      {% set last_ch = as_local(states[d[0]].last_changed).strftime('%b %d - %H:%M') %}
+      
+      {# Lock UI: Locked = Solid Green, Unlocked = Solid Red #}
+      {% set lock_bg = '#2e7d32' if lock_state == 'locked' else '#d32f2f' %}
+      {% set lock_icon = 'mdi:lock' if lock_state == 'locked' else 'mdi:lock-open-variant' %}
+      
+      {# Contact UI: Closed = Green Text, Open = Red Text #}
+      {% set contact_label = 'Open' if contact == 'on' else 'Closed' %}
+      {% set contact_color = '#f44336' if contact == 'on' else '#4caf50' %}
+
+      <tr>
+        <td style="width: 45px; padding: 10px 0; border: none;">
+          <div style="background-color: {{ lock_bg }}; border-radius: 6px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: 0px 2px 4px rgba(0,0,0,0.3);">
+            <ha-icon icon="{{ lock_icon }}" style="color: white !important; --mdc-icon-size: 22px;"></ha-icon>
+          </div>
+        </td>
+        <td style="padding: 10px; border: none; font-size: 16px;">
+          {{ d[2] }}: <b><font color="{{ contact_color }}">{{ contact_label }}</font></b>
+        </td>
+        <td style="width: 120px; border: none; text-align: right; font-family: monospace; opacity: 0.8;">
+          {{ last_ch }}
+        </td>
+      </tr>
+    {%- endfor %}
+    </table>
