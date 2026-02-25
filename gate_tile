@@ -4,6 +4,7 @@ entities:
   - binary_sensor.gate_front_yard_lr_contact
   - binary_sensor.gate_trash_lr_contact
   - binary_sensor.kitchen_screen_door_lr_contact
+  - binary_sensor.garage_door_tilt_contact
 card:
   type: markdown
   content: >
@@ -11,7 +12,8 @@ card:
       ('binary_sensor.gate_alley_yard_lr_contact','Alley Gate'),
       ('binary_sensor.gate_front_yard_lr_contact','Back Yard Gate'),
       ('binary_sensor.gate_trash_lr_contact','Front Yard Gate'),
-      ('binary_sensor.kitchen_screen_door_lr_contact','Kitchen Screen')
+      ('binary_sensor.kitchen_screen_door_lr_contact','Kitchen Screen'),
+      ('binary_sensor.garage_door_tilt_contact','Garage Door')
     ] %}
 
     <table style="width: 100%; border-collapse: collapse; border: none;"> 
@@ -20,6 +22,7 @@ card:
       {% set state = obj.state %}
       {% set last_date = as_local(obj.last_changed).strftime('%m/%d %H:%M') %}
       
+      {# Logic: 'on' (Open/Up) = Red, 'off' (Closed/Down) = Green #}
       {% set icon = 'mdi:door-open' if state == 'on' else 'mdi:door-closed' %}
       {% set color = 'red' if state == 'on' else 'green' %}
       {% set status_text = 'OPEN' if state == 'on' else 'CLOSED' %}
