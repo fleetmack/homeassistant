@@ -1,0 +1,63 @@
+type: custom:config-template-card
+entities:
+  - binary_sensor.gate_alley_yard_lr_contact
+  - binary_sensor.gate_front_yard_lr_contact
+  - binary_sensor.gate_trash_lr_contact
+  - binary_sensor.kitchen_screen_door_lr_contact
+  - binary_sensor.garage_door_tilt_contact
+  - binary_sensor.front_door_sensor_contact
+  - lock.front_door_lock
+  - binary_sensor.garage_house_door_sensor_contact
+  - lock.garage_house_lock
+  - binary_sensor.garage_yard_door_sensor_contact
+  - lock.garage_yard_lock
+  - binary_sensor.kitching_sliding_door_sensor_contact
+  - binary_sensor.kitchen_sliding_door_lock_lr_contact
+card:
+  type: markdown
+  content: >
+    {% set gates = [
+      ('binary_sensor.gate_alley_yard_lr_contact','Alley Gate'),
+      ('binary_sensor.gate_front_yard_lr_contact','Back Yard Gate'),
+      ('binary_sensor.gate_trash_lr_contact','Front Yard Gate'),
+      ('binary_sensor.kitchen_screen_door_lr_contact','Kitchen Screen'),
+      ('binary_sensor.garage_door_tilt_contact','Garage Door')
+    ] %}
+    {% set doors = [
+      ('binary_sensor.front_door_sensor_contact', 'lock.front_door_lock', 'Front Door'),
+      ('binary_sensor.garage_house_door_sensor_contact', 'lock.garage_house_lock', 'Garage House'),
+      ('binary_sensor.garage_yard_door_sensor_contact', 'lock.garage_yard_lock', 'Garage Yard'),
+      ('binary_sensor.kitching_sliding_door_sensor_contact', 'binary_sensor.kitchen_sliding_door_lock_lr_contact', 'Kitchen Sliding')
+    ] %}
+    <table style="width: 100%; border-collapse: collapse; border: none;">
+    {% for g in gates -%}
+      {% set obj = states[g[0]] %}
+      {% set state = obj.state %}
+      {% set last_ch = as_local(obj.last_changed).strftime('%b %d - %H:%M') %}
+      {% set color = 'red' if state == 'on' else 'green' %}
+      <tr>
+        <td style="width: 45px; padding: 6px 0; border: none;"><ha-icon icon="{{ 'mdi:door-open' if state == 'on' else 'mdi:door-closed' }}" style="color: {{ color }} !important; margin-left: 6px;"></ha-icon></td>
+        <td style="width: 160px; font-family: monospace; border: none;">{{ g[1] }}</td>
+        <td style="width: 80px; font-family: monospace; text-align: right; border: none;"><b><font color="{{ color }}">{{ 'Open' if state == 'on' else 'Closed' }}</font></b></td>
+        <td style="width: 130px; font-family: monospace; text-align: right; opacity: 0.7; border: none;">{{ last_ch }}</td>
+      </tr>
+    {%- endfor %}
+    {% for d in doors -%}
+      {% set contact = states(d[0]) %}
+      {% set lock_state = states(d[1]) %}
+      {% set last_ch = as_local(states[d[0]].last_changed).strftime('%b %d - %H:%M') %}
+      {% set is_locked = lock_state == 'locked' or lock_state == 'off' %}
+      {% set lock_bg = '#2e7d32' if is_locked else '#d32f2f' %}
+      {% set contact_color = 'red' if contact == 'on' else 'green' %}
+      <tr>
+        <td style="width: 45px; padding: 6px 0; border: none;">
+          <div style="background-color: {{ lock_bg }}; border-radius: 4px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+            <ha-icon icon="{{ 'mdi:lock' if is_locked else 'mdi:lock-open-variant' }}" style="color: white !important; --mdc-icon-size: 20px;"></ha-icon>
+          </div>
+        </td>
+        <td style="width: 160px; font-family: monospace; border: none;">{{ d[2] }}</td>
+        <td style="width: 80px; font-family: monospace; text-align: right; border: none;"><b><font color="{{ contact_color }}">{{ 'Open' if contact == 'on' else 'Closed' }}</font></b></td>
+        <td style="width: 130px; font-family: monospace; text-align: right; opacity: 0.7; border: none;">{{ last_ch }}</td>
+      </tr>
+    {%- endfor %}
+    </table>
