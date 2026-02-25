@@ -1,0 +1,62 @@
+type: custom:config-template-card
+entities:
+  - sensor.outside_temperature_temperature
+  - sensor.back_porch_temp_sensor_zigbee_temperature
+  - sensor.front_porch_motion_lr_temperature
+  - sensor.garage_temp_sensor_temperature
+  - sensor.honeywell_t_stat_main_floor_temperature
+  - sensor.honeywell_t_stat_upstairs_temperature
+  - sensor.basement_dart_temp_zigbee_temperature
+  - sensor.garage_entry_motion_sensor_temperature
+  - sensor.claires_bathroom_door_temperature
+  - sensor.savannahs_bathroom_door_temperature
+  - sensor.hudsons_bedroom_door_temperature
+card:
+  type: markdown
+  content: >
+    <table style="width: 100%; border-collapse: collapse; border: none; table-layout: fixed;">
+    {% set items = [
+      ('sensor.outside_temperature_temperature','Outdoor Ambient','ext'),
+      ('sensor.back_porch_temp_sensor_zigbee_temperature','Back Porch','ext'),
+      ('sensor.front_porch_motion_lr_temperature','Front Porch','ext'),
+      ('sensor.garage_temp_sensor_temperature','Garage','ext'),
+      ('sensor.honeywell_t_stat_main_floor_temperature','T-Stat Main','int'),
+      ('sensor.honeywell_t_stat_upstairs_temperature','T-Stat Master','int'),
+      ('sensor.basement_dart_temp_zigbee_temperature','Basement','int'),
+      ('sensor.garage_entry_motion_sensor_temperature','Mud Room','int'),
+      ('sensor.claires_bathroom_door_temperature',"Claire's Room",'int'),
+      ('sensor.savannahs_bathroom_door_temperature',"Savi's Room",'int'),
+      ('sensor.hudsons_bedroom_door_temperature',"Hud's Room",'int')
+    ] %}
+
+    {% for s in items -%}
+      {% set t = states(s[0]) | float(0) %}
+      
+      {# Logic for Outdoor/Ext Colors #}
+      {% if s[2] == 'ext' %}
+        {% if t < 40 %} {% set color = 'blue' %}
+        {% elif t <= 90 %} {% set color = '#4caf50' %}
+        {% else %} {% set color = 'purple' %}
+        {% endif %}
+      
+      {# Logic for Indoor/Int Colors #}
+      {% else %}
+        {% if t < 65 %} {% set color = 'blue' %}
+        {% elif t <= 74 %} {% set color = '#4caf50' %}
+        {% else %} {% set color = 'red' %}
+        {% endif %}
+      {% endif %}
+
+      <tr>
+        <td style="width: 35px; padding: 6px 0; border: none; text-align: center;">
+          <font color="{{ color }}" style="font-size: 20px;">❄</font>
+        </td>
+        <td style="width: 180px; font-family: monospace; font-size: 14px; border: none; white-space: nowrap;">
+          {{ s[1] }}
+        </td>
+        <td style="font-family: monospace; font-size: 14px; text-align: left; border: none; white-space: nowrap;">
+          <font color="{{ color }}">{{ "%5.1f"|format(t) }}°F</font>
+        </td>
+      </tr>
+    {%- endfor %}
+    </table>
