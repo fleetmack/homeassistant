@@ -1,0 +1,28 @@
+type: picture-entity
+view_layout:
+  grid-area: header
+entity: camera.192_168_1_1
+camera_view: live
+show_name: false
+show_state: false
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    service: browser_mod.popup
+    data:
+      size: fullscreen
+      content:
+        type: picture-glance
+        entities: []
+        camera_image: camera.192_168_1_1
+        camera_view: live
+card_mod:
+  style: |
+    ha-card {
+      width: 260px !important;
+      height: 150px !important;
+      position: absolute;
+      left: 320px; /* Snaps it next to the scaled weather */
+      top: 0px; /* Keeps it at the very top */
+      border-radius: 12px;
+    }
