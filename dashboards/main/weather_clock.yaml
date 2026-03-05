@@ -1,0 +1,16 @@
+type: custom:clock-weather-card
+view_layout:
+  grid-area: header
+entity: weather.forecast_home_2
+show_forecast: true
+forecast_rows: 3
+card_mod:
+  style: |
+    ha-card {
+      width: 450px !important;
+      transform: scale(0.75);
+      transform-origin: left top;
+      margin: 0 !important;
+      border: none !important;
+      background: none !important;
+    }
