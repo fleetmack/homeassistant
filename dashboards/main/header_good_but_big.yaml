@@ -1,0 +1,37 @@
+square: false
+type: grid
+columns: 4
+cards:
+  - type: custom:clock-weather-card
+    entity: weather.forecast_home_2
+    sun_entity: sun.sun
+    scale: 0.5
+    weather_icon_type: fill
+    forecast_rows: 4
+    view_layout:
+      grid-column: span 3
+  - type: picture-entity
+    entity: camera.doorbell
+    camera_view: live
+    show_name: false
+    show_state: false
+    scale: 0.5
+    fit_mode: cover
+  - type: custom:mini-media-player
+    entity: media_player.den_2
+    name: Office
+    artwork: cover
+    artwork_border: true
+    artwork_height: 170
+    info: scroll
+    show_progress: true
+    hide:
+      power: true
+      source: true
+    card_mod:
+      style: |
+        ha-card {
+          height: 300px;
+        }
+view_layout:
+  grid-area: header
