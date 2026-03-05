@@ -1,0 +1,6 @@
+grid-template-columns: 260px 1fr
+grid-template-rows: auto 1fr
+grid-template-areas: |
+  "header header"
+  "sidebar main"
+grid-gap: 0px
