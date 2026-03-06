@@ -20,6 +20,9 @@ cards:
     camera_view: live
     show_name: false
     show_state: false
+    tap_action:
+      action: navigate
+      navigation_path: /mack-toying-around
     scale: 0.5
     fit_mode: cover
     card_mod:
@@ -51,6 +54,12 @@ cards:
     square: false
     cards:
       - type: button
+        name: Arm Home
+        icon: mdi:shield-home
+        entity: switch.vs_alarm_home_for_hass
+        tap_action:
+          action: toggle
+      - type: button
         entity: sensor.hub_hsm_status
         name: Alarm
         icon: mdi:shield-home
@@ -67,13 +76,7 @@ cards:
                   red
                 {% endif %};
               color: white;
-            }
-      - type: button
-        name: Arm Home
-        icon: mdi:shield-home
-        entity: switch.vs_alarm_home_for_hass
-        tap_action:
-          action: toggle
+            }          
       - type: button
         name: Arm Away
         icon: mdi:shield-lock
