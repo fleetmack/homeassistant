@@ -1,6 +1,9 @@
 streams:
   go2_doorbell:
     - rtsp://192.168.1.1:7447/KaI6HEInWHZhyLzx
+    
+  go2_doorbell_sub:
+    - rtsp://192.168.1.1:7447/nnPsjiAjWuO44AyR    
 
   go2_package:
     - rtsp://192.168.1.1:7447/Z1toOI5rwJK9VkVk
