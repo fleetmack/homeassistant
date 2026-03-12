@@ -1,0 +1,188 @@
+type: vertical-stack
+cards:
+  - type: custom:config-template-card
+    entities:
+      - sensor.outside_temperature_temperature
+      - sensor.back_porch_temp_sensor_zigbee_temperature
+      - sensor.front_porch_motion_lr_temperature
+      - sensor.garage_temp_sensor_temperature
+      - sensor.honeywell_t_stat_main_floor_temperature
+      - sensor.honeywell_t_stat_upstairs_temperature
+      - sensor.basement_dart_temp_zigbee_temperature
+      - sensor.garage_entry_motion_sensor_temperature
+      - sensor.claires_bathroom_door_temperature
+      - sensor.savannahs_bathroom_door_temperature
+      - sensor.hudsons_bedroom_door_temperature
+    card:
+      type: markdown
+      content: >
+
+        {% set outdoor = [ ('sensor.outside_temperature_temperature','Outdoor
+        Ambient'), ('sensor.back_porch_temp_sensor_zigbee_temperature','Back
+        Porch'), ('sensor.front_porch_motion_lr_temperature','Front Porch'),
+        ('sensor.garage_temp_sensor_temperature','Garage') ] %}
+
+        {% set indoor = [
+        ('sensor.honeywell_t_stat_main_floor_temperature','T-Stat Main'),
+        ('sensor.honeywell_t_stat_upstairs_temperature','T-Stat Master'),
+        ('sensor.basement_dart_temp_zigbee_temperature','Basement'),
+        ('sensor.garage_entry_motion_sensor_temperature','Mud Room'),
+        ('sensor.claires_bathroom_door_temperature',"Claire's Room"),
+        ('sensor.savannahs_bathroom_door_temperature',"Savi's Room"),
+        ('sensor.hudsons_bedroom_door_temperature',"Hud's Room") ] %}
+
+        <table style="width:100%;border-collapse:collapse">
+
+        {% for s in outdoor %} {% set t = states(s[0])|float(0) %}
+
+        {% if t < 40 or t > 90 %}
+
+        {% if t < 40 %} {% set color = 'blue' %} {% else %} {% set color =
+        'purple' %} {% endif %}
+
+        {% set updated = relative_time(states[s[0]].last_changed) %}
+
+        <tr> <td style="width:30px;text-align:center"><font
+        color="{{color}}">❄</font></td> <td
+        style="font-family:monospace">{{s[1]}}</td> <td
+        style="text-align:right;font-family:monospace"> <font
+        color="{{color}}">{{"%5.1f"|format(t)}}°F</font> </td> <td
+        style="text-align:right;font-family:monospace;opacity:0.6"> {{updated}}
+        </td> </tr>
+
+        {% endif %} {% endfor %}
+
+        {% for s in indoor %} {% set t = states(s[0])|float(0) %}
+
+        {% if t < 65 or t > 74 %}
+
+        {% if t < 65 %} {% set color = 'blue' %} {% else %} {% set color = 'red'
+        %} {% endif %}
+
+        {% set updated = relative_time(states[s[0]].last_changed) %}
+
+        <tr> <td style="width:30px;text-align:center"><font
+        color="{{color}}">❄</font></td> <td
+        style="font-family:monospace">{{s[1]}}</td> <td
+        style="text-align:right;font-family:monospace"> <font
+        color="{{color}}">{{"%5.1f"|format(t)}}°F</font> </td> <td
+        style="text-align:right;font-family:monospace;opacity:0.6"> {{updated}}
+        </td> </tr>
+
+        {% endif %} {% endfor %}
+
+        </table>
+  - type: custom:config-template-card
+    entities:
+      - sensor.chest_freezer
+      - sensor.basement_freezer
+      - sensor.kitchen_freezer
+      - sensor.kitchen_fridge_temp_sensor_temperature
+      - sensor.basement_fridge_temp_sensor_temperature
+      - sensor.keezer_temp_lr_temperature
+    card:
+      type: markdown
+      content: >
+
+        {% set chest = states('sensor.chest_freezer')|float(0) %} {% set
+        basement_freezer = states('sensor.basement_freezer')|float(0) %} {% set
+        kitchen_freezer = states('sensor.kitchen_freezer')|float(0) %}
+
+        {% set kitchen_fridge =
+        states('sensor.kitchen_fridge_temp_sensor_temperature')|float(0) %} {%
+        set basement_fridge =
+        states('sensor.basement_fridge_temp_sensor_temperature')|float(0) %} {%
+        set keezer = states('sensor.keezer_temp_lr_temperature')|float(0) %}
+
+        <table style="width:100%;border-collapse:collapse">
+
+        {% set items = [ ('sensor.chest_freezer','Chest Freezer',chest,30,20),
+        ('sensor.basement_freezer','Basement Freezer',basement_freezer,30,20),
+        ('sensor.kitchen_freezer','Kitchen Freezer',kitchen_freezer,30,20),
+        ('sensor.kitchen_fridge_temp_sensor_temperature','Kitchen
+        Fridge',kitchen_fridge,45,38),
+        ('sensor.basement_fridge_temp_sensor_temperature','Basement
+        Fridge',basement_fridge,45,38),
+        ('sensor.keezer_temp_lr_temperature','Kegerator',keezer,45,38) ] %}
+
+        {% for entity,name,temp,alert,good in items %}
+
+        {% if temp > alert %}
+
+        {% if temp < good %} {% set color = 'blue' %} {% elif temp <= alert %}
+        {% set color = 'yellow' %} {% else %} {% set color = 'red' %} {% endif
+        %}
+
+        {% set updated = relative_time(states[entity].last_changed) %}
+
+        <tr>
+
+        <td style="width:30px;text-align:center"> <font
+        color="{{color}}">❄</font> </td>
+
+        <td style="font-family:monospace">{{name}}</td>
+
+        <td style="text-align:right;font-family:monospace"> <font
+        color="{{color}}"> {{ "%5.1f"|format(temp) }}°F </font> </td>
+
+        <td style="text-align:right;font-family:monospace;opacity:0.6">
+        {{updated}} </td>
+
+        </tr>
+
+        {% endif %} {% endfor %}
+
+        </table>
+  - type: custom:config-template-card
+    entities:
+      - binary_sensor.front_door_sensor_contact
+      - lock.front_door_lock
+      - binary_sensor.garage_house_door_sensor_contact
+      - lock.garage_house_lock
+      - binary_sensor.garage_yard_door_sensor_contact
+      - lock.garage_yard_lock
+    card:
+      type: markdown
+      content: >
+
+        {% set doors = [
+        ('binary_sensor.front_door_sensor_contact','lock.front_door_lock','Front
+        Door'),
+        ('binary_sensor.garage_house_door_sensor_contact','lock.garage_house_lock','Garage
+        House'),
+        ('binary_sensor.garage_yard_door_sensor_contact','lock.garage_yard_lock','Garage
+        Yard') ] %}
+
+        <table style="width:100%;border-collapse:collapse">
+
+        {% for d in doors %}
+
+        {% set open = states(d[0]) == 'on' %} {% set locked = states(d[1]) ==
+        'locked' %}
+
+        {% if open or not locked %}
+
+        {% set updated = relative_time(states[d[0]].last_changed) %}
+
+        <tr>
+
+        <td style="font-family:monospace">{{d[2]}}</td>
+
+        <td style="font-family:monospace;text-align:right"> <font color="{{
+        'red' if open else 'green' }}"> {{ 'OPEN' if open else 'CLOSED' }}
+        </font> </td>
+
+        <td style="font-family:monospace;text-align:right"> <font color="{{
+        'red' if not locked else 'green' }}"> {{ 'UNLOCKED' if not locked else
+        'LOCKED' }} </font> </td>
+
+        <td style="text-align:right;font-family:monospace;opacity:0.6">
+        {{updated}} </td>
+
+        </tr>
+
+        {% endif %}
+
+        {% endfor %}
+
+        </table>
