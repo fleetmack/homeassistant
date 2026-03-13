@@ -1,0 +1,25 @@
+type: sections
+max_columns: 3
+title: Sonos
+path: sonos
+sections:
+  - type: grid
+    cards:
+      - type: custom:sonos-card
+        sections:
+          - groups
+          - volumes
+          - grouping
+  - type: grid
+    cards:
+      - type: custom:sonos-card
+        sections:
+          - player
+        player:
+          artworkAsBackground: true
+  - type: grid
+    cards:
+      - type: custom:sonos-card
+        sections:
+          - media browser
+cards: []
