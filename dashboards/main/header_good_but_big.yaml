@@ -1,100 +1,133 @@
-square: false
-type: grid
-columns: 4
+type: custom:grid-layout
+path: ""
+layout:
+  grid-template-columns: 260px 1fr
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header"
+    "sidebar main"
+  grid-gap: 0px
 cards:
-  - type: custom:clock-weather-card
-    entity: weather.forecast_home_2
-    sun_entity: sun.sun
-    scale: 0.5
-    weather_icon_type: fill
-    forecast_rows: 4
-    card_mod:
-      style: |
-        ha-card {
-          height: 220px;
-        }
-    view_layout:
-      grid-column: span 3
-  - type: picture-entity
-    entity: camera.doorbell
-    camera_view: live
-    show_name: false
-    show_state: false
-    tap_action:
-      action: navigate
-      navigation_path: /mack-toying-around
-    scale: 0.5
-    fit_mode: cover
-    card_mod:
-      style: |
-        ha-card {
-          height: 220px;
-        }
-  - type: custom:mini-media-player
-    entity: media_player.den_2
-    name: Office
-    artwork: cover
-    artwork_border: true
-    artwork_height: 170
-    info: scroll
-    show_progress: true
-    hide:
-      power: true
-      source: true
-    toggle_power: false
-    group: false
-    volume_stateless: false
-    card_mod:
-      style: |
-        ha-card {
-          height: 220px;
-        }
-  - type: grid
-    columns: 2
-    square: false
+  - square: false
+    type: grid
+    columns: 4
     cards:
-      - type: button
-        name: Arm Home
-        icon: mdi:shield-home
-        entity: switch.vs_alarm_home_for_hass
-        tap_action:
-          action: toggle
-      - type: button
-        entity: sensor.hub_hsm_status
-        name: Alarm
-        icon: mdi:shield-home
-        show_name: true
-        show_icon: true
-        show_state: true
+      - type: custom:clock-weather-card
+        entity: weather.forecast_home_2
+        sun_entity: sun.sun
+        scale: 0.5
+        weather_icon_type: fill
+        forecast_rows: 4
         card_mod:
           style: |
             ha-card {
-              background-color:
-                {% if states('sensor.hub_hsm_status') == 'disarmed' %}
-                  green
-                {% else %}
-                  red
-                {% endif %};
-              color: white;
-            }          
-      - type: button
-        name: Arm Away
-        icon: mdi:shield-lock
-        entity: switch.vs_alarm_away_for_hass
-        tap_action:
-          action: toggle
-      - type: button
-        show_name: false
-        show_icon: false
-        entity: switch.vs_alarm_disarm_for_hass
-        tap_action:
-          action: toggle
-        card_mod:
-          style: |
-            ha-card {
-              background-image: url("/local/parrot.jpg");
-              background-size: contain;
-              background-position: center;
+              height: 220px;
             }
-view_layout:
-  grid-area: header
+        view_layout:
+          grid-column: span 3
+      - type: custom:advanced-camera-card
+        cameras:
+          - camera_entity: camera.unifidoorbell_high_resolution_channel
+        live:
+          autoplay: true
+        actions:
+          tap:
+            action: fullscreen
+          double_tap:
+            action: navigate
+            navigation_path: /media-browser/unifiprotect/unifidoorbell
+        card_mod:
+          style: |
+            ha-card {
+              height: 220px;
+            }
+      - type: vertical-stack
+        cards:
+          - type: custom:sonos-card
+            sections:
+              - player
+            player:
+              hideHeader: false
+              artworkAsBackground: true
+              artworkAsBackgroundBlur: 15
+            card_mod:
+              style: |
+                ha-card {
+                  height: 175px !important;
+                  border-bottom-left-radius: 0px;
+                  border-bottom-right-radius: 0px;
+                  box-shadow: none;
+                }
+          - type: button
+            name: Open Full Sonos Controller
+            icon: mdi:arrow-expand-all
+            tap_action:
+              action: navigate
+              navigation_path: /sidebard-header/sonos
+            card_mod:
+              style: |
+                ha-card {
+                  height: 45px !important;
+                  border-top-left-radius: 0px;
+                  border-top-right-radius: 0px;
+                  background: var(--secondary-background-color);
+                  border-top: 1px solid var(--divider-color);
+                  --mdc-icon-size: 18px;
+                }
+                .name {
+                  font-size: 0.6rem !important;
+                  font-weight: bold;
+                  letter-spacing: 1px;
+                }
+        view_layout:
+          grid-column: span 1
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: button
+            name: Arm Home
+            icon: mdi:shield-home
+            entity: switch.vs_alarm_home_for_hass
+            tap_action:
+              action: toggle
+          - type: button
+            entity: sensor.hub_hsm_status
+            name: Alarm
+            icon: mdi:shield-home
+            show_name: true
+            show_icon: true
+            show_state: true
+            card_mod:
+              style: |
+                ha-card {
+                  background-color:
+                    {% if states('sensor.hub_hsm_status') == 'disarmed' %}
+                      green
+                    {% else %}
+                      red
+                    {% endif %};
+                  color: white;
+                }
+          - type: button
+            name: Arm Away
+            icon: mdi:shield-lock
+            entity: switch.vs_alarm_away_for_hass
+            tap_action:
+              action: toggle
+          - type: button
+            show_name: false
+            show_icon: false
+            entity: switch.vs_alarm_disarm_for_hass
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  background-image: url("/local/parrot.jpg");
+                  background-size: contain;
+                  background-position: center;
+                }
+    view_layout:
+      grid-area: header
+title: Header
