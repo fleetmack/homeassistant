@@ -1,0 +1,301 @@
+type: custom:grid-layout
+layout:
+  grid-template-columns: repeat(4, 1fr)
+  grid-template-rows: auto
+  grid-gap: 4px
+  margin: 0
+  padding: 0
+card_mod:
+  style: |
+    :host {
+      overflow-x: hidden; /* This kills the horizontal scroll */
+    }
+cards:
+  - type: picture-entity
+    entity: camera.go2_doorbell_sub
+    camera_view: live
+    show_name: false
+    show_state: false
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 16/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_doorbell_sub
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
+  - type: picture-entity
+    entity: camera.go2_frontporch_sub
+    camera_view: live
+    show_name: false
+    show_state: false
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 16/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_frontporch_sub
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
+  - type: picture-entity
+    entity: camera.go2_package
+    camera_view: live
+    show_name: false
+    show_state: false
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 16/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_package
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
+  - type: picture-entity
+    entity: camera.go2_sideyard_sub
+    camera_view: live
+    show_name: false
+    show_state: false
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 16/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_sideyard_sub
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
+  - type: picture-entity
+    entity: camera.go2_garage_sub
+    camera_view: live
+    show_name: false
+    show_state: false
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 16/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_garage_sub
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
+  - type: picture-entity
+    entity: camera.go2_alleydown_sub
+    camera_view: live
+    show_name: false
+    show_state: false
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 16/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_alleydown_sub
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
+  - type: picture-entity
+    entity: camera.go2_alleysouth_sub
+    camera_view: live
+    show_name: false
+    show_state: false
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 16/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_alleysouth_sub
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
+  - type: picture-entity
+    entity: camera.go2_backporch_sub
+    camera_view: live
+    show_name: false
+    show_state: false
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 16/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_backporch_sub
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
+  - type: picture-entity
+    entity: camera.go2_fountain_sub
+    camera_view: live
+    show_name: false
+    show_state: false
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 16/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_fountain_sub
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
+  - type: picture-entity
+    entity: camera.go2_playground_sub
+    camera_view: live
+    show_name: false
+    show_state: false
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 16/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_playground_sub
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
+  - type: picture-entity
+    entity: camera.go2_alleywide_sub
+    camera_view: live
+    show_name: false
+    show_state: false
+    view_layout:
+      grid-column: span 2
+    card_mod:
+      style: >
+        ha-card { aspect-ratio: 32/9; overflow: hidden; }
+
+        img { object-fit: cover; height: 100% !important; width: 100%
+        !important; }
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          style: |
+            --popup-max-width: 100vw; --popup-max-height: 100vh;
+            --popup-border-radius: 0px; --popup-background-color: black;
+          content:
+            type: picture-entity
+            entity: camera.go2_alleywide_sub
+            camera_view: live
+            show_name: false
+            show_state: false
+            fit_mode: contain
