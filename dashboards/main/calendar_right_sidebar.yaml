@@ -1,0 +1,18 @@
+type: custom:atomic-calendar-revive
+view_layout:
+  grid-area: calendar
+entities:
+  - entity: calendar.fleetmack_gmail_com
+    color: "#4285F4"
+  - entity: calendar.family
+    color: "#34A853"
+compactMode: true
+maxDaysToShow: 7
+card_mod:
+  style: |
+    ha-card {
+      height: calc(100vh - 240px) !important; 
+      overflow-y: auto !important;
+      background: transparent;
+      border: none;
+    }
