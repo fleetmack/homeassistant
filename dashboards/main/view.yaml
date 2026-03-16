@@ -1,6 +1,423 @@
-grid-template-columns: 260px 1fr
-grid-template-rows: auto 1fr
-grid-template-areas: |
-  "header header"
-  "sidebar main"
-grid-gap: 0px
+type: custom:grid-layout
+path: ""
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+cards:
+  - type: grid
+    view_layout:
+      grid-area: header
+    columns: 4
+    square: false
+    cards:
+      - type: custom:clock-weather-card
+        entity: weather.forecast_home_2
+        sun_entity: sun.sun
+        scale: 0.5
+        card_mod:
+          style: |
+            ha-card { height: 220px; }
+      - type: custom:advanced-camera-card
+        cameras:
+          - camera_entity: camera.unifidoorbell_high_resolution_channel
+        live:
+          autoplay: true
+        card_mod:
+          style: |
+            ha-card { height: 220px; }
+      - type: vertical-stack
+        cards:
+          - type: custom:sonos-card
+            sections:
+              - player
+            player:
+              hideHeader: false
+              artworkAsBackground: true
+            card_mod:
+              style: |
+                ha-card { 
+                  height: 175px !important; 
+                  border-bottom-radius: 0px; 
+                }
+          - type: button
+            name: Open Full Sonos Controller
+            card_mod:
+              style: |
+                ha-card { 
+                  height: 45px !important; 
+                  border-top-radius: 0px; 
+                }
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:button-card
+            color_type: blank-card
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-chips-card
+                alignment: center
+                card_mod:
+                  style: >
+                    ha-card { height: 60px; border: none; background:
+                    transparent; }
+
+                    mushroom-chip { --chip-icon-size: 18px !important; }
+                chips:
+                  - type: template
+                    icon: mdi:shield-check
+                    icon_color: >-
+                      {{ 'green' if is_state('sensor.hub_hsm_status',
+                      'disarmed') else 'orange' }}
+                  - type: template
+                    icon: mdi:shield-home
+                    icon_color: orange
+                  - type: template
+                    icon: mdi:shield-lock
+                    icon_color: red
+              - type: button
+                entity: switch.vs_alarm_disarm_for_hass
+                show_name: false
+                show_icon: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      height: 150px !important; 
+                      background-image: url("/local/parrot.jpg");
+                      background-size: cover;
+                      background-position: center 15%;
+                      border-radius: 12px;
+                    }
+  - type: grid
+    view_layout:
+      grid-area: sidebar
+    columns: 2
+    square: false
+    cards:
+      - type: custom:button-card
+        name: Kitchen
+        icon: mdi:countertop
+        entity: input_select.selected_room
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.selected_room
+            option: kitchen
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'kitchen' ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'kitchen' ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'kitchen' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+      - type: custom:button-card
+        name: Basement
+        icon: mdi:stairs-down
+        entity: input_select.selected_room
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.selected_room
+            option: basement
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'basement' ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'basement' ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'basement' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+      - type: custom:button-card
+        name: Master
+        icon: mdi:bed
+        entity: input_select.selected_room
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.selected_room
+            option: master
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'master' ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'master' ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'master' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+      - type: custom:button-card
+        name: Office
+        icon: mdi:desk
+        entity: input_select.selected_room
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.selected_room
+            option: office
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'office' ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'office' ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'office' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+      - type: custom:button-card
+        name: Garage
+        icon: mdi:garage
+        entity: input_select.selected_room
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.selected_room
+            option: garage
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'garage' ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'garage' ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'garage' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+      - type: custom:button-card
+        name: Backyard
+        icon: mdi:backyard
+        entity: input_select.selected_room
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.selected_room
+            option: backyard
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'backyard' ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'backyard' ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'backyard' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+      - type: custom:button-card
+        name: Sonos
+        icon: mdi:sonos
+        entity: input_select.selected_room
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.selected_room
+            option: sonos
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'sonos' ? '2px solid #4CAF50' : '1px solid var(--divider-color)'
+                ]]]
+            - background-color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'sonos' ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return states['input_select.selected_room'].state ===
+                'sonos' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card {
+          background: rgba(150, 150, 150, 0.05);
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 10px;
+        }
+    card:
+      type: custom:state-switch
+      entity: input_select.selected_room
+      default: kitchen
+      states:
+        kitchen:
+          type: vertical-stack
+          cards:
+            - type: custom:mushroom-title-card
+              title: Kitchen Area
+            - type: grid
+              columns: 2
+              square: false
+              cards:
+                - type: custom:mushroom-light-card
+                  entity: light.kitchen_ambient
+                  name: Cabinet Underlights
+                - type: custom:mushroom-light-card
+                  entity: light.kitchen_pendants
+                  name: Island Pendants
+                - type: custom:mushroom-light-card
+                  entity: light.kitchen_table_chandelier
+                - type: custom:mushroom-light-card
+                  entity: light.kitchen_island_ceiling_lights
+                - type: custom:mushroom-entity-card
+                  entity: switch.pantry_and_cubbie
+                  icon: mdi:door-open
+            - type: custom:mushroom-title-card
+              title: Living & Entry
+            - type: grid
+              columns: 2
+              square: false
+              cards:
+                - type: custom:mushroom-entity-card
+                  entity: light.living_room_ceiling_lights
+                  icon: mdi:sofa
+                  tap_action:
+                    action: toggle
+                - type: custom:mushroom-entity-card
+                  entity: light.piano_lights_lutron
+                  icon: mdi:piano
+                - type: custom:mushroom-entity-card
+                  entity: light.front_entry_lights
+                - type: custom:mushroom-entity-card
+                  entity: light.upstairs_lights
+        office:
+          type: vertical-stack
+          cards:
+            - type: custom:mushroom-title-card
+              title: Home Office
+            - type: grid
+              columns: 2
+              square: false
+              cards:
+                - type: custom:mushroom-light-card
+                  entity: light.office_overhead_bulbs
+                  tap_action:
+                    action: toggle
+                - type: custom:mushroom-light-card
+                  entity: light.hue_office_monitors_lights
+            - type: vertical-stack
+              cards:
+                - type: custom:mushroom-cover-card
+                  entity: cover.office_shades_7
+                  show_position_control: true
+            - type: custom:stack-in-card
+              cards:
+                - type: custom:mini-media-player
+                  entity: media_player.den_2
+                  artwork: material
+        sonos:
+          type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:sonos-card
+              sections:
+                - player
+              player:
+                artworkAsBackground: true
+              card_mod:
+                style: "ha-card { height: calc(100vh - 230px) !important; }"
+            - type: vertical-stack
+              cards:
+                - type: custom:sonos-card
+                  sections:
+                    - groups
+                    - volumes
+                    - grouping
+                  card_mod:
+                    style: >-
+                      ha-card { height: calc((100vh - 230px) / 2 - 4px)
+                      !important; overflow-y: auto; }
+                - type: custom:sonos-card
+                  sections:
+                    - media browser
+                  card_mod:
+                    style: >-
+                      ha-card { height: calc((100vh - 230px) / 2 - 4px)
+                      !important; overflow-y: auto; }
+        basement:
+          type: markdown
+          content: "# Basement Active"
+        master:
+          type: markdown
+          content: "# Master Active"
+        garage:
+          type: markdown
+          content: "# Garage Active"
+        backyard:
+          type: markdown
+          content: "# Backyard Active"
+  - type: custom:atomic-calendar-revive
+    view_layout:
+      grid-area: calendar
+    entities:
+      - entity: calendar.fleetmack_gmail_com
+        color: "#4285F4"
+      - entity: calendar.family
+        color: "#34A853"
+    compactMode: true
+    maxDaysToShow: 7
+    card_mod:
+      style: |
+        ha-card {
+          height: calc(100vh - 240px) !important; 
+          overflow-y: auto !important;
+          background: transparent;
+          border: none;
+        }
