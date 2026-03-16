@@ -1,0 +1,174 @@
+type: grid
+view_layout:
+  grid-area: sidebar
+columns: 2
+square: false
+cards:
+  - type: custom:button-card
+    name: Kitchen
+    icon: mdi:countertop
+    entity: input_select.selected_room
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+      service_data:
+        entity_id: input_select.selected_room
+        option: kitchen
+    styles:
+      card:
+        - height: 80px
+        - border-radius: 12px
+        - border: >-
+            [[[ return states['input_select.selected_room'].state === 'kitchen'
+            ? '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
+        - background-color: >-
+            [[[ return states['input_select.selected_room'].state === 'kitchen'
+            ? 'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
+      icon:
+        - color: >-
+            [[[ return states['input_select.selected_room'].state === 'kitchen'
+            ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+  - type: custom:button-card
+    name: Basement
+    icon: mdi:stairs-down
+    entity: input_select.selected_room
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+      service_data:
+        entity_id: input_select.selected_room
+        option: basement
+    styles:
+      card:
+        - height: 80px
+        - border-radius: 12px
+        - border: >-
+            [[[ return states['input_select.selected_room'].state === 'basement'
+            ? '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
+        - background-color: >-
+            [[[ return states['input_select.selected_room'].state === 'basement'
+            ? 'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
+      icon:
+        - color: >-
+            [[[ return states['input_select.selected_room'].state === 'basement'
+            ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+  - type: custom:button-card
+    name: Master
+    icon: mdi:bed
+    entity: input_select.selected_room
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+      service_data:
+        entity_id: input_select.selected_room
+        option: master
+    styles:
+      card:
+        - height: 80px
+        - border-radius: 12px
+        - border: >-
+            [[[ return states['input_select.selected_room'].state === 'master' ?
+            '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
+        - background-color: >-
+            [[[ return states['input_select.selected_room'].state === 'master' ?
+            'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
+      icon:
+        - color: >-
+            [[[ return states['input_select.selected_room'].state === 'master' ?
+            '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+  - type: custom:button-card
+    name: Office
+    icon: mdi:desk
+    entity: input_select.selected_room
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+      service_data:
+        entity_id: input_select.selected_room
+        option: office
+    styles:
+      card:
+        - height: 80px
+        - border-radius: 12px
+        - border: >-
+            [[[ return states['input_select.selected_room'].state === 'office' ?
+            '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
+        - background-color: >-
+            [[[ return states['input_select.selected_room'].state === 'office' ?
+            'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
+      icon:
+        - color: >-
+            [[[ return states['input_select.selected_room'].state === 'office' ?
+            '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+  - type: custom:button-card
+    name: Garage
+    icon: mdi:garage
+    entity: input_select.selected_room
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+      service_data:
+        entity_id: input_select.selected_room
+        option: garage
+    styles:
+      card:
+        - height: 80px
+        - border-radius: 12px
+        - border: >-
+            [[[ return states['input_select.selected_room'].state === 'garage' ?
+            '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
+        - background-color: >-
+            [[[ return states['input_select.selected_room'].state === 'garage' ?
+            'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
+      icon:
+        - color: >-
+            [[[ return states['input_select.selected_room'].state === 'garage' ?
+            '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+  - type: custom:button-card
+    name: Backyard
+    icon: mdi:backyard
+    entity: input_select.selected_room
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+      service_data:
+        entity_id: input_select.selected_room
+        option: backyard
+    styles:
+      card:
+        - height: 80px
+        - border-radius: 12px
+        - border: >-
+            [[[ return states['input_select.selected_room'].state === 'backyard'
+            ? '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
+        - background-color: >-
+            [[[ return states['input_select.selected_room'].state === 'backyard'
+            ? 'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
+      icon:
+        - color: >-
+            [[[ return states['input_select.selected_room'].state === 'backyard'
+            ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+  - type: custom:button-card
+    name: Sonos
+    icon: mdi:sonos
+    entity: input_select.selected_room
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+      service_data:
+        entity_id: input_select.selected_room
+        option: sonos
+    styles:
+      card:
+        - height: 80px
+        - border-radius: 12px
+        - border: >-
+            [[[ return states['input_select.selected_room'].state === 'sonos' ?
+            '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
+        - background-color: >-
+            [[[ return states['input_select.selected_room'].state === 'sonos' ?
+            'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
+      icon:
+        - color: >-
+            [[[ return states['input_select.selected_room'].state === 'sonos' ?
+            '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
