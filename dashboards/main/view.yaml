@@ -78,6 +78,8 @@ cards:
                       border-radius: 12px;
                     }
   - type: grid
+    view_layout:
+      grid-area: sidebar
     columns: 2
     square: false
     cards:
@@ -190,11 +192,80 @@ cards:
         icon: mdi:video
         entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: cameras
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Live Security Feeds
+              style: |
+                --popup-max-width: 100vw;
+                --popup-max-height: 100vh;
+                --popup-border-radius: 0px;
+                --popup-background-color: black;
+              content:
+                type: vertical-stack
+                cards:
+                  - type: grid
+                    columns: 3
+                    square: false
+                    cards:
+                      - type: picture-entity
+                        entity: camera.go2_doorbell_sub
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                      - type: picture-entity
+                        entity: camera.go2_frontporch_sub
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                      - type: picture-entity
+                        entity: camera.go2_package
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                      - type: picture-entity
+                        entity: camera.go2_sideyard_sub
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                      - type: picture-entity
+                        entity: camera.go2_garage_sub
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                      - type: picture-entity
+                        entity: camera.go2_alleydown_sub
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                      - type: picture-entity
+                        entity: camera.go2_alleysouth_sub
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                      - type: picture-entity
+                        entity: camera.go2_backporch_sub
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                      - type: picture-entity
+                        entity: camera.go2_fountain_sub
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                      - type: picture-entity
+                        entity: camera.go2_playground_sub
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                      - type: picture-entity
+                        entity: camera.go2_alleywide_sub
+                        camera_view: live
+                        show_name: false
+                        show_state: false
+                        view_layout:
+                          grid-column: span 2
         styles:
           card:
             - height: 80px
@@ -288,8 +359,7 @@ cards:
           icon:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'basement' ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]            
+                'basement' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
       - type: custom:button-card
         name: Sonos
         icon: mdi:music
@@ -316,8 +386,6 @@ cards:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
                 'sonos' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
-    view_layout:
-      grid-area: sidebar
   - type: custom:mod-card
     view_layout:
       grid-area: main
