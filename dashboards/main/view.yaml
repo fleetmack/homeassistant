@@ -28,14 +28,17 @@ cards:
           autoplay: true
         card_mod:
           style: "ha-card { height: 220px; }"
-      - type: vertical-stack
-        cards:
-          - type: custom:mushroom-title-card
-            subtitle: Security Alerts
-          - type: markdown
-            content: >
-              **Active Issues:** Open gates, unlocked doors, or AC running with
-              windows open will appear here.
+      - type: markdown
+        card_mod:
+          style: |
+            ha-card { 
+              background: transparent !important; 
+              border: none !important;
+              height: 180px;
+              overflow-y: auto;
+              padding-top: 0px;
+            }
+        content: "{{ states('sensor.attention_required_list') }}"
       - type: grid
         columns: 2
         square: false
@@ -47,23 +50,23 @@ cards:
               - type: custom:mushroom-chips-card
                 alignment: center
                 card_mod:
-                  style: >
-                    ha-card { height: 60px; border: none; background:
-                    transparent; }
-
-                    mushroom-chip { --chip-icon-size: 18px !important; }
+                  style: |
+                    ha-card { 
+                      height: 50px; 
+                      border: none; 
+                      background: transparent; 
+                    }
                 chips:
                   - type: template
-                    icon: mdi:shield-check
-                    icon_color: >-
-                      {{ 'green' if is_state('sensor.hub_hsm_status',
-                      'disarmed') else 'orange' }}
-                  - type: template
-                    icon: mdi:shield-home
-                    icon_color: orange
-                  - type: template
-                    icon: mdi:shield-lock
-                    icon_color: red
+                    entity: sensor.virtual_hsm_status_mirror_hsm_status
+                    icon: >
+                      {% if is_state(entity, 'disarmed') %} mdi:shield-check {%
+                      elif is_state(entity, 'armedHome') %} mdi:shield-home {%
+                      else %} mdi:shield-lock {% endif %}
+                    icon_color: >
+                      {% if is_state(entity, 'disarmed') %} green {% else %}
+                      orange {% endif %}
+                    content: "Status: {{ states(entity) | capitalize }}"
               - type: button
                 entity: switch.vs_alarm_disarm_for_hass
                 show_name: false
@@ -76,7 +79,34 @@ cards:
                       background-size: cover;
                       background-position: center 15%;
                       border-radius: 12px;
+                      margin-bottom: 10px;
                     }
+              - type: grid
+                columns: 2
+                square: false
+                cards:
+                  - type: custom:mushroom-template-card
+                    entity: switch.vs_alarm_home_for_hass
+                    icon: mdi:bed
+                    icon_color: blue
+                    layout: horizontal
+                    tap_action:
+                      action: toggle
+                    card_mod:
+                      style: >
+                        ha-card { background: rgba(255, 255, 255, 0.05);
+                        border-radius: 12px; }
+                  - type: custom:mushroom-template-card
+                    entity: switch.vs_alarm_away_for_hass
+                    icon: mdi:shield-airplane
+                    icon_color: red
+                    layout: horizontal
+                    tap_action:
+                      action: toggle
+                    card_mod:
+                      style: >
+                        ha-card { background: rgba(255, 255, 255, 0.05);
+                        border-radius: 12px; }
   - type: grid
     view_layout:
       grid-area: sidebar
@@ -99,16 +129,19 @@ cards:
             - border-radius: 12px
             - border: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'kitchen' ? '2px solid #4CAF50' : '1px solid
+                variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'kitchen' ? 'rgba(76, 175, 80, 0.1)' :
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'kitchen' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: kitchen
       - type: custom:button-card
         name: Office
         icon: mdi:desk
@@ -125,16 +158,19 @@ cards:
             - border-radius: 12px
             - border: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'office' ? '2px solid #4CAF50' : '1px solid
+                variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'office' ? 'rgba(76, 175, 80, 0.1)' :
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'office' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: office
       - type: custom:button-card
         name: Master
         icon: mdi:bed
@@ -151,16 +187,19 @@ cards:
             - border-radius: 12px
             - border: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'master' ? '2px solid #4CAF50' : '1px solid
+                variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'master' ? 'rgba(76, 175, 80, 0.1)' :
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'master' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: master
       - type: custom:button-card
         name: Backyard
         icon: mdi:grill
@@ -177,111 +216,89 @@ cards:
             - border-radius: 12px
             - border: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'backyard' ? '2px solid #4CAF50' : '1px solid
+                variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'backyard' ? 'rgba(76, 175, 80, 0.1)' :
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'backyard' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: backyard
       - type: custom:button-card
         name: Cameras
         icon: mdi:video
-        entity: input_select.selected_room
         tap_action:
           action: fire-dom-event
           browser_mod:
             service: browser_mod.popup
             data:
               title: Live Security Feeds
-              style: |
-                --popup-max-width: 100vw;
-                --popup-max-height: 100vh;
-                --popup-border-radius: 0px;
+              style: >-
+                --popup-max-width: 100vw; --popup-max-height: 100vh;
                 --popup-background-color: black;
               content:
-                type: vertical-stack
+                type: grid
+                columns: 3
                 cards:
-                  - type: grid
-                    columns: 3
-                    square: false
-                    cards:
-                      - type: picture-entity
-                        entity: camera.go2_doorbell_sub
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                      - type: picture-entity
-                        entity: camera.go2_frontporch_sub
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                      - type: picture-entity
-                        entity: camera.go2_package
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                      - type: picture-entity
-                        entity: camera.go2_sideyard_sub
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                      - type: picture-entity
-                        entity: camera.go2_garage_sub
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                      - type: picture-entity
-                        entity: camera.go2_alleydown_sub
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                      - type: picture-entity
-                        entity: camera.go2_alleysouth_sub
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                      - type: picture-entity
-                        entity: camera.go2_backporch_sub
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                      - type: picture-entity
-                        entity: camera.go2_fountain_sub
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                      - type: picture-entity
-                        entity: camera.go2_playground_sub
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                      - type: picture-entity
-                        entity: camera.go2_alleywide_sub
-                        camera_view: live
-                        show_name: false
-                        show_state: false
-                        view_layout:
-                          grid-column: span 2
+                  - type: picture-entity
+                    entity: camera.go2_doorbell_sub
+                    camera_view: live
+                  - type: picture-entity
+                    entity: camera.go2_frontporch_sub
+                    camera_view: live
+                  - type: picture-entity
+                    entity: camera.go2_package
+                    camera_view: live
+                  - type: picture-entity
+                    entity: camera.go2_sideyard_sub
+                    camera_view: live
+                  - type: picture-entity
+                    entity: camera.go2_garage_sub
+                    camera_view: live
+                  - type: picture-entity
+                    entity: camera.go2_alleydown_sub
+                    camera_view: live
+                  - type: picture-entity
+                    entity: camera.go2_alleysouth_sub
+                    camera_view: live
+                  - type: picture-entity
+                    entity: camera.go2_backporch_sub
+                    camera_view: live
+                  - type: picture-entity
+                    entity: camera.go2_fountain_sub
+                    camera_view: live
+                  - type: picture-entity
+                    entity: camera.go2_playground_sub
+                    camera_view: live
+                  - type: picture-entity
+                    entity: camera.go2_alleywide_sub
+                    camera_view: live
+                    view_layout:
+                      grid-column: span 2
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'cameras' ? '2px solid #4CAF50' : '1px solid
+                variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'cameras' ? 'rgba(76, 175, 80, 0.1)' :
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'cameras' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: cameras
       - type: custom:button-card
         name: Sensors
         icon: mdi:list-status
@@ -298,16 +315,19 @@ cards:
             - border-radius: 12px
             - border: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'sensors' ? '2px solid #4CAF50' : '1px solid
+                variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'sensors' ? 'rgba(76, 175, 80, 0.1)' :
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'sensors' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: sensors
       - type: custom:button-card
         name: Garage
         icon: mdi:garage
@@ -324,16 +344,19 @@ cards:
             - border-radius: 12px
             - border: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'garage' ? '2px solid #4CAF50' : '1px solid
+                variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'garage' ? 'rgba(76, 175, 80, 0.1)' :
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'garage' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: garage
       - type: custom:button-card
         name: Basement
         icon: mdi:basketball
@@ -350,16 +373,19 @@ cards:
             - border-radius: 12px
             - border: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'basement' ? '2px solid #4CAF50' : '1px solid
+                variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'basement' ? 'rgba(76, 175, 80, 0.1)' :
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'basement' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: basement
       - type: custom:button-card
         name: Sonos
         icon: mdi:music
@@ -376,16 +402,19 @@ cards:
             - border-radius: 12px
             - border: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'sonos' ? '2px solid #4CAF50' : '1px solid var(--divider-color)'
-                ]]]
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
             - background-color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'sonos' ? 'rgba(76, 175, 80, 0.1)' :
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
                 [[[ return states['input_select.selected_room'].state ===
-                'sonos' ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: sonos
   - type: custom:mod-card
     view_layout:
       grid-area: main
@@ -709,6 +738,157 @@ cards:
               artwork: material
               hide:
                 power: true
+        sensors:
+          type: grid
+          columns: 3
+          square: false
+          cards:
+            - type: custom:config-template-card
+              entities:
+                - sensor.outside_temperature_temperature
+                - sensor.back_porch_temp_sensor_zigbee_temperature
+                - sensor.front_porch_motion_lr_temperature
+                - sensor.garage_temp_sensor_temperature
+                - sensor.honeywell_t_stat_main_floor_temperature
+                - sensor.honeywell_t_stat_upstairs_temperature
+                - sensor.basement_dart_temp_zigbee_temperature
+                - sensor.garage_entry_motion_sensor_temperature
+                - sensor.claires_bathroom_door_temperature
+                - sensor.savannahs_bathroom_door_temperature
+                - sensor.hudsons_bedroom_door_temperature
+              card:
+                type: markdown
+                card_mod:
+                  style: >
+                    ha-card { background: rgba(0,0,0,0.3) !important;
+                    border-radius: 12px; padding: 8px; height: 100%; }
+                content: >
+                  <table style="width: 100%; border-collapse: collapse; border:
+                  none; table-layout: fixed;"> {% set items = [
+                    ('sensor.outside_temperature_temperature','Outdoor Ambient','ext'),
+                    ('sensor.back_porch_temp_sensor_zigbee_temperature','Back Porch','ext'),
+                    ('sensor.front_porch_motion_lr_temperature','Front Porch','ext'),
+                    ('sensor.garage_temp_sensor_temperature','Garage','ext'),
+                    ('sensor.honeywell_t_stat_main_floor_temperature','T-Stat Main','int'),
+                    ('sensor.honeywell_t_stat_upstairs_temperature','T-Stat Master','int'),
+                    ('sensor.basement_dart_temp_zigbee_temperature','Basement','int'),
+                    ('sensor.garage_entry_motion_sensor_temperature','Mud Room','int'),
+                    ('sensor.claires_bathroom_door_temperature',"Claire's Room",'int'),
+                    ('sensor.savannahs_bathroom_door_temperature',"Savi's Room",'int'),
+                    ('sensor.hudsons_bedroom_door_temperature',"Hud's Room",'int')
+                  ] %} {% for s in items -%}
+                    {% set t = states(s[0]) | float(0) %}
+                    {% set last_ch = relative_time(states[s[0]].last_changed) if states[s[0]] else '?' %}
+                    {% if s[2] == 'ext' %}
+                      {% set color = 'blue' if t < 40 else ('#4caf50' if t <= 90 else 'purple') %}
+                    {% else %}
+                      {% set color = 'blue' if t < 65 else ('#4caf50' if t <= 74 else 'red') %}
+                    {% endif %}
+                    <tr>
+                      <td style="width: 25px; padding: 4px 0; border: none; text-align: center;"><font color="{{ color }}" style="font-size: 16px;">❄</font></td>
+                      <td style="width: 120px; font-family: monospace; font-size: 12px; border: none; white-space: nowrap;">{{ s[1] }}</td>
+                      <td style="width: 60px; font-family: monospace; font-size: 12px; text-align: left; border: none; white-space: nowrap;"><font color="{{ color }}"><b>{{ "%5.1f"|format(t) }}°</b></font></td>
+                      <td style="font-family: monospace; font-size: 9px; text-align: right; opacity: 0.5; border: none;">{{ last_ch }}</td>
+                    </tr>
+                  {%- endfor %}  </table>
+            - type: custom:config-template-card
+              entities:
+                - binary_sensor.gate_alley_yard_lr_contact
+                - binary_sensor.gate_front_yard_lr_contact
+                - binary_sensor.gate_trash_lr_contact
+                - binary_sensor.kitchen_screen_door_lr_contact
+                - binary_sensor.garage_door_tilt_contact
+                - binary_sensor.front_door_sensor_contact
+                - lock.front_door_lock
+                - binary_sensor.garage_house_door_sensor_contact
+                - lock.garage_house_lock
+                - binary_sensor.garage_yard_door_sensor_contact
+                - lock.garage_yard_lock
+              card:
+                type: markdown
+                card_mod:
+                  style: >
+                    ha-card { background: rgba(0,0,0,0.3) !important;
+                    border-radius: 12px; padding: 8px; height: 100%; }
+                content: >
+                  {% set gates = [
+                    ('binary_sensor.gate_alley_yard_lr_contact','Alley Gate'),
+                    ('binary_sensor.gate_front_yard_lr_contact','Back Yard Gate'),
+                    ('binary_sensor.gate_trash_lr_contact','Front Yard Gate'),
+                    ('binary_sensor.kitchen_screen_door_lr_contact','Kitchen Screen'),
+                    ('binary_sensor.garage_door_tilt_contact','Garage Door')
+                  ] %} {% set doors = [
+                    ('binary_sensor.front_door_sensor_contact', 'lock.front_door_lock', 'Front Door'),
+                    ('binary_sensor.garage_house_door_sensor_contact', 'lock.garage_house_lock', 'Garage House'),
+                    ('binary_sensor.garage_yard_door_sensor_contact', 'lock.garage_yard_lock', 'Garage Yard')
+                  ] %} <table style="width: 100%; border-collapse: collapse;
+                  border: none;"> {% for g in gates -%}
+                    {% set obj = states[g[0]] %}
+                    {% set state = obj.state if obj else 'unknown' %}
+                    {% set last_ch = relative_time(obj.last_changed) if obj else '?' %}
+                    {% set color = 'red' if state == 'on' else 'green' %}
+                    <tr>
+                      <td style="width: 30px; padding: 4px 0; border: none;"><ha-icon icon="{{ 'mdi:door-open' if state == 'on' else 'mdi:door-closed' }}" style="color: {{ color }} !important; --mdc-icon-size: 18px;"></ha-icon></td>
+                      <td style="width: 120px; font-family: monospace; font-size: 12px; border: none;">{{ g[1] }}</td>
+                      <td style="width: 50px; font-family: monospace; font-size: 11px; text-align: right; border: none;"><b><font color="{{ color }}">{{ 'OPEN' if state == 'on' else 'OK' }}</font></b></td>
+                      <td style="font-family: monospace; font-size: 9px; text-align: right; opacity: 0.5; border: none;">{{ last_ch }}</td>
+                    </tr>
+                  {%- endfor %} {% for d in doors -%}
+                    {% set contact = states(d[0]) %}
+                    {% set last_ch = relative_time(states[d[0]].last_changed) if states[d[0]] else '?' %}
+                    {% set lock_state = states(d[1]) %}
+                    {% set is_locked = lock_state == 'locked' %}
+                    {% set lock_bg = '#2e7d32' if is_locked else '#d32f2f' %}
+                    {% set contact_color = 'red' if contact == 'on' else 'green' %}
+                    <tr>
+                      <td style="width: 30px; padding: 4px 0; border: none;">
+                        <div style="background-color: {{ lock_bg }}; border-radius: 4px; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                          <ha-icon icon="{{ 'mdi:lock' if is_locked else 'mdi:lock-open-variant' }}" style="color: white !important; --mdc-icon-size: 12px;"></ha-icon>
+                        </div>
+                      </td>
+                      <td style="width: 120px; font-family: monospace; font-size: 12px; border: none;">{{ d[2] }}</td>
+                      <td style="width: 50px; font-family: monospace; font-size: 11px; text-align: right; border: none;"><b><font color="{{ contact_color }}">{{ 'OPEN' if contact == 'on' else 'OK' }}</font></b></td>
+                      <td style="font-family: monospace; font-size: 9px; text-align: right; opacity: 0.5; border: none;">{{ last_ch }}</td>
+                    </tr>
+                  {%- endfor %} </table>
+            - type: markdown
+              card_mod:
+                style: >
+                  ha-card { background: rgba(0,0,0,0.3) !important;
+                  border-radius: 12px; padding: 8px; height: 100%; }
+              content: >
+                <table style="width: 100%; border-collapse: collapse; border:
+                none; table-layout: fixed;"> {% set freezers = [
+                  ('sensor.chest_freezer_temp_temperature','Chest Freezer'),
+                  ('sensor.basement_freezer_lr_temperature','Basement Freezer'),
+                  ('sensor.basement_freezer_lr_temperature','Kitchen Freezer')
+                ] %} {% set fridges = [
+                  ('sensor.basement_fridge_temp_sensor_temperature','Kitchen Fridge'),
+                  ('sensor.basement_fridge_temp_sensor_temperature','Basement Fridge'),
+                  ('sensor.keezer_temp_lr_temperature','Kegerator')
+                ] %} {% for s in freezers -%}
+                  {% set t = states(s[0]) | float(0) %}
+                  {% set last_ch = relative_time(states[s[0]].last_changed) if states[s[0]] else '?' %}
+                  {% set color = 'blue' if t < 20 else ('yellow' if t <= 30 else 'red') %}
+                  <tr>
+                    <td style="width: 25px; padding: 4px 0; border: none; text-align: center;"><font color="{{ color }}" style="font-size: 16px;">❄</font></td>
+                    <td style="width: 120px; font-family: monospace; font-size: 12px; border: none; white-space: nowrap;">{{ s[1] }}</td>
+                    <td style="width: 50px; font-family: monospace; font-size: 12px; text-align: right; border: none;"><font color="{{ color }}"><b>{{ "%5.1f"|format(t) }}°</b></font></td>
+                    <td style="font-family: monospace; font-size: 9px; text-align: right; opacity: 0.5; border: none;">{{ last_ch }}</td>
+                  </tr>
+                {%- endfor %} <tr><td colspan="4" style="padding: 4px 0; border:
+                none; border-bottom: 1px solid
+                rgba(255,255,255,0.1);"></td></tr> {% for s in fridges -%}
+                  {% set t = states(s[0]) | float(0) %}
+                  {% set last_ch = relative_time(states[s[0]].last_changed) if states[s[0]] else '?' %}
+                  {% set color = 'blue' if t <= 38 else ('yellow' if t <= 45 else 'red') %}
+                  <tr>
+                    <td style="width: 25px; padding: 4px 0; border: none; text-align: center;"><font color="{{ color }}" style="font-size: 16px;">❄</font></td>
+                    <td style="width: 120px; font-family: monospace; font-size: 12px; border: none; white-space: nowrap;">{{ s[1] }}</td>
+                    <td style="width: 50px; font-family: monospace; font-size: 12px; text-align: right; border: none;"><font color="{{ color }}"><b>{{ "%5.1f"|format(t) }}°</b></font></td>
+                    <td style="font-family: monospace; font-size: 9px; text-align: right; opacity: 0.5; border: none;">{{ last_ch }}</td>
+                  </tr>
+                {%- endfor %} </table>
         garage:
           type: vertical-stack
           cards:
@@ -934,6 +1114,20 @@ cards:
               artwork: material
               hide:
                 power: true
+        sonos:
+          type: vertical-stack
+          cards:
+            - type: custom:mushroom-title-card
+              title: Audio Control
+            - type: custom:mini-media-player
+              entity: media_player.living_room_sonos
+              group: true
+            - type: custom:mini-media-player
+              entity: media_player.basement_beam_sonos
+              group: true
+            - type: custom:mini-media-player
+              entity: media_player.bedroom_playbar_sonos
+              group: true
   - type: custom:atomic-calendar-revive
     view_layout:
       grid-area: calendar
