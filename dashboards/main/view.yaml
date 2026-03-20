@@ -685,7 +685,7 @@ cards:
                   icon_color: "{{ 'red' if is_state(entity, 'on') else 'grey' }}"
                   content: >
                     {% set last =
-                    states.binary_sensor.kitchen_motion_motion.last_changed %}
+                    states.binary_sensor.kitchen_motion_motion.last_changed %} 
                     Last Motion: {{ "Now" if is_state(entity, 'on') else
                     as_timestamp(last) | timestamp_custom('%-I:%M %p') }}
             - type: grid
@@ -807,18 +807,27 @@ cards:
               entity: cover.office_shades_7
               name: Office Shades
               show_position_control: true
-              show_buttons_control: true
-              show_tilt_control: true
-              tap_action:
-                action: more-info
-              hold_action:
-                action: toggle
             - type: custom:mini-media-player
               entity: media_player.den_2
               artwork: material
         master:
           type: vertical-stack
           cards:
+            - type: custom:mushroom-chips-card
+              alignment: start
+              card_mod:
+                style: |
+                  mushroom-chip { margin-right: 10px !important; }
+              chips:
+                - type: template
+                  entity: sensor.honeywell_t_stat_upstairs_temperature
+                  icon: mdi:thermometer
+                  content: "Master: {{ states(entity) }}°"
+                  icon_color: >-
+                    {% set t = states(entity) | float(0) %} {{ 'orange' if t >
+                    75 else ('blue' if t < 65 else 'green') }}
+                  tap_action:
+                    action: more-info
             - type: custom:mushroom-title-card
               title: Master Bedroom
             - type: grid
@@ -849,44 +858,26 @@ cards:
             - type: custom:mini-media-player
               entity: media_player.bedroom_playbar_sonos
               artwork: material
+              hide:
+                power: true
         backyard:
           type: vertical-stack
           cards:
-            - type: custom:mushroom-title-card
-              title: Backyard & Alley
             - type: custom:mushroom-chips-card
-              alignment: justify
+              alignment: start
+              card_mod:
+                style: |
+                  mushroom-chip { margin-right: 10px !important; }
               chips:
                 - type: template
+                  entity: sensor.outside_temperature_temperature
                   icon: mdi:thermometer
-                  content: >-
-                    Outside: {{ states('sensor.outside_temperature_temperature')
-                    }}°
+                  content: "Outside: {{ states(entity) }}°"
                   icon_color: orange
-                - type: template
-                  entity: binary_sensor.gate_alley_yard_lr_contact
-                  icon: >-
-                    {{ 'mdi:gate-open' if is_state(entity, 'on') else 'mdi:gate'
-                    }}
-                  content: Yard
-                  icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
-                - type: template
-                  entity: binary_sensor.gate_trash_lr_contact
-                  icon: >-
-                    {{ 'mdi:gate-open' if is_state(entity, 'on') else 'mdi:gate'
-                    }}
-                  content: Trash
-                  icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
-                - type: template
-                  entity: binary_sensor.gate_front_yard_lr_contact
-                  icon: >-
-                    {{ 'mdi:gate-open' if is_state(entity, 'on') else 'mdi:gate'
-                    }}
-                  content: Front
-                  icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
-                - type: entity
-                  entity: lock.reliable_garage_yard_lock
-                  name: Garage
+                  tap_action:
+                    action: more-info
+            - type: custom:mushroom-title-card
+              title: Backyard & Alley
             - type: grid
               columns: 2
               square: false
@@ -1002,30 +993,20 @@ cards:
           type: vertical-stack
           cards:
             - type: custom:mushroom-chips-card
-              alignment: justify
+              alignment: start
+              card_mod:
+                style: |
+                  mushroom-chip { margin-right: 10px !important; }
               chips:
                 - type: template
-                  entity: binary_sensor.garage_door_opener_contact
-                  icon: mdi:garage
-                  content: "Garage: {{ 'Open' if is_state(entity, 'on') else 'Closed' }}"
-                  icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
-                - type: entity
                   entity: sensor.garage_temp_sensor_temperature
-                  icon_color: blue
-                - type: template
-                  icon: mdi:fridge-outline
-                  content: "Keezer: {{ states('sensor.keezer_temp_lr_temperature') }}°"
+                  icon: mdi:thermometer
+                  content: "Garage: {{ states(entity) }}°"
                   icon_color: >-
-                    {{ 'red' if states('sensor.keezer_temp_lr_temperature') |
-                    float > 40 else 'blue' }}
-                - type: template
-                  icon: mdi:fridge-bottom
-                  content: >-
-                    Freezer: {{ states('sensor.chest_freezer_temp_temperature')
-                    }}°
-                  icon_color: >-
-                    {{ 'red' if states('sensor.chest_freezer_temp_temperature')
-                    | float > 10 else 'blue' }}
+                    {% set t = states(entity) | float(0) %}  {{ 'orange' if t >
+                    85 else ('blue' if t < 40 else 'green') }}
+                  tap_action:
+                    action: more-info
             - type: grid
               columns: 2
               square: false
@@ -1069,27 +1050,21 @@ cards:
           type: vertical-stack
           cards:
             - type: custom:mushroom-title-card
-              title: Basement Area
             - type: custom:mushroom-chips-card
               alignment: justify
               chips:
                 - type: template
-                  icon: mdi:fridge-bottom
+                  icon: mdi:thermometer
                   content: >-
-                    Freezer: {{ states('sensor.basement_freezer_lr_temperature')
-                    }}°
+                    Basement: {{
+                    states('sensor.basement_dart_temp_zigbee_temperature') }}°
                   icon_color: >-
-                    {{ 'red' if states('sensor.basement_freezer_lr_temperature')
-                    | float > 10 else 'blue' }}
-                - type: template
-                  icon: mdi:fridge-outline
-                  content: >-
-                    Fridge: {{
-                    states('sensor.basement_fridge_temp_sensor_temperature') }}°
-                  icon_color: >-
-                    {{ 'red' if
-                    states('sensor.basement_fridge_temp_sensor_temperature') |
-                    float > 40 else 'blue' }}
+                    {{ 'orange' if
+                    states('sensor.basement_dart_temp_zigbee_temperature') |
+                    float > 72 else 'blue' }}
+                  tap_action:
+                    action: more-info
+              entity: sensor.basement_dart_temp_zigbee_temperature
             - type: grid
               columns: 3
               square: false
@@ -1273,7 +1248,7 @@ cards:
                   content: >
                     {% set last =
                     states.binary_sensor.front_porch_motion_lr_motion.last_changed
-                    %} Last Motion: {{ "Now" if is_state(entity, 'on') else
+                    %}  Last Motion: {{ "Now" if is_state(entity, 'on') else
                     as_timestamp(last) | timestamp_custom('%-I:%M %p') }}
             - type: grid
               columns: 2
@@ -1331,7 +1306,6 @@ cards:
           type: vertical-stack
           cards:
             - type: custom:mushroom-title-card
-              title: House Climate Control
               alignment: center
             - type: grid
               columns: 2
@@ -1340,11 +1314,9 @@ cards:
                 - type: custom:simple-thermostat
                   entity: climate.main_level
                   card_mod:
-                    style: >
-                      ha-card { border-radius: 20px; }
-
-                      .thermostat-state.heat { background-color: #d32f2f
-                      !important; }
+                    style: >-
+                      ha-card { border-radius: 20px; } .thermostat-state.heat {
+                      background-color: #d32f2f !important; }
                   header:
                     name: Main Floor
                   layout:
@@ -1360,11 +1332,9 @@ cards:
                 - type: custom:simple-thermostat
                   entity: climate.upper_level
                   card_mod:
-                    style: >
-                      ha-card { border-radius: 20px; }
-
-                      .thermostat-state.heat { background-color: #d32f2f
-                      !important; }
+                    style: >-
+                      ha-card { border-radius: 20px; } .thermostat-state.heat {
+                      background-color: #d32f2f !important; }
                   header:
                     name: Upstairs
                   layout:
@@ -1378,22 +1348,17 @@ cards:
                       attribute: current_humidity
                       name: Humidity
             - type: custom:mushroom-title-card
-              subtitle: Room Temperature Overview
               alignment: center
             - type: markdown
               card_mod:
-                style: |
-                  ha-card { 
-                    background: none !important; 
-                    box-shadow: none !important;
-                    border: none !important;
-                    padding: 0px;
-                    margin-top: -10px;
-                  }
+                style: >-
+                  ha-card { background: none !important; box-shadow: none
+                  !important; border: none !important; padding: 0px; margin-top:
+                  -10px; }
               content: >
                 <div style="width: 100%; text-align: center;"> <table
                 style="width: 450px; margin-left: auto; margin-right: auto;
-                border-collapse: collapse; border: none;"> {% set items = [
+                border-collapse: collapse; border: none;">  {% set items = [
                   ('sensor.outside_temperature_temperature','Outdoor Ambient','ext'),
                   ('sensor.back_porch_temp_sensor_zigbee_temperature','Back Porch','ext'),
                   ('sensor.front_porch_motion_lr_temperature','Front Porch','ext'),
@@ -1405,23 +1370,21 @@ cards:
                   ('sensor.claires_bathroom_door_temperature',"Claire's Room",'int'),
                   ('sensor.savannahs_bathroom_door_temperature',"Savi's Room",'int'),
                   ('sensor.hudsons_bedroom_door_temperature',"Hud's Room",'int')
-                ] %} {% for s in items -%} {% set t = states(s[0]) | float(0) %}
-                {% set last_ch = relative_time(states[s[0]].last_changed) ~ "
-                ago" if states[s[0]] else "?" %} {% if s[2] == 'ext' %} {% set
-                color = 'blue' if t < 40 else ('#4caf50' if t <= 90 else
-                'purple') %} {% else %} {% set color = 'blue' if t < 65 else
-                ('#4caf50' if t <= 74 else 'red') %} {% endif %} <tr> <td
-                style="width: 30px; padding: 6px 0; border: none; text-align:
-                center;"><font color="{{ color }}" style="font-size:
-                16px;">❄</font></td> <td style="width: 150px; font-family:
-                monospace; font-size: 13px; border: none; white-space: nowrap;
-                text-align: left;">{{ s[1] }}</td> <td style="width: 70px;
-                font-family: monospace; font-size: 13px; text-align: left;
-                border: none;"><font color="{{ color }}"><b>{{ "%5.1f"|format(t)
-                }}°</b></font></td> <td style="font-family: monospace;
-                font-size: 10px; text-align: right; opacity: 0.6; border: none;
-                white-space: nowrap;">{{ last_ch }}</td> </tr> {%- endfor %}
-                </table> </div>
+                ] %}  {% for s in items -%} 
+                  {% set t = states(s[0]) | float(0) %} 
+                  {% set last_ch = relative_time(states[s[0]].last_changed) ~ " ago" if states[s[0]] else "?" %} 
+                  {% if s[2] == 'ext' %} 
+                    {% set color = 'blue' if t < 40 else ('#4caf50' if t <= 90 else 'purple') %} 
+                  {% else %} 
+                    {% set color = 'blue' if t < 65 else ('#4caf50' if t <= 74 else 'red') %} 
+                  {% endif %} 
+                  <tr> 
+                    <td style="width: 30px; padding: 6px 0; border: none; text-align: center;"><font color="{{ color }}" style="font-size: 16px;">❄</font></td> 
+                    <td style="width: 150px; font-family: monospace; font-size: 13px; border: none; white-space: nowrap; text-align: left;">{{ s[1] }}</td> 
+                    <td style="width: 70px; font-family: monospace; font-size: 13px; text-align: left; border: none;"><font color="{{ color }}"><b>{{ "%5.1f"|format(t) }}°</b></font></td> 
+                    <td style="font-family: monospace; font-size: 10px; text-align: right; opacity: 0.6; border: none; white-space: nowrap;">{{ last_ch }}</td> 
+                  </tr> 
+                {%- endfor %} </table> </div>
         kids:
           type: grid
           columns: 3
