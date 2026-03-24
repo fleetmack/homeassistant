@@ -724,26 +724,61 @@ cards:
               cards:
                 - type: custom:mushroom-light-card
                   entity: light.kitchen_cabinets
-                  name: Kitchen Cabinets
+                  name: Cabinets
                   use_light_color: true
                   show_brightness_control: true
                   show_color_control: true
                   show_color_temp_control: true
                   collapsible_controls: false
-                - type: custom:mushroom-light-card
-                  entity: light.kitchen_pendants_2
-                  name: Island Pendants
-                  icon: mdi:lightbulb-group
-                  use_light_color: true
-                  show_brightness_control: true
-                  show_color_control: true
-                  show_color_temp_control: true
-                  collapsible_controls: false
-                  tap_action:
-                    action: call-service
-                    service: light.toggle
-                    data:
-                      entity_id: light.kitchen_island_pendants
+                - type: custom:stack-in-card
+                  mode: horizontal
+                  keep:
+                    margin: false
+                    box_shadow: false
+                    outer_padding: false
+                  cards:
+                    - type: custom:mushroom-template-card
+                      entity: light.kitchen_island_pendants
+                      icon: mdi:power
+                      icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                      layout: vertical
+                      tap_action:
+                        action: toggle
+                      card_mod:
+                        style: |
+                          :host { flex: 0 0 30% !important; }
+                          ha-card { 
+                            border-right: 1px solid rgba(255,255,255,0.1) !important;
+                            height: 106px !important;
+                            background: none !important;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          }
+                    - type: custom:mushroom-template-card
+                      entity: light.kitchen_pendants_2
+                      primary: Island
+                      secondary: Color Control
+                      icon: mdi:palette
+                      layout: vertical
+                      tap_action:
+                        action: more-info
+                      card_mod:
+                        style: |
+                          :host { flex: 1 1 70% !important; }
+                          ha-card { 
+                            height: 106px !important;
+                            background: none !important;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          }
+                  card_mod:
+                    style: |
+                      ha-card { 
+                        border: 1px solid var(--divider-color) !important;
+                        height: 106px !important;
+                      }
             - type: grid
               columns: 3
               square: false
@@ -1126,6 +1161,7 @@ cards:
           type: vertical-stack
           cards:
             - type: custom:mushroom-title-card
+              title: Basement
             - type: custom:mushroom-chips-card
               alignment: justify
               chips:
@@ -1145,39 +1181,81 @@ cards:
               columns: 3
               square: false
               cards:
-                - type: custom:mushroom-light-card
-                  entity: light.basement_lounge_ceiling_lights
-                  name: Lounge Ceiling
-                  use_light_color: true
-                  show_brightness_control: true
-                  show_color_temp_control: true
-                  show_color_control: true
-                  collapsible_controls: false
-                  tap_action:
-                    action: call-service
-                    service: switch.toggle
-                    target:
-                      entity_id: switch.basement_lounge_switches
-                - type: custom:mushroom-light-card
+                - type: custom:stack-in-card
+                  mode: horizontal
+                  cards:
+                    - type: custom:mushroom-template-card
+                      entity: switch.basement_lounge_switches
+                      icon: mdi:power
+                      icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                      layout: vertical
+                      tap_action:
+                        action: toggle
+                      card_mod:
+                        style: >
+                          :host { flex: 0 0 40% !important; }
+
+                          ha-card { border-right: 1px solid
+                          rgba(255,255,255,0.1); }
+                    - type: custom:mushroom-template-card
+                      entity: light.basement_lounge_ceiling_lights
+                      primary: Lounge
+                      secondary: Tap for Color
+                      icon: mdi:palette
+                      layout: vertical
+                      tap_action:
+                        action: more-info
+                      card_mod:
+                        style: |
+                          :host { flex: 1 1 60% !important; }
+                  card_mod:
+                    style: |
+                      ha-card { border: 1px solid var(--divider-color); }
+                - type: custom:mushroom-template-card
                   entity: light.basement_bar_lights
-                  name: Bar Fun
-                  use_light_color: true
-                  show_brightness_control: true
-                  show_color_temp_control: true
-                  show_color_control: true
-                  collapsible_controls: false
-                - type: custom:mushroom-light-card
-                  entity: light.basement_playroom_lights_2
-                  name: Playroom
-                  use_light_color: true
-                  show_brightness_control: true
-                  show_color_control: true
-                  collapsible_controls: false
+                  primary: Bar Fun Lights
+                  secondary: Tap for Color
+                  icon: mdi:glass-cocktail
+                  icon_color: "{{ 'blue' if is_state(entity, 'on') else 'grey' }}"
+                  layout: horizontal
                   tap_action:
-                    action: call-service
-                    service: switch.toggle
-                    target:
-                      entity_id: switch.basement_play_area_switches
+                    action: more-info
+                  card_mod:
+                    style: |
+                      ha-card { 
+                        height: 100%; 
+                        border: 1px dashed rgba(255,255,255,0.1);
+                      }
+                - type: custom:stack-in-card
+                  mode: horizontal
+                  cards:
+                    - type: custom:mushroom-template-card
+                      entity: switch.basement_play_area_switches
+                      icon: mdi:power
+                      icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                      layout: vertical
+                      tap_action:
+                        action: toggle
+                      card_mod:
+                        style: >
+                          :host { flex: 0 0 40% !important; }
+
+                          ha-card { border-right: 1px solid
+                          rgba(255,255,255,0.1); }
+                    - type: custom:mushroom-template-card
+                      entity: light.basement_playroom_lights_2
+                      primary: Playroom
+                      secondary: Tap for Color
+                      icon: mdi:palette
+                      layout: vertical
+                      tap_action:
+                        action: more-info
+                      card_mod:
+                        style: |
+                          :host { flex: 1 1 60% !important; }
+                  card_mod:
+                    style: |
+                      ha-card { border: 1px solid var(--divider-color); }
             - type: grid
               columns: 3
               square: false
@@ -1209,7 +1287,6 @@ cards:
                 - type: custom:mushroom-light-card
                   entity: light.basement_tv_strip_inovelli
                   name: Lounge TV
-                  icon: mdi:television-ambient-light
                   use_light_color: true
                   show_color_temp_control: true
                   show_brightness_control: true
@@ -1217,7 +1294,6 @@ cards:
                 - type: custom:mushroom-light-card
                   entity: light.hue_kids_tv
                   name: Kids TV
-                  icon: mdi:television-classic
                   use_light_color: true
                   show_color_temp_control: true
                   show_brightness_control: true
@@ -1240,18 +1316,33 @@ cards:
                   icon_color: blue
                   tap_action:
                     action: toggle
+                  card_mod:
+                    style: |
+                      ha-card {
+                        height: 106px !important;
+                        background-image: url(/local/seahawks_on.jpg) !important;
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                      }
+            - type: grid
+              columns: 2
+              square: false
+              cards:
                 - type: custom:mushroom-light-card
                   entity: light.lifx_bar_top
                   name: Top Shelf
                   use_light_color: true
                   show_color_temp_control: true
                   show_brightness_control: true
+                  show_color_control: true
                 - type: custom:mushroom-light-card
                   entity: light.lifx_bar_bottom
                   name: Bottom Shelf
                   use_light_color: true
                   show_color_temp_control: true
                   show_brightness_control: true
+                  show_color_control: true
             - type: grid
               columns: 2
               square: false
@@ -1470,7 +1561,6 @@ cards:
               cards:
                 - type: custom:mushroom-template-card
                   primary: Claire
-                  secondary: ""
                   picture: /local/claire.jpg.png
                   layout: vertical
                   tap_action:
@@ -1492,35 +1582,54 @@ cards:
                         {{ 'mdi:window-open-variant' if is_state(entity, 'on')
                         else 'mdi:window-closed-variant' }}
                       icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
-                - type: custom:mushroom-light-card
-                  entity: light.claire_dome_lights
-                  name: Main Lights
-                  icon_color: >-
-                    {{ 'amber' if is_state('light.claire_lights', 'on') else
-                    'grey' }}
-                  show_brightness_control: true
-                  show_color_control: true
-                  show_color_temp_control: true
-                  use_light_color: true
-                  collapsible_controls: false
-                  tap_action:
-                    action: toggle
-                    entity: light.claire_lights
-                - type: custom:mushroom-light-card
-                  entity: light.claire_light_strip
-                  name: Light Strip
-                  icon: mdi:led-strip-variant
-                  icon_color: >-
-                    {{ 'blue' if is_state('switch.claire_aux_new', 'on') else
-                    'grey' }}
-                  show_brightness_control: true
-                  show_color_control: true
-                  show_color_temp_control: true
-                  use_light_color: true
-                  collapsible_controls: false
-                  tap_action:
-                    action: toggle
-                    entity: switch.claire_aux_new
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:mushroom-template-card
+                      entity: light.claire_lights
+                      icon: mdi:power
+                      icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                      layout: vertical
+                      tap_action:
+                        action: toggle
+                      card_mod:
+                        style: |
+                          :host { flex: 0 0 30% !important; }
+                          ha-card { height: 100%; }
+                    - type: custom:mushroom-template-card
+                      entity: light.claire_dome_lights
+                      primary: Main Light
+                      secondary: Tap for Color
+                      icon: mdi:palette
+                      layout: horizontal
+                      tap_action:
+                        action: more-info
+                      card_mod:
+                        style: |
+                          :host { flex: 1 1 70% !important; }
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:mushroom-template-card
+                      entity: switch.claire_aux_new
+                      icon: mdi:power
+                      icon_color: "{{ 'blue' if is_state(entity, 'on') else 'grey' }}"
+                      layout: vertical
+                      tap_action:
+                        action: toggle
+                      card_mod:
+                        style: |
+                          :host { flex: 0 0 30% !important; }
+                          ha-card { height: 100%; }
+                    - type: custom:mushroom-template-card
+                      entity: light.claire_light_strip
+                      primary: Strip
+                      secondary: Tap for Color
+                      icon: mdi:led-strip-variant
+                      layout: horizontal
+                      tap_action:
+                        action: more-info
+                      card_mod:
+                        style: |
+                          :host { flex: 1 1 70% !important; }
                 - type: custom:mushroom-cover-card
                   entity: cover.blinds_claire_north_35
                   name: Blinds
@@ -1536,7 +1645,6 @@ cards:
               cards:
                 - type: custom:mushroom-template-card
                   primary: Hudson
-                  secondary: ""
                   picture: /local/hudson.jpg.png
                   layout: vertical
                   tap_action:
@@ -1565,35 +1673,54 @@ cards:
                         {{ 'mdi:window-open-variant' if is_state(entity, 'on')
                         else 'mdi:window-closed-variant' }}
                       icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
-                - type: custom:mushroom-light-card
-                  entity: light.hudson_dome_lights
-                  name: Main Lights
-                  icon_color: >-
-                    {{ 'amber' if is_state('light.hudson_lights', 'on') else
-                    'grey' }}
-                  show_brightness_control: true
-                  show_color_control: true
-                  show_color_temp_control: true
-                  use_light_color: true
-                  collapsible_controls: false
-                  tap_action:
-                    action: toggle
-                    entity: light.hudson_lights
-                - type: custom:mushroom-light-card
-                  entity: light.hue_hud_light_strip
-                  name: Light Strip
-                  icon: mdi:led-strip-variant
-                  icon_color: >-
-                    {{ 'blue' if is_state('switch.hudson_aux_switch', 'on') else
-                    'grey' }}
-                  show_brightness_control: true
-                  show_color_control: true
-                  show_color_temp_control: true
-                  use_light_color: true
-                  collapsible_controls: false
-                  tap_action:
-                    action: toggle
-                    entity: switch.hudson_aux_switch
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:mushroom-template-card
+                      entity: light.hudson_lights
+                      icon: mdi:power
+                      icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                      layout: vertical
+                      tap_action:
+                        action: toggle
+                      card_mod:
+                        style: |
+                          :host { flex: 0 0 30% !important; }
+                          ha-card { height: 100%; }
+                    - type: custom:mushroom-template-card
+                      entity: light.hudson_dome_lights
+                      primary: Main Light
+                      secondary: Tap for Color
+                      icon: mdi:palette
+                      layout: horizontal
+                      tap_action:
+                        action: more-info
+                      card_mod:
+                        style: |
+                          :host { flex: 1 1 70% !important; }
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:mushroom-template-card
+                      entity: switch.hudson_aux_switch
+                      icon: mdi:power
+                      icon_color: "{{ 'blue' if is_state(entity, 'on') else 'grey' }}"
+                      layout: vertical
+                      tap_action:
+                        action: toggle
+                      card_mod:
+                        style: |
+                          :host { flex: 0 0 30% !important; }
+                          ha-card { height: 100%; }
+                    - type: custom:mushroom-template-card
+                      entity: light.hue_hud_light_strip
+                      primary: Strip
+                      secondary: Tap for Color
+                      icon: mdi:led-strip-variant
+                      layout: horizontal
+                      tap_action:
+                        action: more-info
+                      card_mod:
+                        style: |
+                          :host { flex: 1 1 70% !important; }
                 - type: custom:mushroom-cover-card
                   entity: cover.hudson_shades_37
                   name: Blinds
@@ -1609,7 +1736,6 @@ cards:
               cards:
                 - type: custom:mushroom-template-card
                   primary: Savannah
-                  secondary: ""
                   picture: /local/savannah.jpg.png
                   layout: vertical
                   tap_action:
@@ -1631,35 +1757,54 @@ cards:
                         {{ 'mdi:window-open-variant' if is_state(entity, 'on')
                         else 'mdi:window-closed-variant' }}
                       icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
-                - type: custom:mushroom-light-card
-                  entity: light.savannah_dome_lights
-                  name: Main Lights
-                  icon_color: >-
-                    {{ 'amber' if is_state('light.savannah_lights', 'on') else
-                    'grey' }}
-                  show_brightness_control: true
-                  show_color_control: true
-                  show_color_temp_control: true
-                  use_light_color: true
-                  collapsible_controls: false
-                  tap_action:
-                    action: toggle
-                    entity: light.savannah_lights
-                - type: custom:mushroom-light-card
-                  entity: light.hue_savannah_light_strip
-                  name: Light Strip
-                  icon: mdi:led-strip-variant
-                  icon_color: >-
-                    {{ 'blue' if is_state('light.savannah_auxiliary_switch',
-                    'on') else 'grey' }}
-                  show_brightness_control: true
-                  show_color_control: true
-                  show_color_temp_control: true
-                  use_light_color: true
-                  collapsible_controls: false
-                  tap_action:
-                    action: toggle
-                    entity: light.savannah_auxiliary_switch
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:mushroom-template-card
+                      entity: light.savannah_lights
+                      icon: mdi:power
+                      icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                      layout: vertical
+                      tap_action:
+                        action: toggle
+                      card_mod:
+                        style: |
+                          :host { flex: 0 0 30% !important; }
+                          ha-card { height: 100%; }
+                    - type: custom:mushroom-template-card
+                      entity: light.savannah_dome_lights
+                      primary: Main Light
+                      secondary: Tap for Color
+                      icon: mdi:palette
+                      layout: horizontal
+                      tap_action:
+                        action: more-info
+                      card_mod:
+                        style: |
+                          :host { flex: 1 1 70% !important; }
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:mushroom-template-card
+                      entity: light.savannah_auxiliary_switch
+                      icon: mdi:power
+                      icon_color: "{{ 'blue' if is_state(entity, 'on') else 'grey' }}"
+                      layout: vertical
+                      tap_action:
+                        action: toggle
+                      card_mod:
+                        style: |
+                          :host { flex: 0 0 30% !important; }
+                          ha-card { height: 100%; }
+                    - type: custom:mushroom-template-card
+                      entity: light.hue_savannah_light_strip
+                      primary: Strip
+                      secondary: Tap for Color
+                      icon: mdi:led-strip-variant
+                      layout: horizontal
+                      tap_action:
+                        action: more-info
+                      card_mod:
+                        style: |
+                          :host { flex: 1 1 70% !important; }
                 - type: custom:mushroom-cover-card
                   entity: cover.blinds_savannah_north_33
                   name: Blinds
