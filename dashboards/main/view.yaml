@@ -807,13 +807,26 @@ cards:
           cards:
             - type: custom:mushroom-title-card
               title: Home Office
-            - type: grid
-              columns: 2
-              square: false
+            - type: horizontal-stack
               cards:
+                - type: custom:mushroom-template-card
+                  entity: light.office_lights
+                  icon: mdi:power
+                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: |
+                      :host {
+                        flex: 0 0 20% !important;
+                      }
+                      ha-card {
+                        height: 100%;
+                      }
                 - type: custom:mushroom-light-card
                   entity: light.office_overhead_bulbs
-                  name: Overhead
+                  name: Color Control
                   icon: mdi:lightbulb-group
                   use_light_color: true
                   show_brightness_control: true
@@ -821,18 +834,20 @@ cards:
                   show_color_temp_control: true
                   collapsible_controls: false
                   tap_action:
-                    action: call-service
-                    service: light.toggle
-                    target:
-                      entity_id: light.office_lights
-                - type: custom:mushroom-light-card
-                  entity: light.hue_office_monitors_lights
-                  name: Monitors
-                  use_light_color: true
-                  show_brightness_control: true
-                  show_color_control: true
-                  show_color_temp_control: true
-                  collapsible_controls: false
+                    action: none
+                  card_mod:
+                    style: |
+                      :host {
+                        flex: 1 1 80% !important;
+                      }
+            - type: custom:mushroom-light-card
+              entity: light.hue_office_monitors_lights
+              name: Monitors
+              use_light_color: true
+              show_brightness_control: true
+              show_color_control: true
+              show_color_temp_control: true
+              collapsible_controls: true
             - type: custom:mushroom-cover-card
               entity: cover.office_shades_7
               name: Office Shades
@@ -908,87 +923,114 @@ cards:
                     action: more-info
             - type: custom:mushroom-title-card
               title: Backyard & Alley
-            - type: grid
-              columns: 2
-              square: false
+            - type: horizontal-stack
               cards:
+                - type: custom:mushroom-template-card
+                  entity: light.backyard_garage_lights_lr
+                  primary: Garage
+                  icon: mdi:power
+                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                  layout: horizontal
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: |
+                      :host { flex: 0 0 20% !important; }
+                      ha-card { height: 100%; }
                 - type: custom:mushroom-light-card
                   entity: light.alley_and_backyard_sconce_lights
-                  name: Garage/Alley
+                  name: Alley/Sconce Color
                   use_light_color: true
                   show_brightness_control: true
                   show_color_control: true
                   show_color_temp_control: true
                   collapsible_controls: false
                   tap_action:
-                    action: call-service
-                    service: light.toggle
-                    data:
-                      entity_id: light.backyard_garage_lights_lr
+                    action: none
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 80% !important; }
+            - type: horizontal-stack
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: light.fence_lights
+                  primary: Fence
+                  icon: mdi:power
+                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                  layout: horizontal
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: |
+                      :host { flex: 0 0 20% !important; }
+                      ha-card { height: 100%; }
                 - type: custom:mushroom-light-card
                   entity: light.fence_lights
-                  name: Fence
+                  name: Fence Color
                   use_light_color: true
                   show_brightness_control: true
-                  show_color_temp_control: true
                   show_color_control: true
+                  show_color_temp_control: true
                   collapsible_controls: false
                   tap_action:
-                    action: toggle
-                  hold_action:
-                    action: call-service
-                    service: light.turn_on
-                    data:
-                      rgb_color:
-                        - 255
-                        - 255
-                        - 255
-                    target:
-                      entity_id: light.fence_lights
-            - type: grid
-              columns: 2
-              square: false
+                    action: none
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 80% !important; }
+            - type: horizontal-stack
               cards:
+                - type: custom:mushroom-template-card
+                  entity: light.pergola_lights_new
+                  primary: Pergola
+                  icon: mdi:power
+                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                  layout: horizontal
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: |
+                      :host { flex: 0 0 20% !important; }
+                      ha-card { height: 100%; }
                 - type: custom:mushroom-light-card
                   entity: light.pergola_lights_new
-                  name: Pergola
+                  name: Pergola Color
                   use_light_color: true
                   show_brightness_control: true
-                  show_color_temp_control: true
                   show_color_control: true
+                  show_color_temp_control: true
                   collapsible_controls: false
                   tap_action:
+                    action: none
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 80% !important; }
+            - type: horizontal-stack
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: light.playset_lights
+                  primary: Playset
+                  icon: mdi:power
+                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                  layout: horizontal
+                  tap_action:
                     action: toggle
-                  hold_action:
-                    action: call-service
-                    service: light.turn_on
-                    data:
-                      rgb_color:
-                        - 255
-                        - 255
-                        - 255
-                    target:
-                      entity_id: light.pergola_lights_new
+                  card_mod:
+                    style: |
+                      :host { flex: 0 0 20% !important; }
+                      ha-card { height: 100%; }
                 - type: custom:mushroom-light-card
                   entity: light.playset_lights
-                  name: Playset
+                  name: Playset Color
                   use_light_color: true
                   show_brightness_control: true
-                  show_color_temp_control: true
                   show_color_control: true
+                  show_color_temp_control: true
                   collapsible_controls: false
                   tap_action:
-                    action: toggle
-                  hold_action:
-                    action: call-service
-                    service: light.turn_on
-                    data:
-                      rgb_color:
-                        - 255
-                        - 255
-                        - 255
-                    target:
-                      entity_id: light.playset_lights
+                    action: none
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 80% !important; }
             - type: grid
               columns: 2
               square: false
@@ -1673,6 +1715,16 @@ cards:
                   entity: switch.blue_iris_texts_vs
                   icon: mdi:cellphone
                   name: Blue Iris Texts
+                  tap_action:
+                    action: toggle
+            - type: grid
+              columns: 2
+              square: false
+              cards:
+                - type: custom:mushroom-entity-card
+                  entity: switch.yard_door_alerts_vs
+                  icon: mdi:alert-box
+                  name: Yard Alerts
                   tap_action:
                     action: toggle
   - type: custom:atomic-calendar-revive
