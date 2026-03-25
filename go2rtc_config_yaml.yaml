@@ -1,69 +1,101 @@
 streams:
+  # Ubiquiti / Generic RTSP Streams with backlog for instant start
   go2_doorbell:
-    - rtsp://192.168.1.1:7447/KaI6HEInWHZhyLzx
-    
+    - rtsp://192.168.1.1:7447/KaI6HEInWHZhyLzx#transport=tcp#backlog=1#backchannel=0
   go2_doorbell_sub:
-    - rtsp://192.168.1.1:7447/nnPsjiAjWuO44AyR    
-
+    - rtsp://192.168.1.1:7447/nnPsjiAjWuO44AyR#transport=tcp#backchannel=0
+    
   go2_package:
-    - rtsp://192.168.1.1:7447/Z1toOI5rwJK9VkVk
-    
-  go2_sideyard_sub:
-    - rtsp://admin:%24Lipkn0t@192.168.2.40:554/Streaming/Channels/102#input=rtsp/tcp
+    - rtsp://192.168.1.1:7447/Z1toOI5rwJK9VkVk#transport=tcp#backlog=1#backchannel=0
 
+  # Hikvision / Dahua Streams
   go2_sideyard_main:
-    - rtsp://admin:%24Lipkn0t@192.168.2.40:554/Streaming/Channels/101#input=rtsp/tcp    
-    
-  go2_frontporch_sub:
-    - rtsp://admin:%24Lipkn0t@192.168.2.37:554/Streaming/Channels/102
+    - rtsp://admin:%24Lipkn0t@192.168.2.40:554/Streaming/Channels/101#transport=tcp#backlog=1#backchannel=0
+  go2_sideyard_sub:
+    - rtsp://admin:%24Lipkn0t@192.168.2.40:554/Streaming/Channels/102#transport=tcp#backchannel=0
 
   go2_frontporch_main:
-    - rtsp://admin:%24Lipkn0t@192.168.2.37:554/Streaming/Channels/101    
-    
-  go2_backporch_sub:
-    - rtsp://admin:%24Lipkn0t@192.168.2.35:554/Streaming/Channels/102
+    - rtsp://admin:%24Lipkn0t@192.168.2.37:554/Streaming/Channels/101#transport=tcp#backlog=1#backchannel=0
+  go2_frontporch_sub:
+    - rtsp://admin:%24Lipkn0t@192.168.2.37:554/Streaming/Channels/102#transport=tcp#backchannel=0
 
   go2_backporch_main:
-    - rtsp://admin:%24Lipkn0t@192.168.2.35:554/Streaming/Channels/101
-
-  go2_fountain_sub:
-    - rtsp://admin:%24Lipkn0t@192.168.2.34:554/Streaming/Channels/102
+    - rtsp://admin:%24Lipkn0t@192.168.2.35:554/Streaming/Channels/101#transport=tcp#backlog=1#backchannel=0
+  go2_backporch_sub:
+    - rtsp://admin:%24Lipkn0t@192.168.2.35:554/Streaming/Channels/102#transport=tcp#backchannel=0
 
   go2_fountain_main:
-    - rtsp://admin:%24Lipkn0t@192.168.2.34:554/Streaming/Channels/101
-
-  go2_playground_sub:
-    - rtsp://admin:4only4me@192.168.2.36:554/cam/realmonitor?channel=1&subtype=1
+    - rtsp://admin:%24Lipkn0t@192.168.2.34:554/Streaming/Channels/101#transport=tcp#backlog=1#backchannel=0
+  go2_fountain_sub:
+    - rtsp://admin:%24Lipkn0t@192.168.2.34:554/Streaming/Channels/102#transport=tcp#backchannel=0
 
   go2_playground_main:
-    - rtsp://admin:4only4me@192.168.2.36:554/cam/realmonitor?channel=1&subtype=0
-
-  go2_garage_sub:
-    - rtsp://admin:4only4me@192.168.2.31:554/cam/realmonitor?channel=1&subtype=1
+    - rtsp://admin:4only4me@192.168.2.36:554/cam/realmonitor?channel=1&subtype=0#transport=tcp#backlog=1#backchannel=0
+  go2_playground_sub:
+    - rtsp://admin:4only4me@192.168.2.36:554/cam/realmonitor?channel=1&subtype=1#transport=tcp#backchannel=0
 
   go2_garage_main:
-    - rtsp://admin:4only4me@192.168.2.31:554/cam/realmonitor?channel=1&subtype=0
-
-  go2_alleysouth_sub:
-    - rtsp://admin:%24Lipkn0t@192.168.2.32:554/Streaming/Channels/102
+    - rtsp://admin:4only4me@192.168.2.31:554/cam/realmonitor?channel=1&subtype=0#transport=tcp#backlog=1#backchannel=0
+  go2_garage_sub:
+    - rtsp://admin:4only4me@192.168.2.31:554/cam/realmonitor?channel=1&subtype=1#transport=tcp#backchannel=0
 
   go2_alleysouth_main:
-    - rtsp://admin:%24Lipkn0t@192.168.2.32:554/Streaming/Channels/101
-
-  go2_alleydown_sub:
-    - rtsp://admin:4only4me@192.168.2.33:554/cam/realmonitor?channel=1&subtype=1
+    - rtsp://admin:%24Lipkn0t@192.168.2.32:554/Streaming/Channels/101#transport=tcp#backlog=1#input=rtsp/udp#backchannel=0
+  go2_alleysouth_sub:
+    - rtsp://admin:%24Lipkn0t@192.168.2.32:554/Streaming/Channels/102#transport=tcp#input=rtsp/udp#backchannel=0
 
   go2_alleydown_main:
-    - rtsp://admin:4only4me@192.168.2.33:554/cam/realmonitor?channel=1&subtype=0
-    
- # this one just cannot keep up with the server processor, but the sub is good, so disabling
- # alleywide_main:
- #   - rtsp://admin:%24Lipkn0t@192.168.2.30:554/h264Preview_01_main#video=copy#audio=copy
+    - rtsp://admin:4only4me@192.168.2.33:554/cam/realmonitor?channel=1&subtype=0#transport=tcp#backlog=1#backchannel=0
+  go2_alleydown_sub:
+    - rtsp://admin:4only4me@192.168.2.33:554/cam/realmonitor?channel=1&subtype=1#transport=tcp#backchannel=0
 
+  # Attempting to fix the AlleyWide issue by forcing a simple ffmpeg copy 
+  # This uses minimal CPU compared to internal go2rtc processing
+  #go2_alleywide_main:
+   # - ffmpeg:rtsp://admin:%24Lipkn0t@192.168.2.30:554/h264Preview_01_main#video=copy#audio=copy
   go2_alleywide_sub:
-    - rtsp://admin:%24Lipkn0t@192.168.2.30:554/h264Preview_01_sub
+    - rtsp://admin:%24Lipkn0t@192.168.2.30:554/h264Preview_01_sub#transport=tcp#backchannel=0
+  camera.go2_doorbell_sub:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_doorbell_sub
+    - ffmpeg:camera.go2_doorbell_sub#audio=opus#query=log_level=debug
+  camera.go2_frontporch_sub:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_frontporch_sub
+    - ffmpeg:camera.go2_frontporch_sub#audio=opus#query=log_level=debug
+  camera.go2_package:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_package
+    - ffmpeg:camera.go2_package#audio=opus#query=log_level=debug
+  camera.go2_sideyard_sub:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_sideyard_sub
+    - ffmpeg:camera.go2_sideyard_sub#audio=opus#query=log_level=debug
+  camera.go2_garage_sub:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_garage_sub
+    - ffmpeg:camera.go2_garage_sub#audio=opus#query=log_level=debug
+  camera.go2_alleydown_sub:
+    - go2_alleydown_sub#video=copy#audio=none
+  camera.go2_alleysouth_sub:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_alleysouth_sub
+    - ffmpeg:camera.go2_alleysouth_sub#audio=opus#query=log_level=debug
+  camera.go2_fountain_sub:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_fountain_sub
+    - ffmpeg:camera.go2_fountain_sub#audio=opus#query=log_level=debug
+  camera.go2_playground_sub:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_playground_sub
+    - ffmpeg:camera.go2_playground_sub#audio=opus#query=log_level=debug
+  camera.go2_alleywide_sub:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_alleywide_sub
+    - ffmpeg:camera.go2_alleywide_sub#audio=opus#query=log_level=debug
+  camera.go2_backporch_sub:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_backporch_sub
+    - ffmpeg:camera.go2_backporch_sub#audio=opus#query=log_level=debug
+  camera.unifidoorbell_high_resolution_channel:
+    - rtsps://192.168.1.1:7441/nyXghp3NuhX0oDkX
+    - ffmpeg:camera.unifidoorbell_high_resolution_channel#audio=opus#query=log_level=debug
+  camera.go2_alleydown_main:
+    - ffmpeg:rtsp://192.168.1.9:8554/go2_alleydown_main
+    - ffmpeg:camera.go2_alleydown_main#audio=opus#query=log_level=debug
 
 webrtc:
   listen: ":1984"
   candidates:
-    - 192.168.1.9   # Synology IP    
+    - 192.168.1.31
+    - stun:8555 # Helpful for remote viewing speed
