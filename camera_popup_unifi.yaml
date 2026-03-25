@@ -1,0 +1,67 @@
+type: custom:button-card
+name: Cameras
+icon: mdi:video
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    service: browser_mod.popup
+    data:
+      title: Live Security Feeds
+      style: >-
+        --popup-max-width: 100vw; --popup-max-height: 100vh;
+        --popup-background-color: black;
+      content:
+        type: grid
+        columns: 3
+        cards:
+          - type: picture-entity
+            entity: camera.unifidoorbell_low_resolution_channel
+            camera_view: live
+          - type: picture-entity
+            entity: camera.frontporch_low_resolution_channel
+            camera_view: live
+          - type: picture-entity
+            entity: camera.unifidoorbell_package_camera
+            camera_view: live
+          - type: picture-entity
+            entity: camera.side_yard_low_resolution_channel
+            camera_view: live
+          - type: picture-entity
+            entity: camera.garage_low_resolution_channel
+            camera_view: live
+          - type: picture-entity
+            entity: camera.alleydown_low_resolution_channel
+            camera_view: live
+          - type: picture-entity
+            entity: camera.alleysouth_low_resolution_channel
+            camera_view: live
+          - type: picture-entity
+            entity: camera.back_porch_low_resolution_channel
+            camera_view: live
+          - type: picture-entity
+            entity: camera.fountain_low_resolution_channel
+            camera_view: live
+          - type: picture-entity
+            entity: camera.playground_low_resolution_channel
+            camera_view: live
+          - type: picture-entity
+            entity: camera.go2_alleywide_sub
+            camera_view: live
+            view_layout:
+              grid-column: span 2
+styles:
+  card:
+    - height: 80px
+    - border-radius: 12px
+    - border: >-
+        [[[ return window.location.hash.replace('#','') === variables.option ?
+        '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
+    - background-color: >-
+        [[[ return window.location.hash.replace('#','') === variables.option ?
+        'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
+  icon:
+    - color: >-
+        [[[ return window.location.hash.replace('#','') === variables.option ?
+        '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+variables:
+  option: cameras
