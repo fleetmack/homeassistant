@@ -291,28 +291,25 @@ cards:
       - type: custom:button-card
         name: Kitchen
         icon: mdi:countertop
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: kitchen
+          action: navigate
+          navigation_path: /dashboard-playing/0#kitchen
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -320,28 +317,25 @@ cards:
       - type: custom:button-card
         name: Office
         icon: mdi:desk
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: office
+          action: navigate
+          navigation_path: /dashboard-playing/0#office
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -349,28 +343,25 @@ cards:
       - type: custom:button-card
         name: Master
         icon: mdi:bed
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: master
+          action: navigate
+          navigation_path: /dashboard-playing/0#master
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -378,28 +369,25 @@ cards:
       - type: custom:button-card
         name: Backyard
         icon: mdi:grill
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: backyard
+          action: navigate
+          navigation_path: /dashboard-playing/0#backyard
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -407,28 +395,25 @@ cards:
       - type: custom:button-card
         name: Front Porch
         icon: mdi:fountain
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: frontporch
+          action: navigate
+          navigation_path: /dashboard-playing/0#frontporch
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -436,28 +421,25 @@ cards:
       - type: custom:button-card
         name: Kids
         icon: mdi:toy-brick
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: kids
+          action: navigate
+          navigation_path: /dashboard-playing/0#kids
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -465,28 +447,25 @@ cards:
       - type: custom:button-card
         name: Alerts
         icon: mdi:tooltip-cellphone
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: alerts
+          action: navigate
+          navigation_path: /dashboard-playing/0#alerts
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -494,28 +473,25 @@ cards:
       - type: custom:button-card
         name: Climate
         icon: mdi:thermostat
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: climate
+          action: navigate
+          navigation_path: /dashboard-playing/0#climate
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -536,85 +512,63 @@ cards:
                 type: grid
                 columns: 3
                 cards:
-                  - type: picture-entity
-                    entity: camera.go2_doorbell_sub
-                    camera_view: live
-                  - type: picture-entity
-                    entity: camera.go2_frontporch_sub
-                    camera_view: live
-                  - type: picture-entity
-                    entity: camera.go2_package
-                    camera_view: live
-                  - type: picture-entity
-                    entity: camera.go2_sideyard_sub
-                    camera_view: live
-                  - type: picture-entity
-                    entity: camera.go2_garage_sub
-                    camera_view: live
-                  - type: picture-entity
-                    entity: camera.go2_alleydown_sub
-                    camera_view: live
-                  - type: picture-entity
-                    entity: camera.go2_alleysouth_sub
-                    camera_view: live
-                  - type: picture-entity
-                    entity: camera.go2_backporch_sub
-                    camera_view: live
-                  - type: picture-entity
-                    entity: camera.go2_fountain_sub
-                    camera_view: live
-                  - type: picture-entity
-                    entity: camera.go2_playground_sub
-                    camera_view: live
-                  - type: picture-entity
-                    entity: camera.go2_alleywide_sub
-                    camera_view: live
+                  - type: custom:webrtc-camera
+                    url: go2_doorbell_sub
+                    title: Doorbell
+                  - type: custom:webrtc-camera
+                    url: go2_frontporch_sub
+                    title: Front Porch
+                  - type: custom:webrtc-camera
+                    url: go2_package
+                    title: Package
+                  - type: custom:webrtc-camera
+                    url: go2_sideyard_sub
+                    title: Sideyard
+                  - type: custom:webrtc-camera
+                    url: go2_garage_sub
+                    title: Garage
+                  - type: custom:webrtc-camera
+                    url: go2_alleydown_sub
+                    title: Alleydown
+                  - type: custom:webrtc-camera
+                    url: go2_alleysouth_sub
+                    title: Alley South
+                  - type: custom:webrtc-camera
+                    url: go2_backporch_sub
+                    title: Back Porch
+                  - type: custom:webrtc-camera
+                    url: go2_fountain_sub
+                    title: Fountain
+                  - type: custom:webrtc-camera
+                    url: go2_playground_sub
+                    title: Playground
+                  - type: custom:webrtc-camera
+                    url: go2_alleywide_sub
+                    title: Alley Wide
                     view_layout:
                       grid-column: span 2
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return states['input_select.selected_room'].state ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return states['input_select.selected_room'].state ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: cameras
       - type: custom:button-card
         name: Garage
         icon: mdi:garage
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: garage
+          action: navigate
+          navigation_path: /dashboard-playing/0#garage
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -622,28 +576,25 @@ cards:
       - type: custom:button-card
         name: Basement
         icon: mdi:basketball
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: basement
+          action: navigate
+          navigation_path: /dashboard-playing/0#basement
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -651,28 +602,25 @@ cards:
       - type: custom:button-card
         name: Sonos
         icon: mdi:music
-        entity: input_select.selected_room
         tap_action:
-          action: call-service
-          service: input_select.select_option
-          service_data:
-            entity_id: input_select.selected_room
-            option: sonos
+          action: navigate
+          navigation_path: /dashboard-playing/0#sonos
+        triggers_update: all
         styles:
           card:
             - height: 80px
             - border-radius: 12px
             - border: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '2px solid #4CAF50' : '1px solid
                 var(--divider-color)' ]]]
             - background-color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? 'rgba(76, 175, 80, 0.1)' :
                 'var(--card-background-color)' ]]]
           icon:
             - color: >-
-                [[[ return states['input_select.selected_room'].state ===
+                [[[ return window.location.hash.replace('#','') ===
                 variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
                 ]]]
         variables:
@@ -692,7 +640,7 @@ cards:
         }
     card:
       type: custom:state-switch
-      entity: input_select.selected_room
+      entity: hash
       default: kitchen
       states:
         kitchen:
