@@ -25,13 +25,11 @@ cards:
         scale: 0.4
         card_mod:
           style: "ha-card { height: 220px; border: none; background: transparent; }"
-      - type: custom:advanced-camera-card
-        cameras:
-          - camera_entity: camera.unifidoorbell_high_resolution_channel
-        live:
-          autoplay: true
+      - type: custom:webrtc-camera
+        url: go2_doorbell_sub
+        title: Doorbell
         card_mod:
-          style: "ha-card { height: 220px; border-radius: 12px; }"
+          style: "ha-card { height: 220px; border-radius: 12px; overflow: hidden; }"
       - type: vertical-stack
         cards:
           - type: custom:mushroom-chips-card
@@ -242,7 +240,7 @@ cards:
             tap_action:
               action: toggle
             card_mod:
-              style: >
+              style: |
                 ha-card {
                   height: 120px !important;
                   background-image: url("/local/parrot.jpg");
@@ -251,16 +249,9 @@ cards:
                   border-radius: 12px;
                   --is-status-color: transparent;
                 }
-
-                /* This ensures the Mushroom icon/shape doesn't block the parrot
-                */
-
                 mushroom-state-item {
                   display: none !important;
                 }
-
-                /* This makes the entire 120px area clickable */
-
                 mushroom-card {
                   height: 100%;
                 }
@@ -341,32 +332,6 @@ cards:
         variables:
           option: office
       - type: custom:button-card
-        name: Master
-        icon: mdi:bed
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#master
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: master
-      - type: custom:button-card
         name: Backyard
         icon: mdi:grill
         tap_action:
@@ -393,6 +358,32 @@ cards:
         variables:
           option: backyard
       - type: custom:button-card
+        name: Garage
+        icon: mdi:garage
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#garage
+        triggers_update: all
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: garage
+      - type: custom:button-card
         name: Front Porch
         icon: mdi:fountain
         tap_action:
@@ -418,6 +409,58 @@ cards:
                 ]]]
         variables:
           option: frontporch
+      - type: custom:button-card
+        name: Basement
+        icon: mdi:basketball
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#basement
+        triggers_update: all
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: basement
+      - type: custom:button-card
+        name: Master
+        icon: mdi:bed
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#master
+        triggers_update: all
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: master
       - type: custom:button-card
         name: Kids
         icon: mdi:toy-brick
@@ -497,6 +540,32 @@ cards:
         variables:
           option: climate
       - type: custom:button-card
+        name: Sonos
+        icon: mdi:music
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#sonos
+        triggers_update: all
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: sonos
+      - type: custom:button-card
         name: Cameras
         icon: mdi:video
         tap_action:
@@ -532,101 +601,6 @@ cards:
                     title: Alleydown
                   - type: custom:webrtc-camera
                     url: go2_alleysouth_sub
-                    title: Alley South
-                  - type: custom:webrtc-camera
-                    url: go2_backporch_sub
-                    title: Back Porch
-                  - type: custom:webrtc-camera
-                    url: go2_fountain_sub
-                    title: Fountain
-                  - type: custom:webrtc-camera
-                    url: go2_playground_sub
-                    title: Playground
-                  - type: custom:webrtc-camera
-                    url: go2_alleywide_sub
-                    title: Alley Wide
-                    view_layout:
-                      grid-column: span 2
-      - type: custom:button-card
-        name: Garage
-        icon: mdi:garage
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#garage
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: garage
-      - type: custom:button-card
-        name: Basement
-        icon: mdi:basketball
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#basement
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: basement
-      - type: custom:button-card
-        name: Sonos
-        icon: mdi:music
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#sonos
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: sonos
-    view_layout:
-      grid-area: sidebar
   - type: custom:mod-card
     view_layout:
       grid-area: main
@@ -904,6 +878,32 @@ cards:
                   icon_color: orange
                   tap_action:
                     action: more-info
+            - type: horizontal-stack
+              cards:
+                - type: custom:webrtc-camera
+                  url: go2_backporch_sub
+                  title: Back Porch
+                  card_mod:
+                    style: |
+                      ha-card { height: 120px !important; overflow: hidden; }
+                - type: custom:webrtc-camera
+                  url: go2_fountain_sub
+                  title: Fountain
+                  card_mod:
+                    style: |
+                      ha-card { height: 120px !important; overflow: hidden; }
+                - type: custom:webrtc-camera
+                  url: go2_playground_sub
+                  title: Playground
+                  card_mod:
+                    style: |
+                      ha-card { height: 120px !important; overflow: hidden; }
+            - type: custom:webrtc-camera
+              url: go2_alleywide_sub
+              title: Alley Wide
+              card_mod:
+                style: |
+                  ha-card { height: 120px !important; overflow: hidden; }
             - type: custom:mushroom-title-card
               title: Backyard & Alley
             - type: horizontal-stack
@@ -1070,15 +1070,9 @@ cards:
               columns: 2
               square: false
               cards:
-                - type: picture-entity
-                  entity: camera.go2_garage_sub
-                  camera_view: live
-                  show_name: false
-                  show_state: false
-                  card_mod:
-                    style: |
-                      ha-card { height: 120px !important; overflow: hidden; } 
-                      img { object-fit: cover; height: 100%; }
+                - type: custom:webrtc-camera
+                  url: go2_garage_sub
+                  style: "border-radius: 12px; height: 120px;"
                 - type: vertical-stack
                   cards:
                     - type: custom:mushroom-light-card
@@ -1349,7 +1343,8 @@ cards:
             - type: custom:mushroom-chips-card
               alignment: start
               card_mod:
-                style: "mushroom-chip { margin-right: 10px !important; }"
+                style: |
+                  mushroom-chip { margin-right: 10px !important; }
               chips:
                 - type: template
                   entity: sensor.front_porch_motion_lr_temperature
@@ -1365,6 +1360,22 @@ cards:
                     states.binary_sensor.front_porch_motion_lr_motion.last_changed
                     %}  Last Motion: {{ "Now" if is_state(entity, 'on') else
                     as_timestamp(last) | timestamp_custom('%-I:%M %p') }}
+            - type: grid
+              columns: 2
+              square: false
+              cards:
+                - type: custom:webrtc-camera
+                  url: go2_frontporch_sub
+                  title: Front Porch
+                  card_mod:
+                    style: |
+                      ha-card { height: 120px !important; overflow: hidden; }
+                - type: custom:webrtc-camera
+                  url: go2_package
+                  title: Package
+                  card_mod:
+                    style: |
+                      ha-card { height: 120px !important; overflow: hidden; }
             - type: grid
               columns: 2
               square: false
@@ -1402,16 +1413,6 @@ cards:
                   show_color_control: true
                   show_color_temp_control: true
                   collapsible_controls: false
-            - type: picture-entity
-              entity: camera.go2_package
-              camera_view: live
-              show_name: false
-              show_state: false
-              card_mod:
-                style: >-
-                  ha-card { height: 180px !important; overflow: hidden;
-                  border-radius: 12px; } img { object-fit: cover; height: 100%;
-                  }
             - type: custom:mini-media-player
               entity: media_player.front_porch_sonos_amp
               artwork: material
