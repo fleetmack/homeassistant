@@ -1,174 +1,318 @@
-type: grid
-view_layout:
-  grid-area: sidebar
-columns: 2
-square: false
+type: vertical-stack
 cards:
-  - type: custom:button-card
-    name: Kitchen
-    icon: mdi:countertop
-    entity: input_select.selected_room
-    tap_action:
-      action: call-service
-      service: input_select.select_option
-      service_data:
-        entity_id: input_select.selected_room
-        option: kitchen
-    styles:
-      card:
-        - height: 80px
-        - border-radius: 12px
-        - border: >-
-            [[[ return states['input_select.selected_room'].state === 'kitchen'
-            ? '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
-        - background-color: >-
-            [[[ return states['input_select.selected_room'].state === 'kitchen'
-            ? 'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
-      icon:
-        - color: >-
-            [[[ return states['input_select.selected_room'].state === 'kitchen'
-            ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
-  - type: custom:button-card
-    name: Basement
-    icon: mdi:stairs-down
-    entity: input_select.selected_room
-    tap_action:
-      action: call-service
-      service: input_select.select_option
-      service_data:
-        entity_id: input_select.selected_room
-        option: basement
-    styles:
-      card:
-        - height: 80px
-        - border-radius: 12px
-        - border: >-
-            [[[ return states['input_select.selected_room'].state === 'basement'
-            ? '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
-        - background-color: >-
-            [[[ return states['input_select.selected_room'].state === 'basement'
-            ? 'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
-      icon:
-        - color: >-
-            [[[ return states['input_select.selected_room'].state === 'basement'
-            ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
-  - type: custom:button-card
-    name: Master
-    icon: mdi:bed
-    entity: input_select.selected_room
-    tap_action:
-      action: call-service
-      service: input_select.select_option
-      service_data:
-        entity_id: input_select.selected_room
-        option: master
-    styles:
-      card:
-        - height: 80px
-        - border-radius: 12px
-        - border: >-
-            [[[ return states['input_select.selected_room'].state === 'master' ?
-            '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
-        - background-color: >-
-            [[[ return states['input_select.selected_room'].state === 'master' ?
-            'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
-      icon:
-        - color: >-
-            [[[ return states['input_select.selected_room'].state === 'master' ?
-            '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
-  - type: custom:button-card
-    name: Office
-    icon: mdi:desk
-    entity: input_select.selected_room
-    tap_action:
-      action: call-service
-      service: input_select.select_option
-      service_data:
-        entity_id: input_select.selected_room
-        option: office
-    styles:
-      card:
-        - height: 80px
-        - border-radius: 12px
-        - border: >-
-            [[[ return states['input_select.selected_room'].state === 'office' ?
-            '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
-        - background-color: >-
-            [[[ return states['input_select.selected_room'].state === 'office' ?
-            'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
-      icon:
-        - color: >-
-            [[[ return states['input_select.selected_room'].state === 'office' ?
-            '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
-  - type: custom:button-card
-    name: Garage
-    icon: mdi:garage
-    entity: input_select.selected_room
-    tap_action:
-      action: call-service
-      service: input_select.select_option
-      service_data:
-        entity_id: input_select.selected_room
-        option: garage
-    styles:
-      card:
-        - height: 80px
-        - border-radius: 12px
-        - border: >-
-            [[[ return states['input_select.selected_room'].state === 'garage' ?
-            '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
-        - background-color: >-
-            [[[ return states['input_select.selected_room'].state === 'garage' ?
-            'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
-      icon:
-        - color: >-
-            [[[ return states['input_select.selected_room'].state === 'garage' ?
-            '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
-  - type: custom:button-card
-    name: Backyard
-    icon: mdi:backyard
-    entity: input_select.selected_room
-    tap_action:
-      action: call-service
-      service: input_select.select_option
-      service_data:
-        entity_id: input_select.selected_room
-        option: backyard
-    styles:
-      card:
-        - height: 80px
-        - border-radius: 12px
-        - border: >-
-            [[[ return states['input_select.selected_room'].state === 'backyard'
-            ? '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
-        - background-color: >-
-            [[[ return states['input_select.selected_room'].state === 'backyard'
-            ? 'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
-      icon:
-        - color: >-
-            [[[ return states['input_select.selected_room'].state === 'backyard'
-            ? '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
-  - type: custom:button-card
-    name: Sonos
-    icon: mdi:sonos
-    entity: input_select.selected_room
-    tap_action:
-      action: call-service
-      service: input_select.select_option
-      service_data:
-        entity_id: input_select.selected_room
-        option: sonos
-    styles:
-      card:
-        - height: 80px
-        - border-radius: 12px
-        - border: >-
-            [[[ return states['input_select.selected_room'].state === 'sonos' ?
-            '2px solid #4CAF50' : '1px solid var(--divider-color)' ]]]
-        - background-color: >-
-            [[[ return states['input_select.selected_room'].state === 'sonos' ?
-            'rgba(76, 175, 80, 0.1)' : 'var(--card-background-color)' ]]]
-      icon:
-        - color: >-
-            [[[ return states['input_select.selected_room'].state === 'sonos' ?
-            '#4CAF50' : 'var(--paper-item-icon-color)' ]]]
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:button-card
+        name: Kitchen
+        icon: mdi:countertop
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#kitchen
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: kitchen
+      - type: custom:button-card
+        name: Office
+        icon: mdi:desk
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#office
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: office
+      - type: custom:button-card
+        name: Backyard
+        icon: mdi:grill
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#backyard
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: backyard
+      - type: custom:button-card
+        name: Garage
+        icon: mdi:garage
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#garage
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: garage
+      - type: custom:button-card
+        name: Front Porch
+        icon: mdi:fountain
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#frontporch
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: frontporch
+      - type: custom:button-card
+        name: Basement
+        icon: mdi:basketball
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#basement
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: basement
+      - type: custom:button-card
+        name: Master
+        icon: mdi:bed
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#master
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: master
+      - type: custom:button-card
+        name: Kids
+        icon: mdi:toy-brick
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#kids
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: kids
+      - type: custom:button-card
+        name: Alerts
+        icon: mdi:tooltip-cellphone
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#alerts
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: alerts
+      - type: custom:button-card
+        name: Climate
+        icon: mdi:thermostat
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#climate
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: climate
+      - type: custom:button-card
+        name: Sonos
+        icon: mdi:music
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0#sonos
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: sonos
+      - type: custom:button-card
+        name: Energy
+        icon: mdi:transmission-tower
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/energy
+        triggers_update: []
+        styles:
+          card:
+            - height: 80px
+            - border-radius: 12px
+            - border: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '2px solid #4CAF50' : '1px solid
+                var(--divider-color)' ]]]
+            - background-color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                'var(--card-background-color)' ]]]
+          icon:
+            - color: >-
+                [[[ return window.location.hash.replace('#','') ===
+                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
+                ]]]
+        variables:
+          option: energy
