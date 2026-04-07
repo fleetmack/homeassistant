@@ -1,0 +1,36 @@
+type: panel
+path: energy
+title: Energy
+subview: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        name: ← Back to Dashboard
+        icon: mdi:arrow-left
+        styles:
+          card:
+            - height: 60px
+            - border-radius: 12px
+            - margin-bottom: 15px
+            - background-color: var(--secondary-background-color)
+            - border: 1px solid var(--divider-color)
+          grid:
+            - grid-template-areas: "\"i n\""
+            - grid-template-columns: 10% 1fr
+          name:
+            - justify-self: start
+            - font-weight: bold
+            - font-size: 18px
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-playing/0
+      - type: energy-date-selection
+      - type: energy-distribution
+        link_dashboard: false
+      - type: energy-usage-graph
+      - type: energy-sources-table
+      - type: energy-grid-neutrality-gauge
+      - type: energy-solar-consumed-gauge
+      - type: energy-water-graph-card
+      - type: energy-gas-graph-card
