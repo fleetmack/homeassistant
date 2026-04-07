@@ -275,332 +275,324 @@ cards:
                 layout: horizontal
                 tap_action:
                   action: toggle
-  - type: grid
-    columns: 2
-    square: false
+  - type: vertical-stack
     cards:
-      - type: custom:button-card
-        name: Kitchen
-        icon: mdi:countertop
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#kitchen
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: kitchen
-      - type: custom:button-card
-        name: Office
-        icon: mdi:desk
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#office
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: office
-      - type: custom:button-card
-        name: Backyard
-        icon: mdi:grill
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#backyard
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: backyard
-      - type: custom:button-card
-        name: Garage
-        icon: mdi:garage
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#garage
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: garage
-      - type: custom:button-card
-        name: Front Porch
-        icon: mdi:fountain
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#frontporch
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: frontporch
-      - type: custom:button-card
-        name: Basement
-        icon: mdi:basketball
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#basement
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: basement
-      - type: custom:button-card
-        name: Master
-        icon: mdi:bed
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#master
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: master
-      - type: custom:button-card
-        name: Kids
-        icon: mdi:toy-brick
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#kids
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: kids
-      - type: custom:button-card
-        name: Alerts
-        icon: mdi:tooltip-cellphone
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#alerts
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: alerts
-      - type: custom:button-card
-        name: Climate
-        icon: mdi:thermostat
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#climate
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: climate
-      - type: custom:button-card
-        name: Sonos
-        icon: mdi:music
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-playing/0#sonos
-        triggers_update: all
-        styles:
-          card:
-            - height: 80px
-            - border-radius: 12px
-            - border: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '2px solid #4CAF50' : '1px solid
-                var(--divider-color)' ]]]
-            - background-color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? 'rgba(76, 175, 80, 0.1)' :
-                'var(--card-background-color)' ]]]
-          icon:
-            - color: >-
-                [[[ return window.location.hash.replace('#','') ===
-                variables.option ? '#4CAF50' : 'var(--paper-item-icon-color)'
-                ]]]
-        variables:
-          option: sonos
-      - type: custom:button-card
-        name: Cameras
-        icon: mdi:video
-        tap_action:
-          action: fire-dom-event
-          browser_mod:
-            service: browser_mod.popup
-            data:
-              title: Live Security Feeds
-              style: >-
-                --popup-max-width: 100vw; --popup-max-height: 100vh;
-                --popup-background-color: black;
-              content:
-                type: grid
-                columns: 3
-                cards:
-                  - type: custom:webrtc-camera
-                    url: go2_doorbell_sub
-                    title: Doorbell
-                  - type: custom:webrtc-camera
-                    url: go2_frontporch_sub
-                    title: Front Porch
-                  - type: custom:webrtc-camera
-                    url: go2_package
-                    title: Package
-                  - type: custom:webrtc-camera
-                    url: go2_sideyard_sub
-                    title: Sideyard
-                  - type: custom:webrtc-camera
-                    url: go2_garage_sub
-                    title: Garage
-                  - type: custom:webrtc-camera
-                    url: go2_alleydown_sub
-                    title: Alleydown
-                  - type: custom:webrtc-camera
-                    url: go2_alleysouth_sub
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:button-card
+            name: Kitchen
+            icon: mdi:countertop
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#kitchen
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: kitchen
+          - type: custom:button-card
+            name: Office
+            icon: mdi:desk
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#office
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: office
+          - type: custom:button-card
+            name: Backyard
+            icon: mdi:grill
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#backyard
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: backyard
+          - type: custom:button-card
+            name: Garage
+            icon: mdi:garage
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#garage
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: garage
+          - type: custom:button-card
+            name: Front Porch
+            icon: mdi:fountain
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#frontporch
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: frontporch
+          - type: custom:button-card
+            name: Basement
+            icon: mdi:basketball
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#basement
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: basement
+          - type: custom:button-card
+            name: Master
+            icon: mdi:bed
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#master
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: master
+          - type: custom:button-card
+            name: Kids
+            icon: mdi:toy-brick
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#kids
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: kids
+          - type: custom:button-card
+            name: Alerts
+            icon: mdi:tooltip-cellphone
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#alerts
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: alerts
+          - type: custom:button-card
+            name: Climate
+            icon: mdi:thermostat
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#climate
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: climate
+          - type: custom:button-card
+            name: Sonos
+            icon: mdi:music
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/0#sonos
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: sonos
+          - type: custom:button-card
+            name: Energy
+            icon: mdi:transmission-tower
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-playing/energy
+            triggers_update: []
+            styles:
+              card:
+                - height: 80px
+                - border-radius: 12px
+                - border: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '2px solid #4CAF50' : '1px solid
+                    var(--divider-color)' ]]]
+                - background-color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? 'rgba(76, 175, 80, 0.1)' :
+                    'var(--card-background-color)' ]]]
+              icon:
+                - color: >-
+                    [[[ return window.location.hash.replace('#','') ===
+                    variables.option ? '#4CAF50' :
+                    'var(--paper-item-icon-color)' ]]]
+            variables:
+              option: energy
   - type: custom:mod-card
     view_layout:
       grid-area: main
@@ -810,7 +802,7 @@ cards:
               name: Office Shades
               show_position_control: true
             - type: custom:mini-media-player
-              entity: media_player.den_2
+              entity: media_player.den
               artwork: material
         master:
           type: vertical-stack
@@ -1808,7 +1800,7 @@ cards:
                 - type: custom:mushroom-entity-card
                   entity: switch.blue_iris_texts_vs
                   icon: mdi:cellphone
-                  name: Blue Iris Texts
+                  name: Front Porch Texts
                   tap_action:
                     action: toggle
             - type: grid
@@ -1832,7 +1824,7 @@ cards:
     compactMode: true
     maxDaysToShow: 7
 background:
-  opacity: 33
+  opacity: 100
   alignment: center
   size: cover
   repeat: repeat
@@ -1848,3 +1840,4 @@ background:
         - {}
         - media_content_type: app
           media_content_id: media-source://image_upload
+title: Main
