@@ -1,0 +1,93 @@
+title: Master
+path: master
+type: custom:grid-layout
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+background:
+  opacity: 100
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: fixed
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
+cards:
+  - type: custom:decluttering-card
+    template: global_header
+    view_layout:
+      grid-area: header
+  - type: custom:decluttering-card
+    template: global_sidebar
+    view_layout:
+      grid-area: sidebar
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card { 
+          background: rgba(150, 150, 150, 0.05); 
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1); 
+          padding: 10px; 
+        }
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:mushroom-chips-card
+          alignment: start
+          card_mod:
+            style: |
+              mushroom-chip { margin-right: 10px !important; }
+          chips:
+            - type: template
+              entity: sensor.honeywell_t_stat_upstairs_temperature
+              icon: mdi:thermometer
+              content: "Master: {{ states(entity) }}°"
+              icon_color: >-
+                {% set t = states(entity) | float(0) %} {{ 'orange' if t > 75
+                else ('blue' if t < 65 else 'green') }}
+              tap_action:
+                action: more-info
+        - type: custom:mushroom-title-card
+          title: Master Bedroom
+        - type: grid
+          columns: 3
+          square: false
+          cards:
+            - type: custom:mushroom-entity-card
+              entity: light.master_bedroom_entry_lights
+              name: Entry Lights
+              icon: mdi:door-open
+              tap_action:
+                action: toggle
+            - type: custom:mushroom-entity-card
+              entity: light.master_bedroom_main_lights
+              name: Main Lights
+              tap_action:
+                action: toggle
+            - type: custom:mushroom-entity-card
+              entity: switch.master_fan_2
+              name: Fan
+              icon: mdi:fan
+              tap_action:
+                action: toggle
+        - type: custom:mushroom-cover-card
+          entity: cover.master_shades_42
+          name: Master Shades
+          show_position_control: true
+        - type: custom:mini-media-player
+          entity: media_player.bedroom_playbar_sonos
+          artwork: material
+          hide:
+            power: true
+  - type: custom:decluttering-card
+    template: global_calendar
+    view_layout:
+      grid-area: calendar
