@@ -1,0 +1,96 @@
+title: Office
+path: office
+type: custom:grid-layout
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+background:
+  opacity: 100
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: fixed
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
+cards:
+  - type: custom:decluttering-card
+    template: global_header
+    view_layout:
+      grid-area: header
+  - type: custom:decluttering-card
+    template: global_sidebar
+    view_layout:
+      grid-area: sidebar
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card { 
+          background: rgba(150, 150, 150, 0.05); 
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1); 
+          padding: 10px; 
+        }
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:mushroom-title-card
+          title: Home Office
+        - type: horizontal-stack
+          cards:
+            - type: custom:mushroom-template-card
+              entity: light.office_lights
+              icon: mdi:power
+              icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+              layout: vertical
+              tap_action:
+                action: toggle
+              card_mod:
+                style: |
+                  :host {
+                    flex: 0 0 20% !important;
+                  }
+                  ha-card {
+                    height: 100%;
+                  }
+            - type: custom:mushroom-light-card
+              entity: light.office_overhead_bulbs
+              name: Color Control
+              icon: mdi:lightbulb-group
+              use_light_color: true
+              show_brightness_control: true
+              show_color_control: true
+              show_color_temp_control: true
+              collapsible_controls: false
+              tap_action:
+                action: none
+              card_mod:
+                style: |
+                  :host {
+                    flex: 1 1 80% !important;
+                  }
+        - type: custom:mushroom-light-card
+          entity: light.hue_office_monitors_lights
+          name: Monitors
+          use_light_color: true
+          show_brightness_control: true
+          show_color_control: true
+          show_color_temp_control: true
+          collapsible_controls: true
+        - type: custom:mushroom-cover-card
+          entity: cover.office_shades_7
+          name: Office Shades
+          show_position_control: true
+        - type: custom:mini-media-player
+          entity: media_player.den
+          artwork: material
+  - type: custom:decluttering-card
+    template: global_calendar
+    view_layout:
+      grid-area: calendar
