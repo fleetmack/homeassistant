@@ -1,0 +1,132 @@
+title: Front Porch
+path: frontporch
+type: custom:grid-layout
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+background:
+  opacity: 100
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: fixed
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
+cards:
+  - type: custom:decluttering-card
+    template: global_header
+    view_layout:
+      grid-area: header
+  - type: custom:decluttering-card
+    template: global_sidebar
+    view_layout:
+      grid-area: sidebar
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card { 
+          background: rgba(150, 150, 150, 0.05); 
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1); 
+          padding: 10px; 
+        }
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:mushroom-chips-card
+          alignment: start
+          card_mod:
+            style: |
+              mushroom-chip { margin-right: 10px !important; }
+          chips:
+            - type: template
+              entity: sensor.front_porch_motion_lr_temperature
+              icon: mdi:thermometer
+              icon_color: orange
+              content: "Front Porch Temp: {{ states(entity) }}°"
+            - type: template
+              entity: binary_sensor.front_porch_motion_lr_motion
+              icon: mdi:motion-sensor
+              icon_color: "{{ 'red' if is_state(entity, 'on') else 'grey' }}"
+              content: >
+                {% set last =
+                states.binary_sensor.front_porch_motion_lr_motion.last_changed
+                %}  Last Motion: {{ "Now" if is_state(entity, 'on') else
+                as_timestamp(last) | timestamp_custom('%-I:%M %p') }}
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: picture-entity
+              entity: camera.frontporch_low_resolution_channel
+              camera_view: live
+              name: Front Porch
+              tap_action:
+                action: more-info
+              card_mod:
+                style: >
+                  ha-card { height: 120px !important; overflow: hidden;
+                  border-radius: 12px; }
+            - type: picture-entity
+              entity: camera.unifidoorbell_package_camera
+              camera_view: live
+              name: Package
+              tap_action:
+                action: more-info
+              card_mod:
+                style: >
+                  ha-card { height: 120px !important; overflow: hidden;
+                  border-radius: 12px; }
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:mushroom-entity-card
+              entity: switch.vs_basement_off_for_hass
+              name: Basement Off
+              icon: mdi:lightbulb-group-off
+              icon_color: red
+              tap_action:
+                action: toggle
+            - type: custom:mushroom-light-card
+              entity: light.front_porch_lights
+              name: Porch Lights
+              use_light_color: true
+              tap_action:
+                action: toggle
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:mushroom-light-card
+              entity: light.front_porch_hue_ceiling
+              name: Overhead Hue
+              use_light_color: true
+              show_brightness_control: true
+              show_color_control: true
+              show_color_temp_control: true
+              collapsible_controls: false
+            - type: custom:mushroom-light-card
+              entity: light.hue_front_porch_sconce
+              name: Sconce Hue
+              use_light_color: true
+              show_brightness_control: true
+              show_color_control: true
+              show_color_temp_control: true
+              collapsible_controls: false
+        - type: custom:mini-media-player
+          entity: media_player.front_porch_sonos_amp
+          artwork: material
+          hide:
+            power: true
+  - type: custom:decluttering-card
+    template: global_calendar
+    view_layout:
+      grid-area: calendar
