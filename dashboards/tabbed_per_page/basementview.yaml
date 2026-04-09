@@ -1,0 +1,247 @@
+title: Basement
+path: basement
+type: custom:grid-layout
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+background:
+  opacity: 100
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: fixed
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
+cards:
+  - type: custom:decluttering-card
+    template: global_header
+    view_layout:
+      grid-area: header
+  - type: custom:decluttering-card
+    template: global_sidebar
+    view_layout:
+      grid-area: sidebar
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card { 
+          background: rgba(150, 150, 150, 0.05); 
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1); 
+          padding: 10px; 
+        }
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:mushroom-title-card
+          title: Basement
+        - type: custom:mushroom-chips-card
+          alignment: justify
+          chips:
+            - type: template
+              icon: mdi:thermometer
+              content: >-
+                Basement: {{
+                states('sensor.basement_dart_temp_zigbee_temperature') }}°
+              icon_color: >-
+                {{ 'orange' if
+                states('sensor.basement_dart_temp_zigbee_temperature') | float >
+                72 else 'blue' }}
+              tap_action:
+                action: more-info
+          entity: sensor.basement_dart_temp_zigbee_temperature
+        - type: grid
+          columns: 3
+          square: false
+          cards:
+            - type: custom:stack-in-card
+              mode: horizontal
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: switch.basement_lounge_switches
+                  icon: mdi:power
+                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: >
+                      :host { flex: 0 0 40% !important; } ha-card {
+                      border-right: 1px solid rgba(255,255,255,0.1); }
+                - type: custom:mushroom-template-card
+                  entity: light.basement_lounge_ceiling_lights
+                  primary: Lounge
+                  secondary: Tap for Color
+                  icon: mdi:palette
+                  layout: vertical
+                  tap_action:
+                    action: more-info
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 60% !important; }
+              card_mod:
+                style: |
+                  ha-card { border: 1px solid var(--divider-color); }
+            - type: custom:mushroom-template-card
+              entity: light.basement_bar_lights
+              primary: Bar Fun Lights
+              secondary: Tap for Color
+              icon: mdi:glass-cocktail
+              icon_color: "{{ 'blue' if is_state(entity, 'on') else 'grey' }}"
+              layout: horizontal
+              tap_action:
+                action: more-info
+              card_mod:
+                style: |
+                  ha-card { 
+                    height: 100%; 
+                    border: 1px dashed rgba(255,255,255,0.1);
+                  }
+            - type: custom:stack-in-card
+              mode: horizontal
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: switch.basement_play_area_switches
+                  icon: mdi:power
+                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: >
+                      :host { flex: 0 0 40% !important; } ha-card {
+                      border-right: 1px solid rgba(255,255,255,0.1); }
+                - type: custom:mushroom-template-card
+                  entity: light.basement_playroom_lights_2
+                  primary: Playroom
+                  secondary: Tap for Color
+                  icon: mdi:palette
+                  layout: vertical
+                  tap_action:
+                    action: more-info
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 60% !important; }
+              card_mod:
+                style: |
+                  ha-card { border: 1px solid var(--divider-color); }
+        - type: grid
+          columns: 3
+          square: false
+          cards:
+            - type: custom:mushroom-entity-card
+              entity: switch.basement_storage_switch
+              name: Storage
+              icon: mdi:lightbulb-outline
+              tap_action:
+                action: toggle
+            - type: custom:mushroom-entity-card
+              entity: light.basement_bath_lights_lr
+              name: Bathroom
+              icon: mdi:shower
+              tap_action:
+                action: toggle
+            - type: custom:mushroom-entity-card
+              entity: light.basement_stairs_lights
+              name: Stairs
+              icon: mdi:stairs
+              tap_action:
+                action: toggle
+        - type: custom:mushroom-title-card
+          subtitle: Entertainment & Bar
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:mushroom-light-card
+              entity: light.basement_tv_strip_inovelli
+              name: Lounge TV
+              use_light_color: true
+              show_color_temp_control: true
+              show_brightness_control: true
+              show_color_control: true
+            - type: custom:mushroom-light-card
+              entity: light.hue_kids_tv
+              name: Kids TV
+              use_light_color: true
+              show_color_temp_control: true
+              show_brightness_control: true
+              show_color_control: true
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:mushroom-light-card
+              entity: light.hue_basement_bartop_strip
+              name: Under Bar
+              use_light_color: true
+              show_brightness_control: true
+              show_color_temp_control: true
+              show_color_control: true
+            - type: custom:mushroom-entity-card
+              entity: switch.basement_seahawks_switch_lr
+              name: Seahawks Neon
+              icon: mdi:football
+              icon_color: blue
+              tap_action:
+                action: toggle
+              card_mod:
+                style: |
+                  ha-card {
+                    height: 106px !important;
+                    background-image: url(/local/seahawks_on.jpg) !important;
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                  }
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:mushroom-light-card
+              entity: light.lifx_bar_top
+              name: Top Shelf
+              use_light_color: true
+              show_color_temp_control: true
+              show_brightness_control: true
+              show_color_control: true
+            - type: custom:mushroom-light-card
+              entity: light.lifx_bar_bottom
+              name: Bottom Shelf
+              use_light_color: true
+              show_color_temp_control: true
+              show_brightness_control: true
+              show_color_control: true
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:mushroom-light-card
+              entity: light.hue_play_1
+              name: Play Left
+              use_light_color: true
+              show_color_control: true
+              show_color_temp_control: true
+            - type: custom:mushroom-light-card
+              entity: light.hue_play_2
+              name: Play Right
+              use_light_color: true
+              show_color_control: true
+              show_color_temp_control: true
+        - type: custom:mini-media-player
+          entity: media_player.basement_beam_sonos
+          name: Basement Beam
+          artwork: material
+          hide:
+            power: true
+  - type: custom:decluttering-card
+    template: global_calendar
+    view_layout:
+      grid-area: calendar
