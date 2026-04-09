@@ -1,0 +1,307 @@
+title: Kids
+path: kids
+type: custom:grid-layout
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+background:
+  opacity: 100
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: fixed
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
+cards:
+  - type: custom:decluttering-card
+    template: global_header
+    view_layout:
+      grid-area: header
+  - type: custom:decluttering-card
+    template: global_sidebar
+    view_layout:
+      grid-area: sidebar
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card { 
+          background: rgba(150, 150, 150, 0.05); 
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1); 
+          padding: 10px; 
+        }
+    card:
+      type: grid
+      columns: 3
+      square: false
+      cards:
+        - type: vertical-stack
+          cards:
+            - type: custom:mushroom-template-card
+              primary: Claire
+              picture: /local/claire.jpg.png
+              layout: vertical
+              tap_action:
+                action: none
+            - type: custom:mushroom-chips-card
+              alignment: center
+              chips:
+                - type: template
+                  entity: sensor.claires_bathroom_door_temperature
+                  content: "{{ states(entity) }}°F"
+                  icon: mdi:thermometer
+                  icon_color: >
+                    {% set t = states(entity) | float(0) %} {% if t > 75 %} red
+                    {% elif t < 60 %} blue {% else %} black {% endif %}
+                - type: template
+                  entity: binary_sensor.claire_window_lr_contact
+                  content: "{{ 'Open' if is_state(entity, 'on') else 'Closed' }}"
+                  icon: >-
+                    {{ 'mdi:window-open-variant' if is_state(entity, 'on') else
+                    'mdi:window-closed-variant' }}
+                  icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            - type: horizontal-stack
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: light.claire_lights
+                  icon: mdi:power
+                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: |
+                      :host { flex: 0 0 30% !important; }
+                      ha-card { height: 100%; }
+                - type: custom:mushroom-template-card
+                  entity: light.claire_dome_lights
+                  primary: Main Light
+                  secondary: Tap for Color
+                  icon: mdi:palette
+                  layout: horizontal
+                  tap_action:
+                    action: more-info
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 70% !important; }
+            - type: horizontal-stack
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: switch.claire_aux_new
+                  icon: mdi:power
+                  icon_color: "{{ 'blue' if is_state(entity, 'on') else 'grey' }}"
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: |
+                      :host { flex: 0 0 30% !important; }
+                      ha-card { height: 100%; }
+                - type: custom:mushroom-template-card
+                  entity: light.claire_light_strip
+                  primary: Strip
+                  secondary: Tap for Color
+                  icon: mdi:led-strip-variant
+                  layout: horizontal
+                  tap_action:
+                    action: more-info
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 70% !important; }
+            - type: custom:mushroom-cover-card
+              entity: cover.blinds_claire_north_35
+              name: Blinds
+              show_position_control: true
+            - type: custom:mini-media-player
+              entity: media_player.claire_display
+              name: Claire's Mini
+              artwork: material
+              hide:
+                power: true
+                source: true
+        - type: vertical-stack
+          cards:
+            - type: custom:mushroom-template-card
+              primary: Hudson
+              picture: /local/hudson.jpg.png
+              layout: vertical
+              tap_action:
+                action: none
+            - type: custom:mushroom-chips-card
+              alignment: center
+              chips:
+                - type: template
+                  entity: sensor.hudsons_bedroom_door_temperature
+                  content: "{{ states(entity) }}°F"
+                  icon: mdi:thermometer
+                  icon_color: >
+                    {% set t = states(entity) | float(0) %} {% if t > 75 %} red
+                    {% elif t < 60 %} blue {% else %} black {% endif %}
+                - type: template
+                  entity: binary_sensor.hudson_north_window_lr_contact
+                  content: "N: {{ 'Open' if is_state(entity, 'on') else 'Closed' }}"
+                  icon: >-
+                    {{ 'mdi:window-open-variant' if is_state(entity, 'on') else
+                    'mdi:window-closed-variant' }}
+                  icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                - type: template
+                  entity: binary_sensor.hudsons_east_window_contact
+                  content: "E: {{ 'Open' if is_state(entity, 'on') else 'Closed' }}"
+                  icon: >-
+                    {{ 'mdi:window-open-variant' if is_state(entity, 'on') else
+                    'mdi:window-closed-variant' }}
+                  icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            - type: horizontal-stack
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: light.hudson_lights
+                  icon: mdi:power
+                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: |
+                      :host { flex: 0 0 30% !important; }
+                      ha-card { height: 100%; }
+                - type: custom:mushroom-template-card
+                  entity: light.hudson_dome_lights
+                  primary: Main Light
+                  secondary: Tap for Color
+                  icon: mdi:palette
+                  layout: horizontal
+                  tap_action:
+                    action: more-info
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 70% !important; }
+            - type: horizontal-stack
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: switch.hudson_aux_switch
+                  icon: mdi:power
+                  icon_color: "{{ 'blue' if is_state(entity, 'on') else 'grey' }}"
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: |
+                      :host { flex: 0 0 30% !important; }
+                      ha-card { height: 100%; }
+                - type: custom:mushroom-template-card
+                  entity: light.hue_hud_light_strip
+                  primary: Strip
+                  secondary: Tap for Color
+                  icon: mdi:led-strip-variant
+                  layout: horizontal
+                  tap_action:
+                    action: more-info
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 70% !important; }
+            - type: custom:mushroom-cover-card
+              entity: cover.hudson_shades_37
+              name: Blinds
+              show_position_control: true
+            - type: custom:mini-media-player
+              entity: media_player.hudson_display
+              name: Hudson's Mini
+              artwork: material
+              hide:
+                power: true
+                source: true
+        - type: vertical-stack
+          cards:
+            - type: custom:mushroom-template-card
+              primary: Savannah
+              picture: /local/savannah.jpg.png
+              layout: vertical
+              tap_action:
+                action: none
+            - type: custom:mushroom-chips-card
+              alignment: center
+              chips:
+                - type: template
+                  entity: sensor.savannahs_bathroom_door_temperature
+                  content: "{{ states(entity) }}°F"
+                  icon: mdi:thermometer
+                  icon_color: >
+                    {% set t = states(entity) | float(0) %} {% if t > 75 %} red
+                    {% elif t < 60 %} blue {% else %} black {% endif %}
+                - type: template
+                  entity: binary_sensor.savannah_window_lr_contact
+                  content: "{{ 'Open' if is_state(entity, 'on') else 'Closed' }}"
+                  icon: >-
+                    {{ 'mdi:window-open-variant' if is_state(entity, 'on') else
+                    'mdi:window-closed-variant' }}
+                  icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            - type: horizontal-stack
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: light.savannah_lights
+                  icon: mdi:power
+                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: |
+                      :host { flex: 0 0 30% !important; }
+                      ha-card { height: 100%; }
+                - type: custom:mushroom-template-card
+                  entity: light.savannah_dome_lights
+                  primary: Main Light
+                  secondary: Tap for Color
+                  icon: mdi:palette
+                  layout: horizontal
+                  tap_action:
+                    action: more-info
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 70% !important; }
+            - type: horizontal-stack
+              cards:
+                - type: custom:mushroom-template-card
+                  entity: light.savannah_auxiliary_switch
+                  icon: mdi:power
+                  icon_color: "{{ 'blue' if is_state(entity, 'on') else 'grey' }}"
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  card_mod:
+                    style: |
+                      :host { flex: 0 0 30% !important; }
+                      ha-card { height: 100%; }
+                - type: custom:mushroom-template-card
+                  entity: light.hue_savannah_light_strip
+                  primary: Strip
+                  secondary: Tap for Color
+                  icon: mdi:led-strip-variant
+                  layout: horizontal
+                  tap_action:
+                    action: more-info
+                  card_mod:
+                    style: |
+                      :host { flex: 1 1 70% !important; }
+            - type: custom:mushroom-cover-card
+              entity: cover.blinds_savannah_north_33
+              name: Blinds
+              show_position_control: true
+            - type: custom:mini-media-player
+              entity: media_player.savannah_display
+              name: Savannah's Mini
+              artwork: material
+              hide:
+                power: true
+                source: true
+  - type: custom:decluttering-card
+    template: global_calendar
+    view_layout:
+      grid-area: calendar
