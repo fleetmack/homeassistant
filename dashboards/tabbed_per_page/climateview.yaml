@@ -1,0 +1,126 @@
+title: Climate
+path: climate
+type: custom:grid-layout
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+background:
+  opacity: 100
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: fixed
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
+cards:
+  - type: custom:decluttering-card
+    template: global_header
+    view_layout:
+      grid-area: header
+  - type: custom:decluttering-card
+    template: global_sidebar
+    view_layout:
+      grid-area: sidebar
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card { 
+          background: rgba(150, 150, 150, 0.05); 
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1); 
+          padding: 10px; 
+        }
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:mushroom-title-card
+          alignment: center
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:simple-thermostat
+              entity: climate.main_level
+              card_mod:
+                style: >-
+                  ha-card { border-radius: 20px; } .thermostat-state.heat {
+                  background-color: #d32f2f !important; }
+              header:
+                name: Main Floor
+              layout:
+                mode:
+                  headings: false
+              control:
+                hvac:
+                  _name: Mode
+              sensors:
+                - entity: climate.main_level
+                  attribute: current_humidity
+                  name: Humidity
+            - type: custom:simple-thermostat
+              entity: climate.upper_level
+              card_mod:
+                style: >-
+                  ha-card { border-radius: 20px; } .thermostat-state.heat {
+                  background-color: #d32f2f !important; }
+              header:
+                name: Upstairs
+              layout:
+                mode:
+                  headings: false
+              control:
+                hvac:
+                  _name: Mode
+              sensors:
+                - entity: climate.upper_level
+                  attribute: current_humidity
+                  name: Humidity
+        - type: custom:mushroom-title-card
+          alignment: center
+        - type: markdown
+          card_mod:
+            style: >-
+              ha-card { background: none !important; box-shadow: none
+              !important; border: none !important; padding: 0px; margin-top:
+              -10px; }
+          content: >
+            <div style="width: 100%; text-align: center;"> <table style="width:
+            450px; margin-left: auto; margin-right: auto; border-collapse:
+            collapse; border: none;">  {% set items = [
+              ('sensor.outside_temperature_temperature','Outdoor Ambient','ext'),
+              ('sensor.back_porch_temp_sensor_zigbee_temperature','Back Porch','ext'),
+              ('sensor.front_porch_motion_lr_temperature','Front Porch','ext'),
+              ('sensor.garage_temp_sensor_temperature','Garage','ext'),
+              ('sensor.honeywell_t_stat_main_floor_temperature','T-Stat Main','int'),
+              ('sensor.honeywell_t_stat_upstairs_temperature','T-Stat Master','int'),
+              ('sensor.basement_dart_temp_zigbee_temperature','Basement','int'),
+              ('sensor.garage_entry_motion_sensor_temperature','Mud Room','int'),
+              ('sensor.claires_bathroom_door_temperature',"Claire's Room",'int'),
+              ('sensor.savannahs_bathroom_door_temperature',"Savi's Room",'int'),
+              ('sensor.hudsons_bedroom_door_temperature',"Hud's Room",'int')
+            ] %}  {% for s in items -%} 
+              {% set t = states(s[0]) | float(0) %} 
+              {% set last_ch = relative_time(states[s[0]].last_changed) ~ " ago" if states[s[0]] else "?" %} 
+              {% if s[2] == 'ext' %} 
+                {% set color = 'blue' if t < 40 else ('#4caf50' if t <= 90 else 'purple') %} 
+              {% else %} 
+                {% set color = 'blue' if t < 65 else ('#4caf50' if t <= 74 else 'red') %} 
+              {% endif %} 
+              <tr> 
+                <td style="width: 30px; padding: 6px 0; border: none; text-align: center;"><font color="{{ color }}" style="font-size: 16px;">❄</font></td> 
+                <td style="width: 150px; font-family: monospace; font-size: 13px; border: none; white-space: nowrap; text-align: left;">{{ s[1] }}</td> 
+                <td style="width: 70px; font-family: monospace; font-size: 13px; text-align: left; border: none;"><font color="{{ color }}"><b>{{ "%5.1f"|format(t) }}°</b></font></td> 
+                <td style="font-family: monospace; font-size: 10px; text-align: right; opacity: 0.6; border: none; white-space: nowrap;">{{ last_ch }}</td> 
+              </tr> 
+            {%- endfor %} </table> </div>
+  - type: custom:decluttering-card
+    template: global_calendar
+    view_layout:
+      grid-area: calendar
