@@ -1,0 +1,101 @@
+title: Garage
+path: garage
+type: custom:grid-layout
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+background:
+  opacity: 100
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: fixed
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
+cards:
+  - type: custom:decluttering-card
+    template: global_header
+    view_layout:
+      grid-area: header
+  - type: custom:decluttering-card
+    template: global_sidebar
+    view_layout:
+      grid-area: sidebar
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card { 
+          background: rgba(150, 150, 150, 0.05); 
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1); 
+          padding: 10px; 
+        }
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:mushroom-chips-card
+          alignment: start
+          card_mod:
+            style: |
+              mushroom-chip { margin-right: 10px !important; }
+          chips:
+            - type: template
+              entity: sensor.garage_temp_sensor_temperature
+              icon: mdi:thermometer
+              content: "Garage: {{ states(entity) }}°"
+              icon_color: >-
+                {% set t = states(entity) | float(0) %}  {{ 'orange' if t > 85
+                else ('blue' if t < 40 else 'green') }}
+              tap_action:
+                action: more-info
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: picture-entity
+              entity: camera.garage_low_resolution_channel
+              camera_view: live
+              name: Garage
+              tap_action:
+                action: more-info
+              card_mod:
+                style: >
+                  ha-card { height: 120px !important; overflow: hidden;
+                  border-radius: 12px; }
+            - type: vertical-stack
+              cards:
+                - type: custom:mushroom-light-card
+                  entity: light.garage_lights
+                  show_brightness_control: true
+                  use_light_color: true
+                - type: grid
+                  columns: 2
+                  square: false
+                  cards:
+                    - type: custom:mushroom-lock-card
+                      entity: lock.garage_house_lock
+                      name: House
+                    - type: custom:mushroom-lock-card
+                      entity: lock.reliable_garage_yard_lock
+                      name: Yard
+        - type: custom:mushroom-title-card
+          subtitle: Audio
+        - type: custom:mini-media-player
+          entity: media_player.garage_sonos_play1_tools
+          name: Sonos Tools
+          artwork: material
+        - type: custom:mini-media-player
+          entity: media_player.newly
+          name: Sonos Door
+          artwork: material
+  - type: custom:decluttering-card
+    template: global_calendar
+    view_layout:
+      grid-area: calendar
