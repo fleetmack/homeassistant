@@ -1,0 +1,21 @@
+general:
+  sleep_for: 0
+  verbosity: info
+custom_parameters:
+  rtltcp: "-g 40"
+mqtt:
+  ha_autodiscovery_topic: homeassistant
+  ha_status_topic: homeassistant/status
+  base_topic: rtlamr
+  host: 192.168.1.31
+  user: mqtt
+  password: mackqtt
+meters:
+  - id: 49799372
+    protocol: scm
+    name: house_gas_meter
+    format: "######"
+    unit_of_measurement: ft³
+    device_class: gas
+    state_class: total_increasing
+    icon: mdi:fire
