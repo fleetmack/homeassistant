@@ -1,0 +1,55 @@
+title: Energy
+path: energy
+type: custom:grid-layout
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+background:
+  opacity: 100
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: fixed
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
+cards:
+  - type: custom:decluttering-card
+    template: global_header
+    view_layout:
+      grid-area: header
+  - type: custom:decluttering-card
+    template: global_sidebar
+    view_layout:
+      grid-area: sidebar
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card { 
+          background: rgba(150, 150, 150, 0.05); 
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1); 
+          padding: 10px; 
+        }
+    card:
+      type: vertical-stack
+      cards:
+        - type: energy-date-selection
+        - type: energy-distribution
+          link_dashboard: false
+        - type: energy-usage-graph
+        - type: energy-sources-table
+        - type: energy-grid-neutrality-gauge
+        - type: energy-solar-consumed-gauge
+        - type: energy-water-graph-card
+        - type: energy-gas-graph-card
+  - type: custom:decluttering-card
+    template: global_calendar
+    view_layout:
+      grid-area: calendar
