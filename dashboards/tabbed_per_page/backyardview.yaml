@@ -1,0 +1,245 @@
+title: Backyard
+path: backyard
+type: custom:grid-layout
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+background:
+  opacity: 100
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: fixed
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
+cards:
+  - type: custom:decluttering-card
+    template: global_header
+    view_layout:
+      grid-area: header
+  - type: custom:decluttering-card
+    template: global_sidebar
+    view_layout:
+      grid-area: sidebar
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card { 
+          background: rgba(150, 150, 150, 0.05); 
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1); 
+          padding: 10px; 
+        }
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:mushroom-chips-card
+          alignment: start
+          card_mod:
+            style: |
+              mushroom-chip { margin-right: 10px !important; }
+          chips:
+            - type: template
+              entity: sensor.outside_temperature_temperature
+              icon: mdi:thermometer
+              content: "Outside: {{ states(entity) }}°"
+              icon_color: orange
+              tap_action:
+                action: more-info
+        - type: horizontal-stack
+          cards:
+            - type: picture-entity
+              entity: camera.back_porch_low_resolution_channel
+              camera_view: live
+              name: Back Porch
+              tap_action:
+                action: more-info
+              card_mod:
+                style: >
+                  ha-card { height: 120px !important; overflow: hidden;
+                  border-radius: 12px; }
+            - type: picture-entity
+              entity: camera.fountain_low_resolution_channel
+              camera_view: live
+              name: Fountain
+              tap_action:
+                action: more-info
+              card_mod:
+                style: >
+                  ha-card { height: 120px !important; overflow: hidden;
+                  border-radius: 12px; }
+            - type: picture-entity
+              entity: camera.playground_low_resolution_channel
+              camera_view: live
+              name: Playground
+              tap_action:
+                action: more-info
+              card_mod:
+                style: >
+                  ha-card { height: 120px !important; overflow: hidden;
+                  border-radius: 12px; }
+        - type: picture-entity
+          entity: camera.alley_duo_high_resolution_channel
+          camera_view: live
+          name: Alley Wide
+          tap_action:
+            action: more-info
+          card_mod:
+            style: >
+              ha-card { height: 120px !important; overflow: hidden;
+              border-radius: 12px; }
+        - type: custom:mushroom-title-card
+          title: Backyard & Alley
+        - type: horizontal-stack
+          cards:
+            - type: custom:mushroom-template-card
+              entity: light.backyard_garage_lights_lr
+              primary: Garage
+              icon: mdi:power
+              icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+              layout: horizontal
+              tap_action:
+                action: toggle
+              card_mod:
+                style: |
+                  :host { flex: 0 0 20% !important; }
+                  ha-card { height: 100%; }
+            - type: custom:mushroom-light-card
+              entity: light.alley_and_backyard_sconce_lights
+              name: Alley/Sconce Color
+              use_light_color: true
+              show_brightness_control: true
+              show_color_control: true
+              show_color_temp_control: true
+              collapsible_controls: false
+              tap_action:
+                action: none
+              card_mod:
+                style: |
+                  :host { flex: 1 1 80% !important; }
+        - type: horizontal-stack
+          cards:
+            - type: custom:mushroom-template-card
+              entity: light.fence_lights
+              primary: Fence
+              icon: mdi:power
+              icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+              layout: horizontal
+              tap_action:
+                action: toggle
+              card_mod:
+                style: |
+                  :host { flex: 0 0 20% !important; }
+                  ha-card { height: 100%; }
+            - type: custom:mushroom-light-card
+              entity: light.fence_lights
+              name: Fence Color
+              use_light_color: true
+              show_brightness_control: true
+              show_color_control: true
+              show_color_temp_control: true
+              collapsible_controls: false
+              tap_action:
+                action: none
+              card_mod:
+                style: |
+                  :host { flex: 1 1 80% !important; }
+        - type: horizontal-stack
+          cards:
+            - type: custom:mushroom-template-card
+              entity: light.pergola_lights_new
+              primary: Pergola
+              icon: mdi:power
+              icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+              layout: horizontal
+              tap_action:
+                action: toggle
+              card_mod:
+                style: |
+                  :host { flex: 0 0 20% !important; }
+                  ha-card { height: 100%; }
+            - type: custom:mushroom-light-card
+              entity: light.pergola_lights_new
+              name: Pergola Color
+              use_light_color: true
+              show_brightness_control: true
+              show_color_control: true
+              show_color_temp_control: true
+              collapsible_controls: false
+              tap_action:
+                action: none
+              card_mod:
+                style: |
+                  :host { flex: 1 1 80% !important; }
+        - type: horizontal-stack
+          cards:
+            - type: custom:mushroom-template-card
+              entity: light.playset_lights
+              primary: Playset
+              icon: mdi:power
+              icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+              layout: horizontal
+              tap_action:
+                action: toggle
+              card_mod:
+                style: |
+                  :host { flex: 0 0 20% !important; }
+                  ha-card { height: 100%; }
+            - type: custom:mushroom-light-card
+              entity: light.playset_lights
+              name: Playset Color
+              use_light_color: true
+              show_brightness_control: true
+              show_color_control: true
+              show_color_temp_control: true
+              collapsible_controls: false
+              tap_action:
+                action: none
+              card_mod:
+                style: |
+                  :host { flex: 1 1 80% !important; }
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:mushroom-entity-card
+              entity: switch.patio_fans
+              name: Patio Fans
+              icon: mdi:fan
+              tap_action:
+                action: toggle
+            - type: custom:mushroom-entity-card
+              entity: switch.backyard_fountain
+              name: Fountain
+              icon: mdi:fountain
+              tap_action:
+                action: toggle
+        - type: custom:mini-media-player
+          entity: media_player.yard_grill_sonos
+          name: Grill Sonos
+          artwork: material
+          hide:
+            power: true
+        - type: custom:mini-media-player
+          entity: media_player.yard_fire_pit_sonos
+          name: Fire Pit Sonos
+          artwork: material
+          hide:
+            power: true
+        - type: custom:mini-media-player
+          entity: media_player.yard_playground_sonos
+          name: Playground Sonos
+          artwork: material
+          hide:
+            power: true
+  - type: custom:decluttering-card
+    template: global_calendar
+    view_layout:
+      grid-area: calendar
