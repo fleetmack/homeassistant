@@ -52,7 +52,7 @@ decluttering_templates:
         - type: custom:clock-weather-card
           entity: weather.forecast_home_2
           sun_entity: sun.sun
-          forecast_rows: 3
+          forecast_rows: 4
           scale: 0.4
           card_mod:
             style: 'ha-card { height: 220px; border: none; background: transparent; }'
@@ -424,14 +424,29 @@ decluttering_templates:
                 navigation_path: /dashboard-twopointoh/energy
   global_calendar:
     card:
-      type: custom:atomic-calendar-revive
-      entities:
-        - entity: calendar.fleetmack_gmail_com
-          color: '#4285F4'
-        - entity: calendar.family
-          color: '#34A853'
-      compactMode: true
-      maxDaysToShow: 7
+      type: vertical-stack
+      cards:
+        - type: energy-distribution
+          link_dashboard: false
+          card_mod:
+            style: |
+              ha-card { 
+                background: var(--card-background-color, rgba(30, 30, 30, 0.9)) !important; 
+                border-radius: 20px;
+                border: 1px solid rgba(255, 255, 255, 0.1); 
+                width: 166.6% !important; /* Draws it wide */
+                transform: scale(0.60); /* Shrinks it back to exactly 100% width */
+                transform-origin: top left; /* Pins it to the top left corner */
+                margin-bottom: -150px !important; /* Pulls calendar up */
+              }
+        - type: custom:atomic-calendar-revive
+          entities:
+            - entity: calendar.fleetmack_gmail_com
+              color: '#4285F4'
+            - entity: calendar.family
+              color: '#34A853'
+          compactMode: true
+          maxDaysToShow: 7
 views:
   - title: Kitchen
     path: kitchen
@@ -444,7 +459,7 @@ views:
         "sidebar main calendar"
       grid-gap: 10px
     background:
-      opacity: 100
+      opacity: 50
       alignment: center
       size: cover
       repeat: repeat
@@ -467,9 +482,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+              backdrop-filter: blur(12px); /* The frosted glass magic */
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -501,6 +518,7 @@ views:
               cards:
                 - type: custom:mushroom-light-card
                   entity: light.kitchen_cabinets
+                  icon: mdi:led-strip-variant
                   name: Cabinets
                   use_light_color: true
                   show_brightness_control: true
@@ -516,7 +534,7 @@ views:
                   cards:
                     - type: custom:mushroom-template-card
                       entity: light.kitchen_island_pendants
-                      icon: mdi:power
+                      icon: mdi:ceiling-light-multiple
                       icon_color: '{{ ''amber'' if is_state(entity, ''on'') else ''grey'' }}'
                       layout: vertical
                       tap_action:
@@ -555,6 +573,7 @@ views:
                       ha-card { 
                         border: 1px solid var(--divider-color) !important;
                         height: 106px !important;
+                        background: rgba(255, 255, 255, 0.05) !important;
                       }
             - type: grid
               columns: 3
@@ -562,6 +581,7 @@ views:
               cards:
                 - type: custom:mushroom-light-card
                   entity: light.kitchen_table_chandelier
+                  icon: mdi:chandelier
                   name: Chandelier
                 - type: custom:mushroom-light-card
                   entity: light.kitchen_island_ceiling_lights
@@ -569,7 +589,7 @@ views:
                 - type: custom:mushroom-entity-card
                   entity: switch.pantry_and_cubbie
                   name: Pantry
-                  icon: mdi:door-open
+                  icon: mdi:food
                   tap_action:
                     action: toggle
             - type: custom:mushroom-title-card
@@ -594,26 +614,34 @@ views:
                   name: Upstairs
             - type: custom:mini-media-player
               entity: media_player.living_room_sonos
-              artwork: material
+              artwork: cover
               hide:
                 power: true
                 icon: false
+              card_mod:
+                style: |
+                  ha-card {
+                    background: rgba(0, 0, 0, 0.2); /* Slight tint so text stays legible when art isn't playing */
+                  }
             - type: grid
               columns: 3
               square: false
               cards:
                 - type: custom:mushroom-cover-card
-                  entity: cover.living_room_shades_12
+                  entity: cover.living_room_shades_all_homekit
                   name: Living Shades
                   show_position_control: true
+                  show_buttons_control: true
                 - type: custom:mushroom-cover-card
-                  entity: cover.kitchen_shades_21
+                  entity: cover.kitchen_shades_all_homekit
                   name: Kitchen Shades
                   show_position_control: true
+                  show_buttons_control: true
                 - type: custom:mushroom-cover-card
-                  entity: cover.piano_shades_17
+                  entity: cover.piano_shades_all_homekit
                   name: Piano Shades
                   show_position_control: true
+                  show_buttons_control: true
       - type: custom:decluttering-card
         template: global_calendar
         view_layout:
@@ -652,9 +680,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+              backdrop-filter: blur(12px); /* The frosted glass magic */
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -666,9 +696,10 @@ views:
               cards:
                 - type: custom:mushroom-template-card
                   entity: light.office_lights
-                  icon: mdi:power
+                  primary: Office On/Off
+                  icon: mdi:ceiling-light-multiple
                   icon_color: '{{ ''amber'' if is_state(entity, ''on'') else ''grey'' }}'
-                  layout: vertical
+                  layout: horizontal
                   tap_action:
                     action: toggle
                   card_mod:
@@ -698,18 +729,20 @@ views:
             - type: custom:mushroom-light-card
               entity: light.hue_office_monitors_lights
               name: Monitors
+              icon: mdi:monitor
               use_light_color: true
               show_brightness_control: true
               show_color_control: true
               show_color_temp_control: true
               collapsible_controls: true
             - type: custom:mushroom-cover-card
-              entity: cover.office_shades_7
+              entity: cover.office_shades_all_homekit
               name: Office Shades
               show_position_control: true
+              show_buttons_control: true
             - type: custom:mini-media-player
               entity: media_player.den
-              artwork: material
+              artwork: cover
       - type: custom:decluttering-card
         template: global_calendar
         view_layout:
@@ -748,9 +781,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; 
+              backdrop-filter: blur(12px); 
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -774,58 +809,99 @@ views:
                 - type: picture-entity
                   entity: camera.back_porch_low_resolution_channel
                   camera_view: live
-                  name: Back Porch
+                  show_name: false
+                  show_state: false
                   tap_action:
                     action: more-info
                   card_mod:
-                    style: >
-                      ha-card { height: 120px !important; overflow: hidden;
-                      border-radius: 12px; }
+                    style: |
+                      ha-card { 
+                        height: 120px !important; 
+                        overflow: hidden;
+                        border-radius: 12px; 
+                        background: none !important; 
+                      }
+                      .footer { display: none !important; }
+                      hui-image img { 
+                        object-fit: cover !important; 
+                        height: 120px !important; 
+                      }
                 - type: picture-entity
                   entity: camera.fountain_low_resolution_channel
                   camera_view: live
-                  name: Fountain
+                  show_name: false
+                  show_state: false
                   tap_action:
                     action: more-info
                   card_mod:
-                    style: >
-                      ha-card { height: 120px !important; overflow: hidden;
-                      border-radius: 12px; }
+                    style: |
+                      ha-card { 
+                        height: 120px !important; 
+                        overflow: hidden;
+                        border-radius: 12px; 
+                        background: none !important; 
+                      }
+                      .footer { display: none !important; }
+                      hui-image img { 
+                        object-fit: cover !important; 
+                        height: 120px !important; 
+                      }
                 - type: picture-entity
                   entity: camera.playground_low_resolution_channel
                   camera_view: live
-                  name: Playground
+                  show_name: false
+                  show_state: false
                   tap_action:
                     action: more-info
                   card_mod:
-                    style: >
-                      ha-card { height: 120px !important; overflow: hidden;
-                      border-radius: 12px; }
+                    style: |
+                      ha-card { 
+                        height: 120px !important; 
+                        overflow: hidden;
+                        border-radius: 12px; 
+                        background: none !important; 
+                      }
+                      .footer { display: none !important; }
+                      hui-image img { 
+                        object-fit: cover !important; 
+                        height: 120px !important; 
+                      }
             - type: picture-entity
-              entity: camera.alley_duo_high_resolution_channel
+              entity: camera.alley_wide_onvif_profile001_substream
               camera_view: live
-              name: Alley Wide
+              show_name: false
+              show_state: false
               tap_action:
                 action: more-info
               card_mod:
-                style: >
-                  ha-card { height: 120px !important; overflow: hidden;
-                  border-radius: 12px; }
+                style: |
+                  ha-card { 
+                    height: 120px !important; 
+                    overflow: hidden; 
+                    border-radius: 12px; 
+                    background: none !important; 
+                    margin-top: 4px; 
+                  }
+                  .footer { display: none !important; }
+                  hui-image img { 
+                    object-fit: cover !important; 
+                    height: 120px !important; 
+                  }
             - type: custom:mushroom-title-card
               title: Backyard & Alley
             - type: horizontal-stack
               cards:
                 - type: custom:mushroom-template-card
                   entity: light.backyard_garage_lights_lr
-                  primary: Garage
-                  icon: mdi:power
+                  primary: Garage Sconce On/Off
+                  icon: mdi:garage-variant
                   icon_color: '{{ ''amber'' if is_state(entity, ''on'') else ''grey'' }}'
                   layout: horizontal
                   tap_action:
                     action: toggle
                   card_mod:
                     style: |
-                      :host { flex: 0 0 20% !important; }
+                      :host { flex: 0 0 25% !important; }
                       ha-card { height: 100%; }
                 - type: custom:mushroom-light-card
                   entity: light.alley_and_backyard_sconce_lights
@@ -839,20 +915,20 @@ views:
                     action: none
                   card_mod:
                     style: |
-                      :host { flex: 1 1 80% !important; }
+                      :host { flex: 1 1 75% !important; }
             - type: horizontal-stack
               cards:
                 - type: custom:mushroom-template-card
                   entity: light.fence_lights
-                  primary: Fence
-                  icon: mdi:power
+                  primary: Fence On/Off
+                  icon: mdi:fence
                   icon_color: '{{ ''amber'' if is_state(entity, ''on'') else ''grey'' }}'
                   layout: horizontal
                   tap_action:
                     action: toggle
                   card_mod:
                     style: |
-                      :host { flex: 0 0 20% !important; }
+                      :host { flex: 0 0 25% !important; }
                       ha-card { height: 100%; }
                 - type: custom:mushroom-light-card
                   entity: light.fence_lights
@@ -866,20 +942,20 @@ views:
                     action: none
                   card_mod:
                     style: |
-                      :host { flex: 1 1 80% !important; }
+                      :host { flex: 1 1 75% !important; }
             - type: horizontal-stack
               cards:
                 - type: custom:mushroom-template-card
                   entity: light.pergola_lights_new
-                  primary: Pergola
-                  icon: mdi:power
+                  primary: Pergola On/Off
+                  icon: mdi:string-lights
                   icon_color: '{{ ''amber'' if is_state(entity, ''on'') else ''grey'' }}'
                   layout: horizontal
                   tap_action:
                     action: toggle
                   card_mod:
                     style: |
-                      :host { flex: 0 0 20% !important; }
+                      :host { flex: 0 0 25% !important; }
                       ha-card { height: 100%; }
                 - type: custom:mushroom-light-card
                   entity: light.pergola_lights_new
@@ -893,20 +969,20 @@ views:
                     action: none
                   card_mod:
                     style: |
-                      :host { flex: 1 1 80% !important; }
+                      :host { flex: 1 1 75% !important; }
             - type: horizontal-stack
               cards:
                 - type: custom:mushroom-template-card
                   entity: light.playset_lights
-                  primary: Playset
-                  icon: mdi:power
+                  primary: Playset On/Off
+                  icon: mdi:slide
                   icon_color: '{{ ''amber'' if is_state(entity, ''on'') else ''grey'' }}'
                   layout: horizontal
                   tap_action:
                     action: toggle
                   card_mod:
                     style: |
-                      :host { flex: 0 0 20% !important; }
+                      :host { flex: 0 0 25% !important; }
                       ha-card { height: 100%; }
                 - type: custom:mushroom-light-card
                   entity: light.playset_lights
@@ -920,7 +996,7 @@ views:
                     action: none
                   card_mod:
                     style: |
-                      :host { flex: 1 1 80% !important; }
+                      :host { flex: 1 1 75% !important; }
             - type: grid
               columns: 2
               square: false
@@ -940,19 +1016,19 @@ views:
             - type: custom:mini-media-player
               entity: media_player.yard_grill_sonos
               name: Grill Sonos
-              artwork: material
+              artwork: cover
               hide:
                 power: true
             - type: custom:mini-media-player
               entity: media_player.yard_fire_pit_sonos
               name: Fire Pit Sonos
-              artwork: material
+              artwork: cover
               hide:
                 power: true
             - type: custom:mini-media-player
               entity: media_player.yard_playground_sonos
               name: Playground Sonos
-              artwork: material
+              artwork: cover
               hide:
                 power: true
       - type: custom:decluttering-card
@@ -993,9 +1069,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+              backdrop-filter: blur(12px); /* The frosted glass magic */
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -1023,13 +1101,27 @@ views:
                 - type: picture-entity
                   entity: camera.garage_low_resolution_channel
                   camera_view: live
-                  name: Garage
+                  show_state: false
+                  show_name: false
                   tap_action:
                     action: more-info
                   card_mod:
-                    style: >
-                      ha-card { height: 120px !important; overflow: hidden;
-                      border-radius: 12px; }
+                    style: |
+                      ha-card { 
+                        border-radius: 12px; 
+                        overflow: hidden;
+                        background: none !important;
+                        box-shadow: none !important;
+                        border: none !important;
+                      }
+                      .footer {
+                        display: none !important; /* This hides the semi-transparent bottom bar */
+                      }
+                      hui-image img {
+                        object-fit: cover !important;
+                        height: 100% !important;
+                        width: 100% !important;
+                      }
                 - type: vertical-stack
                   cards:
                     - type: custom:mushroom-light-card
@@ -1043,19 +1135,21 @@ views:
                         - type: custom:mushroom-lock-card
                           entity: lock.garage_house_lock
                           name: House
+                          layout: vertical
                         - type: custom:mushroom-lock-card
                           entity: lock.reliable_garage_yard_lock
                           name: Yard
+                          layout: vertical
             - type: custom:mushroom-title-card
               subtitle: Audio
             - type: custom:mini-media-player
               entity: media_player.garage_sonos_play1_tools
               name: Sonos Tools
-              artwork: material
+              artwork: cover
             - type: custom:mini-media-player
               entity: media_player.newly
               name: Sonos Door
-              artwork: material
+              artwork: cover
       - type: custom:decluttering-card
         template: global_calendar
         view_layout:
@@ -1094,9 +1188,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; 
+              backdrop-filter: blur(12px); 
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -1123,29 +1219,75 @@ views:
                     %}  Last Motion: {{ "Now" if is_state(entity, 'on') else
                     as_timestamp(last) | timestamp_custom('%-I:%M %p') }}
             - type: grid
-              columns: 2
-              square: false
+              columns: 3
+              square: true
               cards:
-                - type: picture-entity
-                  entity: camera.frontporch_low_resolution_channel
-                  camera_view: live
-                  name: Front Porch
-                  tap_action:
-                    action: more-info
-                  card_mod:
-                    style: >
-                      ha-card { height: 120px !important; overflow: hidden;
-                      border-radius: 12px; }
                 - type: picture-entity
                   entity: camera.unifidoorbell_package_camera
                   camera_view: live
-                  name: Package
+                  show_name: false
+                  show_state: false
                   tap_action:
                     action: more-info
                   card_mod:
-                    style: >
-                      ha-card { height: 120px !important; overflow: hidden;
-                      border-radius: 12px; }
+                    style: |
+                      ha-card { 
+                        border-radius: 12px; 
+                        overflow: hidden;
+                        background: none !important;
+                        box-shadow: none !important;
+                        border: none !important;
+                      }
+                      .footer { display: none !important; }
+                      hui-image img {
+                        object-fit: cover !important;
+                        height: 100% !important;
+                        width: 100% !important;
+                      }
+                - type: picture-entity
+                  entity: camera.frontporch_low_resolution_channel
+                  camera_view: live
+                  show_name: false
+                  show_state: false
+                  tap_action:
+                    action: more-info
+                  card_mod:
+                    style: |
+                      ha-card { 
+                        border-radius: 12px; 
+                        overflow: hidden; 
+                        background: none !important;
+                        box-shadow: none !important;
+                        border: none !important;
+                      }
+                      .footer { display: none !important; }
+                      hui-image img {
+                        object-fit: cover !important;
+                        height: 100% !important;
+                        width: 100% !important;
+                      }
+                - type: picture-entity
+                  entity: camera.side_yard_low_resolution_channel
+                  camera_view: live
+                  show_name: false
+                  show_state: false
+                  tap_action:
+                    action: more-info
+                  card_mod:
+                    style: |
+                      ha-card { 
+                        border-radius: 12px; 
+                        overflow: hidden;
+                        background: none !important;
+                        box-shadow: none !important;
+                        border: none !important;
+                      }
+                      .footer { display: none !important; }
+                      hui-image img {
+                        object-fit: cover !important;
+                        height: 100% !important;
+                        width: 100% !important;
+                      }
             - type: grid
               columns: 2
               square: false
@@ -1183,9 +1325,14 @@ views:
                   show_color_control: true
                   show_color_temp_control: true
                   collapsible_controls: false
+            - type: custom:mushroom-cover-card
+              entity: cover.entry_blinds_homekit
+              name: Entry Blinds
+              show_position_control: true
+              show_buttons_control: true
             - type: custom:mini-media-player
               entity: media_player.front_porch_sonos_amp
-              artwork: material
+              artwork: cover
               hide:
                 power: true
       - type: custom:decluttering-card
@@ -1226,9 +1373,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+              backdrop-filter: blur(12px); /* The frosted glass magic */
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -1260,7 +1409,7 @@ views:
                   cards:
                     - type: custom:mushroom-template-card
                       entity: switch.basement_lounge_switches
-                      icon: mdi:power
+                      icon: mdi:sofa
                       icon_color: '{{ ''amber'' if is_state(entity, ''on'') else ''grey'' }}'
                       layout: vertical
                       tap_action:
@@ -1303,7 +1452,7 @@ views:
                   cards:
                     - type: custom:mushroom-template-card
                       entity: switch.basement_play_area_switches
-                      icon: mdi:power
+                      icon: mdi:nintendo-switch
                       icon_color: '{{ ''amber'' if is_state(entity, ''on'') else ''grey'' }}'
                       layout: vertical
                       tap_action:
@@ -1333,7 +1482,7 @@ views:
                 - type: custom:mushroom-entity-card
                   entity: switch.basement_storage_switch
                   name: Storage
-                  icon: mdi:lightbulb-outline
+                  icon: mdi:package-variant-closed
                   tap_action:
                     action: toggle
                 - type: custom:mushroom-entity-card
@@ -1357,12 +1506,14 @@ views:
                 - type: custom:mushroom-light-card
                   entity: light.basement_tv_strip_inovelli
                   name: Lounge TV
+                  icon: mdi:television
                   use_light_color: true
                   show_color_temp_control: true
                   show_brightness_control: true
                   show_color_control: true
                 - type: custom:mushroom-light-card
                   entity: light.hue_kids_tv
+                  icon: mdi:television
                   name: Kids TV
                   use_light_color: true
                   show_color_temp_control: true
@@ -1375,6 +1526,7 @@ views:
                 - type: custom:mushroom-light-card
                   entity: light.hue_basement_bartop_strip
                   name: Under Bar
+                  icon: mdi:led-strip-variant
                   use_light_color: true
                   show_brightness_control: true
                   show_color_temp_control: true
@@ -1391,7 +1543,7 @@ views:
                       ha-card {
                         height: 106px !important;
                         background-image: url(/local/seahawks_on.jpg) !important;
-                        background-size: cover;
+                        background-size: contain;
                         background-position: center;
                         background-repeat: no-repeat;
                       }
@@ -1401,6 +1553,7 @@ views:
               cards:
                 - type: custom:mushroom-light-card
                   entity: light.lifx_bar_top
+                  icon: mdi:led-strip-variant
                   name: Top Shelf
                   use_light_color: true
                   show_color_temp_control: true
@@ -1409,6 +1562,7 @@ views:
                 - type: custom:mushroom-light-card
                   entity: light.lifx_bar_bottom
                   name: Bottom Shelf
+                  icon: mdi:led-strip-variant
                   use_light_color: true
                   show_color_temp_control: true
                   show_brightness_control: true
@@ -1432,7 +1586,7 @@ views:
             - type: custom:mini-media-player
               entity: media_player.basement_beam_sonos
               name: Basement Beam
-              artwork: material
+              artwork: cover
               hide:
                 power: true
       - type: custom:decluttering-card
@@ -1473,9 +1627,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+              backdrop-filter: blur(12px); /* The frosted glass magic */
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -1520,12 +1676,13 @@ views:
                   tap_action:
                     action: toggle
             - type: custom:mushroom-cover-card
-              entity: cover.master_shades_42
+              entity: cover.master_shades_all_homekit
               name: Master Shades
               show_position_control: true
+              show_buttons_control: true
             - type: custom:mini-media-player
               entity: media_player.bedroom_playbar_sonos
-              artwork: material
+              artwork: cover
               hide:
                 power: true
       - type: custom:decluttering-card
@@ -1566,9 +1723,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+              backdrop-filter: blur(12px); /* The frosted glass magic */
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -1650,9 +1809,10 @@ views:
                         style: |
                           :host { flex: 1 1 70% !important; }
                 - type: custom:mushroom-cover-card
-                  entity: cover.blinds_claire_north_35
+                  entity: cover.claire_blinds_homekit
                   name: Blinds
                   show_position_control: true
+                  show_buttons_control: true
                 - type: custom:mini-media-player
                   entity: media_player.claire_display
                   name: Claire's Mini
@@ -1679,19 +1839,40 @@ views:
                         {% set t = states(entity) | float(0) %} {% if t > 75 %}
                         red {% elif t < 60 %} blue {% else %} black {% endif %}
                     - type: template
-                      entity: binary_sensor.hudson_north_window_lr_contact
-                      content: 'N: {{ ''Open'' if is_state(entity, ''on'') else ''Closed'' }}'
                       icon: >-
-                        {{ 'mdi:window-open-variant' if is_state(entity, 'on')
-                        else 'mdi:window-closed-variant' }}
-                      icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
-                    - type: template
-                      entity: binary_sensor.hudsons_east_window_contact
-                      content: 'E: {{ ''Open'' if is_state(entity, ''on'') else ''Closed'' }}'
-                      icon: >-
-                        {{ 'mdi:window-open-variant' if is_state(entity, 'on')
-                        else 'mdi:window-closed-variant' }}
-                      icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
+                        {% if
+                        is_state('binary_sensor.hudson_north_window_lr_contact',
+                        'on') or
+                        is_state('binary_sensor.hudsons_east_window_contact',
+                        'on') %}
+                          mdi:window-open-variant
+                        {% else %}
+                          mdi:window-closed-variant
+                        {% endif %}
+                      icon_color: >-
+                        {% if
+                        is_state('binary_sensor.hudson_north_window_lr_contact',
+                        'on') or
+                        is_state('binary_sensor.hudsons_east_window_contact',
+                        'on') %}
+                          red
+                        {% else %}
+                          green
+                        {% endif %}
+                      content: >-
+                        {% set n =
+                        is_state('binary_sensor.hudson_north_window_lr_contact',
+                        'on') %} {% set e =
+                        is_state('binary_sensor.hudsons_east_window_contact',
+                        'on') %} {% if n and e %}
+                          Both Open
+                        {% elif n %}
+                          N Open
+                        {% elif e %}
+                          E Open
+                        {% else %}
+                          Closed
+                        {% endif %}
                 - type: horizontal-stack
                   cards:
                     - type: custom:mushroom-template-card
@@ -1741,9 +1922,10 @@ views:
                         style: |
                           :host { flex: 1 1 70% !important; }
                 - type: custom:mushroom-cover-card
-                  entity: cover.hudson_shades_37
+                  entity: cover.hudson_shades_all_homekit
                   name: Blinds
                   show_position_control: true
+                  show_buttons_control: true
                 - type: custom:mini-media-player
                   entity: media_player.hudson_display
                   name: Hudson's Mini
@@ -1825,9 +2007,10 @@ views:
                         style: |
                           :host { flex: 1 1 70% !important; }
                 - type: custom:mushroom-cover-card
-                  entity: cover.blinds_savannah_north_33
+                  entity: cover.savannah_blinds_homekit
                   name: Blinds
                   show_position_control: true
+                  show_buttons_control: true
                 - type: custom:mini-media-player
                   entity: media_player.savannah_display
                   name: Savannah's Mini
@@ -1873,9 +2056,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; 
+              backdrop-filter: blur(12px); 
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -1934,6 +2119,28 @@ views:
                   name: Yard Alerts
                   tap_action:
                     action: toggle
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                title: Low Battery Warnings
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: rgba(255, 0, 0, 0.1); /* Subtle red tint to indicate an alert */
+                      border-radius: 12px;
+                      border: 1px solid rgba(255, 0, 0, 0.3);
+                    }
+              filter:
+                include:
+                  - entity_id: sensor.*_battery
+                    state: <= 30
+                exclude:
+                  - state: unavailable
+                  - state: unknown
+              sort:
+                method: state
+                numeric: true
       - type: custom:decluttering-card
         template: global_calendar
         view_layout:
@@ -1972,9 +2179,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+              backdrop-filter: blur(12px); /* The frosted glass magic */
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -2098,9 +2307,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+              backdrop-filter: blur(12px); /* The frosted glass magic */
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -2171,9 +2382,11 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(150, 150, 150, 0.05); 
+              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+              backdrop-filter: blur(12px); /* The frosted glass magic */
+              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.1); 
+              border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
             }
         card:
@@ -2186,8 +2399,8 @@ views:
             - type: energy-sources-table
             - type: energy-grid-neutrality-gauge
             - type: energy-solar-consumed-gauge
+            - type: energy-gas-graph
             - type: energy-water-graph-card
-            - type: energy-gas-graph-card
       - type: custom:decluttering-card
         template: global_calendar
         view_layout:
