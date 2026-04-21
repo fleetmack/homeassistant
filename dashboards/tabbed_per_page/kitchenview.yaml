@@ -9,7 +9,7 @@ layout:
     "sidebar main calendar"
   grid-gap: 10px
 background:
-  opacity: 100
+  opacity: 50
   alignment: center
   size: cover
   repeat: repeat
@@ -32,9 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+          backdrop-filter: blur(12px); /* The frosted glass magic */
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
@@ -66,6 +68,7 @@ cards:
           cards:
             - type: custom:mushroom-light-card
               entity: light.kitchen_cabinets
+              icon: mdi:led-strip-variant
               name: Cabinets
               use_light_color: true
               show_brightness_control: true
@@ -81,7 +84,7 @@ cards:
               cards:
                 - type: custom:mushroom-template-card
                   entity: light.kitchen_island_pendants
-                  icon: mdi:power
+                  icon: mdi:ceiling-light-multiple
                   icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
                   layout: vertical
                   tap_action:
@@ -90,12 +93,15 @@ cards:
                     style: |
                       :host { flex: 0 0 30% !important; }
                       ha-card { 
-                        border-right: 1px solid rgba(255,255,255,0.1) !important;
+                        /* The only border we want is this right-side divider */
+                        border-right: 1px solid var(--divider-color, rgba(0,0,0,0.1)) !important;
+                        border-top: none !important;
+                        border-bottom: none !important;
+                        border-left: none !important;
+                        box-shadow: none !important;
                         height: 106px !important;
                         background: none !important;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
+                        border-radius: 0px !important;
                       }
                 - type: custom:mushroom-template-card
                   entity: light.kitchen_pendants_2
@@ -109,17 +115,19 @@ cards:
                     style: |
                       :host { flex: 1 1 70% !important; }
                       ha-card { 
+                        border: none !important;
+                        box-shadow: none !important;
                         height: 106px !important;
                         background: none !important;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
                       }
               card_mod:
                 style: |
                   ha-card { 
-                    border: 1px solid var(--divider-color) !important;
+                    border: none !important; 
                     height: 106px !important;
+                    background: var(--ha-card-background, white) !important;
+                    box-shadow: none !important;
+                    border-radius: 12px !important; /* Matches the roundness of the 'Cabinets' card */
                   }
         - type: grid
           columns: 3
@@ -127,6 +135,7 @@ cards:
           cards:
             - type: custom:mushroom-light-card
               entity: light.kitchen_table_chandelier
+              icon: mdi:chandelier
               name: Chandelier
             - type: custom:mushroom-light-card
               entity: light.kitchen_island_ceiling_lights
@@ -134,7 +143,7 @@ cards:
             - type: custom:mushroom-entity-card
               entity: switch.pantry_and_cubbie
               name: Pantry
-              icon: mdi:door-open
+              icon: mdi:food
               tap_action:
                 action: toggle
         - type: custom:mushroom-title-card
@@ -158,27 +167,35 @@ cards:
               entity: light.upstairs_lights
               name: Upstairs
         - type: custom:mini-media-player
-          entity: media_player.living_room_sonos
-          artwork: material
+          entity: media_player.living_room_arc
+          artwork: cover
           hide:
             power: true
             icon: false
+          card_mod:
+            style: |
+              ha-card {
+                background: rgba(0, 0, 0, 0.2); /* Slight tint so text stays legible when art isn't playing */
+              }
         - type: grid
           columns: 3
           square: false
           cards:
             - type: custom:mushroom-cover-card
-              entity: cover.living_room_shades_12
+              entity: cover.living_room_shades_all_homekit
               name: Living Shades
               show_position_control: true
+              show_buttons_control: true
             - type: custom:mushroom-cover-card
-              entity: cover.kitchen_shades_21
+              entity: cover.kitchen_shades_all_homekit
               name: Kitchen Shades
               show_position_control: true
+              show_buttons_control: true
             - type: custom:mushroom-cover-card
-              entity: cover.piano_shades_17
+              entity: cover.piano_shades_all_homekit
               name: Piano Shades
               show_position_control: true
+              show_buttons_control: true
   - type: custom:decluttering-card
     template: global_calendar
     view_layout:
