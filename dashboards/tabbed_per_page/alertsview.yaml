@@ -32,9 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; 
+          backdrop-filter: blur(12px); 
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
@@ -93,6 +95,28 @@ cards:
               name: Yard Alerts
               tap_action:
                 action: toggle
+        - type: custom:auto-entities
+          show_empty: false
+          card:
+            type: entities
+            title: Low Battery Warnings
+            card_mod:
+              style: |
+                ha-card {
+                  background: rgba(255, 0, 0, 0.1); /* Subtle red tint to indicate an alert */
+                  border-radius: 12px;
+                  border: 1px solid rgba(255, 0, 0, 0.3);
+                }
+          filter:
+            include:
+              - entity_id: sensor.*_battery
+                state: <= 30
+            exclude:
+              - state: unavailable
+              - state: unknown
+          sort:
+            method: state
+            numeric: true
   - type: custom:decluttering-card
     template: global_calendar
     view_layout:
