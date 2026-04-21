@@ -32,9 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+          backdrop-filter: blur(12px); /* The frosted glass magic */
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
@@ -116,9 +118,10 @@ cards:
                     style: |
                       :host { flex: 1 1 70% !important; }
             - type: custom:mushroom-cover-card
-              entity: cover.blinds_claire_north_35
+              entity: cover.claire_blinds_homekit
               name: Blinds
               show_position_control: true
+              show_buttons_control: true
             - type: custom:mini-media-player
               entity: media_player.claire_display
               name: Claire's Mini
@@ -145,19 +148,40 @@ cards:
                     {% set t = states(entity) | float(0) %} {% if t > 75 %} red
                     {% elif t < 60 %} blue {% else %} black {% endif %}
                 - type: template
-                  entity: binary_sensor.hudson_north_window_lr_contact
-                  content: "N: {{ 'Open' if is_state(entity, 'on') else 'Closed' }}"
                   icon: >-
-                    {{ 'mdi:window-open-variant' if is_state(entity, 'on') else
-                    'mdi:window-closed-variant' }}
-                  icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
-                - type: template
-                  entity: binary_sensor.hudsons_east_window_contact
-                  content: "E: {{ 'Open' if is_state(entity, 'on') else 'Closed' }}"
-                  icon: >-
-                    {{ 'mdi:window-open-variant' if is_state(entity, 'on') else
-                    'mdi:window-closed-variant' }}
-                  icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                    {% if
+                    is_state('binary_sensor.hudson_north_window_lr_contact',
+                    'on') or
+                    is_state('binary_sensor.hudsons_east_window_contact', 'on')
+                    %}
+                      mdi:window-open-variant
+                    {% else %}
+                      mdi:window-closed-variant
+                    {% endif %}
+                  icon_color: >-
+                    {% if
+                    is_state('binary_sensor.hudson_north_window_lr_contact',
+                    'on') or
+                    is_state('binary_sensor.hudsons_east_window_contact', 'on')
+                    %}
+                      red
+                    {% else %}
+                      green
+                    {% endif %}
+                  content: >-
+                    {% set n =
+                    is_state('binary_sensor.hudson_north_window_lr_contact',
+                    'on') %} {% set e =
+                    is_state('binary_sensor.hudsons_east_window_contact', 'on')
+                    %} {% if n and e %}
+                      Both Open
+                    {% elif n %}
+                      N Open
+                    {% elif e %}
+                      E Open
+                    {% else %}
+                      Closed
+                    {% endif %}
             - type: horizontal-stack
               cards:
                 - type: custom:mushroom-template-card
@@ -207,9 +231,10 @@ cards:
                     style: |
                       :host { flex: 1 1 70% !important; }
             - type: custom:mushroom-cover-card
-              entity: cover.hudson_shades_37
+              entity: cover.hudson_shades_all_homekit
               name: Blinds
               show_position_control: true
+              show_buttons_control: true
             - type: custom:mini-media-player
               entity: media_player.hudson_display
               name: Hudson's Mini
@@ -291,9 +316,10 @@ cards:
                     style: |
                       :host { flex: 1 1 70% !important; }
             - type: custom:mushroom-cover-card
-              entity: cover.blinds_savannah_north_33
+              entity: cover.savannah_blinds_homekit
               name: Blinds
               show_position_control: true
+              show_buttons_control: true
             - type: custom:mini-media-player
               entity: media_player.savannah_display
               name: Savannah's Mini
