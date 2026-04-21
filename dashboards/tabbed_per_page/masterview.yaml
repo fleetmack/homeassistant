@@ -32,9 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+          backdrop-filter: blur(12px); /* The frosted glass magic */
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
@@ -79,12 +81,13 @@ cards:
               tap_action:
                 action: toggle
         - type: custom:mushroom-cover-card
-          entity: cover.master_shades_42
+          entity: cover.master_shades_all_homekit
           name: Master Shades
           show_position_control: true
+          show_buttons_control: true
         - type: custom:mini-media-player
           entity: media_player.bedroom_playbar_sonos
-          artwork: material
+          artwork: cover
           hide:
             power: true
   - type: custom:decluttering-card
