@@ -2,11 +2,11 @@ title: Energy
 path: energy
 type: custom:grid-layout
 layout:
-  grid-template-columns: 260px 1fr 300px
+  grid-template-columns: 260px 1fr
   grid-template-rows: auto 1fr
   grid-template-areas: |
-    "header header header"
-    "sidebar main calendar"
+    "header header"
+    "sidebar main"
   grid-gap: 10px
 background:
   opacity: 100
@@ -32,24 +32,108 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
-      type: vertical-stack
+      type: grid
+      columns: 1
+      square: false
       cards:
+        - type: custom:mushroom-chips-card
+          alignment: center
+          card_mod:
+            style: >
+              ha-card { --chip-box-shadow: none; --chip-background: none;
+              border: none; }
+          chips:
+            - type: template
+              icon: mdi:lightning-bolt
+              icon_color: amber
+              content: >
+                {% set imp_off =
+                states('sensor.daily_electric_import_off_peak_cost') | float(0)
+                %} {% set imp_on =
+                states('sensor.daily_electric_import_on_peak_cost') | float(0)
+                %} Elec: ${{ (imp_off + imp_on) | round(2) }}
+            - type: template
+              icon: mdi:solar-power
+              icon_color: green
+              content: >
+                {% set exp_off = states('sensor.daily_solar_export_off_peak') |
+                float(0) %} {% set exp_on =
+                states('sensor.daily_solar_export_on_peak') | float(0) %} Sold:
+                ${{ (exp_off + exp_on) | round(2) }}
+            - type: template
+              icon: mdi:bank-transfer
+              icon_color: blue
+              content: >
+                {% set imp_off =
+                states('sensor.daily_electric_import_off_peak_cost') | float(0)
+                %} {% set imp_on =
+                states('sensor.daily_electric_import_on_peak_cost') | float(0)
+                %} {% set exp_off = states('sensor.daily_solar_export_off_peak')
+                | float(0) %} {% set exp_on =
+                states('sensor.daily_solar_export_on_peak') | float(0) %} {% set
+                net = (imp_off + imp_on) - (exp_off + exp_on) %} Net: ${{ net |
+                round(2) }}
+            - type: template
+              icon: mdi:fire
+              icon_color: orange
+              content: >
+                {% set gas = states('sensor.daily_gas_cost') | float(0) %} Gas:
+                ${{ gas | round(2) }}
+            - type: template
+              icon: mdi:water
+              icon_color: blue
+              content: >
+                {% set w1 = states('sensor.daily_water_cost_tier_1') | float(0)
+                %} {% set w2 = states('sensor.daily_water_cost_tier_2') |
+                float(0) %} {% set w3 = states('sensor.daily_water_cost_tier_3')
+                | float(0) %} Water: ${{ (w1 + w2 + w3) | round(2) }}
+        - type: grid
+          columns: 3
+          square: false
+          cards:
+            - type: energy-grid-neutrality-gauge
+            - type: energy-solar-consumed-gauge
+            - type: energy-self-sufficiency-gauge
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: vertical-stack
+              cards:
+                - type: energy-distribution
+                  link_dashboard: false
+                - type: energy-usage-graph
+                  card_mod:
+                    style: |
+                      ha-card {
+                        --primary-text-color: #e1e1e1 !important;
+                        --secondary-text-color: #bdbdbd !important;
+                      }
+            - type: energy-sources-table
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: energy-gas-graph
+              card_mod:
+                style: |
+                  ha-card {
+                    --primary-text-color: #e1e1e1 !important;
+                    --secondary-text-color: #bdbdbd !important;
+                  }
+            - type: energy-water-graph
+              card_mod:
+                style: |
+                  ha-card {
+                    --primary-text-color: #e1e1e1 !important;
+                    --secondary-text-color: #bdbdbd !important;
+                  }
         - type: energy-date-selection
-        - type: energy-distribution
-          link_dashboard: false
-        - type: energy-usage-graph
-        - type: energy-sources-table
-        - type: energy-grid-neutrality-gauge
-        - type: energy-solar-consumed-gauge
-        - type: energy-water-graph-card
-        - type: energy-gas-graph-card
-  - type: custom:decluttering-card
-    template: global_calendar
-    view_layout:
-      grid-area: calendar
