@@ -32,9 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+          backdrop-filter: blur(12px); /* The frosted glass magic */
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
@@ -62,13 +64,27 @@ cards:
             - type: picture-entity
               entity: camera.garage_low_resolution_channel
               camera_view: live
-              name: Garage
+              show_state: false
+              show_name: false
               tap_action:
                 action: more-info
               card_mod:
-                style: >
-                  ha-card { height: 120px !important; overflow: hidden;
-                  border-radius: 12px; }
+                style: |
+                  ha-card { 
+                    border-radius: 12px; 
+                    overflow: hidden;
+                    background: none !important;
+                    box-shadow: none !important;
+                    border: none !important;
+                  }
+                  .footer {
+                    display: none !important; /* This hides the semi-transparent bottom bar */
+                  }
+                  hui-image img {
+                    object-fit: cover !important;
+                    height: 100% !important;
+                    width: 100% !important;
+                  }
             - type: vertical-stack
               cards:
                 - type: custom:mushroom-light-card
@@ -82,19 +98,21 @@ cards:
                     - type: custom:mushroom-lock-card
                       entity: lock.garage_house_lock
                       name: House
+                      layout: vertical
                     - type: custom:mushroom-lock-card
                       entity: lock.reliable_garage_yard_lock
                       name: Yard
+                      layout: vertical
         - type: custom:mushroom-title-card
           subtitle: Audio
         - type: custom:mini-media-player
           entity: media_player.garage_sonos_play1_tools
           name: Sonos Tools
-          artwork: material
+          artwork: cover
         - type: custom:mini-media-player
           entity: media_player.newly
           name: Sonos Door
-          artwork: material
+          artwork: cover
   - type: custom:decluttering-card
     template: global_calendar
     view_layout:
