@@ -32,9 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+          backdrop-filter: blur(12px); /* The frosted glass magic */
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
@@ -46,9 +48,10 @@ cards:
           cards:
             - type: custom:mushroom-template-card
               entity: light.office_lights
-              icon: mdi:power
+              primary: Office On/Off
+              icon: mdi:ceiling-light-multiple
               icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
-              layout: vertical
+              layout: horizontal
               tap_action:
                 action: toggle
               card_mod:
@@ -78,18 +81,20 @@ cards:
         - type: custom:mushroom-light-card
           entity: light.hue_office_monitors_lights
           name: Monitors
+          icon: mdi:monitor
           use_light_color: true
           show_brightness_control: true
           show_color_control: true
           show_color_temp_control: true
           collapsible_controls: true
         - type: custom:mushroom-cover-card
-          entity: cover.office_shades_7
+          entity: cover.office_shades_all_homekit
           name: Office Shades
           show_position_control: true
+          show_buttons_control: true
         - type: custom:mini-media-player
           entity: media_player.den
-          artwork: material
+          artwork: cover
   - type: custom:decluttering-card
     template: global_calendar
     view_layout:
