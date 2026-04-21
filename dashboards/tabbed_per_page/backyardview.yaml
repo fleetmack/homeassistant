@@ -32,9 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; 
+          backdrop-filter: blur(12px); 
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
@@ -58,58 +60,99 @@ cards:
             - type: picture-entity
               entity: camera.back_porch_low_resolution_channel
               camera_view: live
-              name: Back Porch
+              show_name: false
+              show_state: false
               tap_action:
                 action: more-info
               card_mod:
-                style: >
-                  ha-card { height: 120px !important; overflow: hidden;
-                  border-radius: 12px; }
+                style: |
+                  ha-card { 
+                    height: 120px !important; 
+                    overflow: hidden;
+                    border-radius: 12px; 
+                    background: none !important; 
+                  }
+                  .footer { display: none !important; }
+                  hui-image img { 
+                    object-fit: cover !important; 
+                    height: 120px !important; 
+                  }
             - type: picture-entity
               entity: camera.fountain_low_resolution_channel
               camera_view: live
-              name: Fountain
+              show_name: false
+              show_state: false
               tap_action:
                 action: more-info
               card_mod:
-                style: >
-                  ha-card { height: 120px !important; overflow: hidden;
-                  border-radius: 12px; }
+                style: |
+                  ha-card { 
+                    height: 120px !important; 
+                    overflow: hidden;
+                    border-radius: 12px; 
+                    background: none !important; 
+                  }
+                  .footer { display: none !important; }
+                  hui-image img { 
+                    object-fit: cover !important; 
+                    height: 120px !important; 
+                  }
             - type: picture-entity
               entity: camera.playground_low_resolution_channel
               camera_view: live
-              name: Playground
+              show_name: false
+              show_state: false
               tap_action:
                 action: more-info
               card_mod:
-                style: >
-                  ha-card { height: 120px !important; overflow: hidden;
-                  border-radius: 12px; }
+                style: |
+                  ha-card { 
+                    height: 120px !important; 
+                    overflow: hidden;
+                    border-radius: 12px; 
+                    background: none !important; 
+                  }
+                  .footer { display: none !important; }
+                  hui-image img { 
+                    object-fit: cover !important; 
+                    height: 120px !important; 
+                  }
         - type: picture-entity
-          entity: camera.alley_duo_high_resolution_channel
+          entity: camera.alley_wide_onvif_profile001_substream
           camera_view: live
-          name: Alley Wide
+          show_name: false
+          show_state: false
           tap_action:
             action: more-info
           card_mod:
-            style: >
-              ha-card { height: 120px !important; overflow: hidden;
-              border-radius: 12px; }
+            style: |
+              ha-card { 
+                height: 120px !important; 
+                overflow: hidden; 
+                border-radius: 12px; 
+                background: none !important; 
+                margin-top: 4px; 
+              }
+              .footer { display: none !important; }
+              hui-image img { 
+                object-fit: cover !important; 
+                height: 120px !important; 
+              }
         - type: custom:mushroom-title-card
           title: Backyard & Alley
         - type: horizontal-stack
           cards:
             - type: custom:mushroom-template-card
               entity: light.backyard_garage_lights_lr
-              primary: Garage
-              icon: mdi:power
+              primary: Garage Sconce On/Off
+              icon: mdi:garage-variant
               icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
               layout: horizontal
               tap_action:
                 action: toggle
               card_mod:
                 style: |
-                  :host { flex: 0 0 20% !important; }
+                  :host { flex: 0 0 25% !important; }
                   ha-card { height: 100%; }
             - type: custom:mushroom-light-card
               entity: light.alley_and_backyard_sconce_lights
@@ -123,20 +166,20 @@ cards:
                 action: none
               card_mod:
                 style: |
-                  :host { flex: 1 1 80% !important; }
+                  :host { flex: 1 1 75% !important; }
         - type: horizontal-stack
           cards:
             - type: custom:mushroom-template-card
               entity: light.fence_lights
-              primary: Fence
-              icon: mdi:power
+              primary: Fence On/Off
+              icon: mdi:fence
               icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
               layout: horizontal
               tap_action:
                 action: toggle
               card_mod:
                 style: |
-                  :host { flex: 0 0 20% !important; }
+                  :host { flex: 0 0 25% !important; }
                   ha-card { height: 100%; }
             - type: custom:mushroom-light-card
               entity: light.fence_lights
@@ -150,20 +193,20 @@ cards:
                 action: none
               card_mod:
                 style: |
-                  :host { flex: 1 1 80% !important; }
+                  :host { flex: 1 1 75% !important; }
         - type: horizontal-stack
           cards:
             - type: custom:mushroom-template-card
               entity: light.pergola_lights_new
-              primary: Pergola
-              icon: mdi:power
+              primary: Pergola On/Off
+              icon: mdi:string-lights
               icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
               layout: horizontal
               tap_action:
                 action: toggle
               card_mod:
                 style: |
-                  :host { flex: 0 0 20% !important; }
+                  :host { flex: 0 0 25% !important; }
                   ha-card { height: 100%; }
             - type: custom:mushroom-light-card
               entity: light.pergola_lights_new
@@ -177,20 +220,20 @@ cards:
                 action: none
               card_mod:
                 style: |
-                  :host { flex: 1 1 80% !important; }
+                  :host { flex: 1 1 75% !important; }
         - type: horizontal-stack
           cards:
             - type: custom:mushroom-template-card
               entity: light.playset_lights
-              primary: Playset
-              icon: mdi:power
+              primary: Playset On/Off
+              icon: mdi:slide
               icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
               layout: horizontal
               tap_action:
                 action: toggle
               card_mod:
                 style: |
-                  :host { flex: 0 0 20% !important; }
+                  :host { flex: 0 0 25% !important; }
                   ha-card { height: 100%; }
             - type: custom:mushroom-light-card
               entity: light.playset_lights
@@ -204,7 +247,7 @@ cards:
                 action: none
               card_mod:
                 style: |
-                  :host { flex: 1 1 80% !important; }
+                  :host { flex: 1 1 75% !important; }
         - type: grid
           columns: 2
           square: false
@@ -224,19 +267,19 @@ cards:
         - type: custom:mini-media-player
           entity: media_player.yard_grill_sonos
           name: Grill Sonos
-          artwork: material
+          artwork: cover
           hide:
             power: true
         - type: custom:mini-media-player
           entity: media_player.yard_fire_pit_sonos
           name: Fire Pit Sonos
-          artwork: material
+          artwork: cover
           hide:
             power: true
         - type: custom:mini-media-player
           entity: media_player.yard_playground_sonos
           name: Playground Sonos
-          artwork: material
+          artwork: cover
           hide:
             power: true
   - type: custom:decluttering-card
