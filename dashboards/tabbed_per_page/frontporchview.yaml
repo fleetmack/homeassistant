@@ -32,9 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; 
+          backdrop-filter: blur(12px); 
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
@@ -61,29 +63,75 @@ cards:
                 %}  Last Motion: {{ "Now" if is_state(entity, 'on') else
                 as_timestamp(last) | timestamp_custom('%-I:%M %p') }}
         - type: grid
-          columns: 2
-          square: false
+          columns: 3
+          square: true
           cards:
-            - type: picture-entity
-              entity: camera.frontporch_low_resolution_channel
-              camera_view: live
-              name: Front Porch
-              tap_action:
-                action: more-info
-              card_mod:
-                style: >
-                  ha-card { height: 120px !important; overflow: hidden;
-                  border-radius: 12px; }
             - type: picture-entity
               entity: camera.unifidoorbell_package_camera
               camera_view: live
-              name: Package
+              show_name: false
+              show_state: false
               tap_action:
                 action: more-info
               card_mod:
-                style: >
-                  ha-card { height: 120px !important; overflow: hidden;
-                  border-radius: 12px; }
+                style: |
+                  ha-card { 
+                    border-radius: 12px; 
+                    overflow: hidden;
+                    background: none !important;
+                    box-shadow: none !important;
+                    border: none !important;
+                  }
+                  .footer { display: none !important; }
+                  hui-image img {
+                    object-fit: cover !important;
+                    height: 100% !important;
+                    width: 100% !important;
+                  }
+            - type: picture-entity
+              entity: camera.frontporch_low_resolution_channel
+              camera_view: live
+              show_name: false
+              show_state: false
+              tap_action:
+                action: more-info
+              card_mod:
+                style: |
+                  ha-card { 
+                    border-radius: 12px; 
+                    overflow: hidden; 
+                    background: none !important;
+                    box-shadow: none !important;
+                    border: none !important;
+                  }
+                  .footer { display: none !important; }
+                  hui-image img {
+                    object-fit: cover !important;
+                    height: 100% !important;
+                    width: 100% !important;
+                  }
+            - type: picture-entity
+              entity: camera.side_yard_low_resolution_channel
+              camera_view: live
+              show_name: false
+              show_state: false
+              tap_action:
+                action: more-info
+              card_mod:
+                style: |
+                  ha-card { 
+                    border-radius: 12px; 
+                    overflow: hidden;
+                    background: none !important;
+                    box-shadow: none !important;
+                    border: none !important;
+                  }
+                  .footer { display: none !important; }
+                  hui-image img {
+                    object-fit: cover !important;
+                    height: 100% !important;
+                    width: 100% !important;
+                  }
         - type: grid
           columns: 2
           square: false
@@ -121,9 +169,14 @@ cards:
               show_color_control: true
               show_color_temp_control: true
               collapsible_controls: false
+        - type: custom:mushroom-cover-card
+          entity: cover.entry_blinds_homekit
+          name: Entry Blinds
+          show_position_control: true
+          show_buttons_control: true
         - type: custom:mini-media-player
           entity: media_player.front_porch_sonos_amp
-          artwork: material
+          artwork: cover
           hide:
             power: true
   - type: custom:decluttering-card
