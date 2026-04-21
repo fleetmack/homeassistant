@@ -32,9 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+          backdrop-filter: blur(12px); /* The frosted glass magic */
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
@@ -66,7 +68,7 @@ cards:
               cards:
                 - type: custom:mushroom-template-card
                   entity: switch.basement_lounge_switches
-                  icon: mdi:power
+                  icon: mdi:sofa
                   icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
                   layout: vertical
                   tap_action:
@@ -109,7 +111,7 @@ cards:
               cards:
                 - type: custom:mushroom-template-card
                   entity: switch.basement_play_area_switches
-                  icon: mdi:power
+                  icon: mdi:nintendo-switch
                   icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
                   layout: vertical
                   tap_action:
@@ -139,7 +141,7 @@ cards:
             - type: custom:mushroom-entity-card
               entity: switch.basement_storage_switch
               name: Storage
-              icon: mdi:lightbulb-outline
+              icon: mdi:package-variant-closed
               tap_action:
                 action: toggle
             - type: custom:mushroom-entity-card
@@ -163,12 +165,14 @@ cards:
             - type: custom:mushroom-light-card
               entity: light.basement_tv_strip_inovelli
               name: Lounge TV
+              icon: mdi:television
               use_light_color: true
               show_color_temp_control: true
               show_brightness_control: true
               show_color_control: true
             - type: custom:mushroom-light-card
               entity: light.hue_kids_tv
+              icon: mdi:television
               name: Kids TV
               use_light_color: true
               show_color_temp_control: true
@@ -181,6 +185,7 @@ cards:
             - type: custom:mushroom-light-card
               entity: light.hue_basement_bartop_strip
               name: Under Bar
+              icon: mdi:led-strip-variant
               use_light_color: true
               show_brightness_control: true
               show_color_temp_control: true
@@ -197,7 +202,7 @@ cards:
                   ha-card {
                     height: 106px !important;
                     background-image: url(/local/seahawks_on.jpg) !important;
-                    background-size: cover;
+                    background-size: contain;
                     background-position: center;
                     background-repeat: no-repeat;
                   }
@@ -207,6 +212,7 @@ cards:
           cards:
             - type: custom:mushroom-light-card
               entity: light.lifx_bar_top
+              icon: mdi:led-strip-variant
               name: Top Shelf
               use_light_color: true
               show_color_temp_control: true
@@ -215,6 +221,7 @@ cards:
             - type: custom:mushroom-light-card
               entity: light.lifx_bar_bottom
               name: Bottom Shelf
+              icon: mdi:led-strip-variant
               use_light_color: true
               show_color_temp_control: true
               show_brightness_control: true
@@ -238,7 +245,7 @@ cards:
         - type: custom:mini-media-player
           entity: media_player.basement_beam_sonos
           name: Basement Beam
-          artwork: material
+          artwork: cover
           hide:
             power: true
   - type: custom:decluttering-card
