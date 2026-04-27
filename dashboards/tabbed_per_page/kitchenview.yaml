@@ -62,6 +62,15 @@ cards:
                 states.binary_sensor.kitchen_motion_motion.last_changed %}  
                 Last Motion: {{ "Now" if is_state(entity, 'on') else
                 as_timestamp(last) | timestamp_custom('%-I:%M %p') }}
+            - type: template
+              entity: switch.yard_door_alerts_vs
+              icon: >-
+                {{ 'mdi:alert-box' if is_state(entity, 'on') else
+                'mdi:alert-box-outline' }}
+              content: Yard Alerts
+              icon_color: "{{ 'red' if is_state(entity, 'on') else 'disabled' }}"
+              tap_action:
+                action: toggle
         - type: grid
           columns: 2
           square: false
@@ -93,7 +102,6 @@ cards:
                     style: |
                       :host { flex: 0 0 30% !important; }
                       ha-card { 
-                        /* The only border we want is this right-side divider */
                         border-right: 1px solid var(--divider-color, rgba(0,0,0,0.1)) !important;
                         border-top: none !important;
                         border-bottom: none !important;
@@ -127,7 +135,7 @@ cards:
                     height: 106px !important;
                     background: var(--ha-card-background, white) !important;
                     box-shadow: none !important;
-                    border-radius: 12px !important; /* Matches the roundness of the 'Cabinets' card */
+                    border-radius: 12px !important;
                   }
         - type: grid
           columns: 3
@@ -175,7 +183,7 @@ cards:
           card_mod:
             style: |
               ha-card {
-                background: rgba(0, 0, 0, 0.2); /* Slight tint so text stays legible when art isn't playing */
+                background: rgba(0, 0, 0, 0.2);
               }
         - type: grid
           columns: 3
