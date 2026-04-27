@@ -62,7 +62,7 @@ template:
         unique_id: denver_water_current_price
         unit_of_measurement: "USD/gal"
         state: >
-          {% set usage = states('sensor.denver_water_monthly') | float(0) %}
+          {% set usage = states('sensor.monthly_water_total') | float(0) %}
           {% if usage <= 5000 %}
             0.00302
           {% elif usage <= 20000 %}
@@ -70,6 +70,15 @@ template:
           {% else %}
             0.00725
           {% endif %}
+      # for chip on custom energy dashboard
+      - name: "Today Water Cost"
+        unique_id: today_water_cost
+        unit_of_measurement: "$"
+        device_class: monetary
+        state: >
+          {% set vol = states('sensor.daily_water_total') | float(0) %}
+          {% set price = states('sensor.denver_water_current_price') | float(0) %}
+          {{ (vol * price) | round(2) }}          
 
   # Trigger-based Weather Sensors
   - trigger:
@@ -111,7 +120,18 @@ utility_meter:
     tariffs:
       - off_peak
       - on_peak        
-
+# Water Metrics - Clean slate
+  monthly_water_total:
+    source: sensor.droplet_volume
+    name: Monthly Water Total
+    cycle: monthly
+    offset:
+      days: 12
+# For chip cost on custom energy dashboard  
+  daily_water_total:
+    source: sensor.droplet_volume
+    name: Daily Water Total
+    cycle: daily      
 ## =============================================================================
 ##  EXTERNAL ECOSYSTEMS
 ## =============================================================================
