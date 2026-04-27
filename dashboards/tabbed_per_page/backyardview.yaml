@@ -55,6 +55,15 @@ cards:
               icon_color: orange
               tap_action:
                 action: more-info
+            - type: template
+              entity: switch.yard_door_alerts_vs
+              icon: >-
+                {{ 'mdi:alert-box' if is_state(entity, 'on') else
+                'mdi:alert-box-outline' }}
+              content: Yard Alerts
+              icon_color: "{{ 'red' if is_state(entity, 'on') else 'disabled' }}"
+              tap_action:
+                action: toggle
         - type: horizontal-stack
           cards:
             - type: picture-entity
