@@ -32,11 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(30, 30, 30, 0.3) !important;
+          background: rgba(128, 128, 128, 0.15) !important;
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.15); 
+          border: 1px solid rgba(128, 128, 128, 0.2); 
           padding: 10px; 
         }
     card:
@@ -47,9 +47,27 @@ cards:
         - type: custom:mushroom-chips-card
           alignment: center
           card_mod:
-            style: >
-              ha-card { --chip-box-shadow: none; --chip-background: none;
-              border: none; }
+            style: |
+              ha-card { 
+                --chip-box-shadow: 0px 2px 4px rgba(0,0,0,0.2); 
+                --chip-border-width: 0;
+                border: none;
+                background: none;
+              }
+              /* Dark Mode Tablet Settings */
+              @media (prefers-color-scheme: dark) {
+                mushroom-chip { 
+                  --chip-background: rgba(40, 40, 40, 0.9) !important; 
+                  --primary-text-color: #e1e1e1 !important; 
+                }
+              }
+              /* Light Mode Tablet Settings */
+              @media (prefers-color-scheme: light) {
+                mushroom-chip { 
+                  --chip-background: white !important; 
+                  --primary-text-color: #212121 !important; 
+                }
+              }
           chips:
             - type: template
               icon: mdi:lightning-bolt
@@ -113,9 +131,17 @@ cards:
                 - type: energy-usage-graph
                   card_mod:
                     style: |
-                      ha-card {
-                        --primary-text-color: #e1e1e1 !important;
-                        --secondary-text-color: #bdbdbd !important;
+                      @media (prefers-color-scheme: dark) {
+                        ha-card {
+                          --primary-text-color: #e1e1e1 !important;
+                          --secondary-text-color: #bdbdbd !important;
+                        }
+                      }
+                      @media (prefers-color-scheme: light) {
+                        ha-card {
+                          --primary-text-color: #424242 !important;
+                          --secondary-text-color: #757575 !important;
+                        }
                       }
             - type: energy-sources-table
         - type: grid
@@ -125,15 +151,31 @@ cards:
             - type: energy-gas-graph
               card_mod:
                 style: |
-                  ha-card {
-                    --primary-text-color: #e1e1e1 !important;
-                    --secondary-text-color: #bdbdbd !important;
+                  @media (prefers-color-scheme: dark) {
+                    ha-card {
+                      --primary-text-color: #e1e1e1 !important;
+                      --secondary-text-color: #bdbdbd !important;
+                    }
+                  }
+                  @media (prefers-color-scheme: light) {
+                    ha-card {
+                      --primary-text-color: #424242 !important;
+                      --secondary-text-color: #757575 !important;
+                    }
                   }
             - type: energy-water-graph
               card_mod:
                 style: |
-                  ha-card {
-                    --primary-text-color: #e1e1e1 !important;
-                    --secondary-text-color: #bdbdbd !important;
+                  @media (prefers-color-scheme: dark) {
+                    ha-card {
+                      --primary-text-color: #e1e1e1 !important;
+                      --secondary-text-color: #bdbdbd !important;
+                    }
+                  }
+                  @media (prefers-color-scheme: light) {
+                    ha-card {
+                      --primary-text-color: #424242 !important;
+                      --secondary-text-color: #757575 !important;
+                    }
                   }
         - type: energy-date-selection
