@@ -58,16 +58,18 @@ template:
         unit_of_measurement: "USD"
         state: "{{ (20.91 + 52.92) / 30 }}" # Fixed Monthly / Average Days per Denver Water bill
 
-      - name: "Total Water Cost"
-        unique_id: denver_water_total_cost
-        unit_of_measurement: "$"
-        device_class: monetary
-        state_class: total_increasing
+      - name: "Denver Water Current Price"
+        unique_id: denver_water_current_price
+        unit_of_measurement: "USD/gal"
         state: >
-          {% set t1 = states('sensor.denver_water_monthly_tier_1') | float(0) %}
-          {% set t2 = states('sensor.denver_water_monthly_tier_2') | float(0) %}
-          {% set t3 = states('sensor.denver_water_monthly_tier_3') | float(0) %}
-          {{ (t1 * 0.00302) + (t2 * 0.00544) + (t3 * 0.00725) }}
+          {% set usage = states('sensor.denver_water_monthly') | float(0) %}
+          {% if usage <= 5000 %}
+            0.00302
+          {% elif usage <= 20000 %}
+            0.00544
+          {% else %}
+            0.00725
+          {% endif %}
 
   # Trigger-based Weather Sensors
   - trigger:
@@ -109,18 +111,6 @@ utility_meter:
     tariffs:
       - off_peak
       - on_peak        
-        
-  # Water Metrics - Logic matches 4/2026 Bill
-  denver_water_monthly:
-    source: sensor.droplet_volume
-    name: Denver Water (Monthly)
-    cycle: monthly
-    offset:
-      days: 12
-    tariffs:
-      - tier_1
-      - tier_2
-      - tier_3
 
 ## =============================================================================
 ##  EXTERNAL ECOSYSTEMS
