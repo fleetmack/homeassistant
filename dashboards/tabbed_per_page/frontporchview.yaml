@@ -62,6 +62,15 @@ cards:
                 states.binary_sensor.front_porch_motion_lr_motion.last_changed
                 %}  Last Motion: {{ "Now" if is_state(entity, 'on') else
                 as_timestamp(last) | timestamp_custom('%-I:%M %p') }}
+            - type: template
+              entity: switch.blue_iris_texts_vs
+              icon: >-
+                {{ 'mdi:cellphone' if is_state(entity, 'on') else
+                'mdi:cellphone-basic' }}
+              content: Porch Texts
+              icon_color: "{{ 'red' if is_state(entity, 'on') else 'disabled' }}"
+              tap_action:
+                action: toggle
         - type: grid
           columns: 3
           square: true
