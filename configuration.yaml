@@ -1,0 +1,151 @@
+## =============================================================================
+##  CORE SYSTEM CONFIGURATION
+## =============================================================================
+default_config:
+
+homeassistant:
+  external_url: "https://fleetmack.ddns.net"
+  auth_providers:
+    - type: trusted_networks
+      trusted_networks:
+        - 192.168.1.0/24  
+      allow_bypass_login: true
+    - type: homeassistant
+
+http:
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem  
+
+# Load frontend themes
+frontend:
+  themes: !include_dir_merge_named themes
+
+## =============================================================================
+##  INTEGRATIONS & INCLUDES
+## =============================================================================
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+browser_mod:
+  prefix: "browser_"
+  devices: {}
+
+# Point the UI to the Add-on version of go2rtc
+go2rtc:
+  url: http://127.0.0.1:1984  
+
+## =============================================================================
+##  SENSORS & TEMPLATES
+## =============================================================================
+sensor:
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+
+template:
+  # Static / Calculation Sensors
+  - sensor:
+      - name: "Gas Flow Rate Corrected"
+        unique_id: gas_flow_rate_corrected
+        unit_of_measurement: "ft³/h"
+        device_class: gas
+        state_class: measurement
+        state: "{{ states('sensor.house_gas_meter_gas_flow_rate') }}"
+
+      - name: "Water Fixed Daily Cost"
+        unique_id: water_fixed_daily_cost
+        unit_of_measurement: "USD"
+        state: "{{ (20.91 + 52.92) / 30 }}" # Fixed Monthly / Average Days per Denver Water bill
+
+      - name: "Total Water Cost"
+        unique_id: denver_water_total_cost
+        unit_of_measurement: "$"
+        device_class: monetary
+        state_class: total_increasing
+        state: >
+          {% set t1 = states('sensor.denver_water_monthly_tier_1') | float(0) %}
+          {% set t2 = states('sensor.denver_water_monthly_tier_2') | float(0) %}
+          {% set t3 = states('sensor.denver_water_monthly_tier_3') | float(0) %}
+          {{ (t1 * 0.00302) + (t2 * 0.00544) + (t3 * 0.00725) }}
+
+  # Trigger-based Weather Sensors
+  - trigger:
+      - platform: time_pattern
+        hours: "/1"
+      - platform: homeassistant
+        event: start
+    action:
+      - service: weather.get_forecasts
+        data:
+          type: daily
+        target:
+          entity_id: weather.forecast_home_2
+        response_variable: daily_forecast
+    sensor:
+      - name: "Today Forecast High"
+        unique_id: today_forecast_high
+        state: "{{ daily_forecast['weather.forecast_home_2'].forecast[0].temperature }}"
+        unit_of_measurement: "°F"
+        icon: mdi:thermometer-high
+
+## =============================================================================
+##  UTILITY TRACKING & METERS
+## =============================================================================
+utility_meter:
+  # Energy Metrics
+  xcel_grid_import_monthly:
+    source: sensor.xcel_itron_5_current_summation_delivered_value
+    name: Xcel Grid Import (Monthly)
+    cycle: monthly
+    tariffs:
+      - off_peak
+      - on_peak
+      
+  xcel_grid_export_monthly:
+    source: sensor.xcel_itron_5_current_summation_received_value
+    name: Xcel Grid Export (Monthly)
+    cycle: monthly
+    tariffs:
+      - off_peak
+      - on_peak        
+        
+  # Water Metrics - Logic matches 4/2026 Bill
+  denver_water_monthly:
+    source: sensor.droplet_volume
+    name: Denver Water (Monthly)
+    cycle: monthly
+    offset:
+      days: 12
+    tariffs:
+      - tier_1
+      - tier_2
+      - tier_3
+
+## =============================================================================
+##  EXTERNAL ECOSYSTEMS
+## =============================================================================
+google_assistant:
+  project_id: hassblinds-22558
+  service_account: !include SERVICE_ACCOUNT.json
+  report_state: true
+  expose_by_default: false
+  entity_config:
+    cover.claire_blinds_homekit:
+      expose: true
+    cover.entry_blinds_homekit:
+      expose: true
+    cover.hudson_shades_all_homekit:
+      expose: true
+    cover.kitchen_shades_all_homekit:
+      expose: true
+    cover.living_room_shades_all_homekit:
+      expose: true
+    cover.master_shades_all_homekit:
+      expose: true
+    cover.office_shades_all_homekit:
+      expose: true
+    cover.piano_shades_all_homekit:
+      expose: true
+    cover.savannah_blinds_homekit:
+      expose: true
