@@ -32,56 +32,34 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+          backdrop-filter: blur(12px); /* The frosted glass magic */
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
       type: vertical-stack
       cards:
+        - type: custom:mushroom-chips-card
+          alignment: start
+          chips:
+            - type: template
+              entity: sensor.today_forecast_high
+              icon: mdi:thermometer-chevron-up
+              icon_color: orange
+              content: "Today's High Temp: {{ states(entity) }}°"
         - type: custom:mushroom-title-card
           alignment: center
         - type: grid
           columns: 2
           square: false
           cards:
-            - type: custom:simple-thermostat
-              entity: climate.main_level
-              card_mod:
-                style: >-
-                  ha-card { border-radius: 20px; } .thermostat-state.heat {
-                  background-color: #d32f2f !important; }
-              header:
-                name: Main Floor
-              layout:
-                mode:
-                  headings: false
-              control:
-                hvac:
-                  _name: Mode
-              sensors:
-                - entity: climate.main_level
-                  attribute: current_humidity
-                  name: Humidity
-            - type: custom:simple-thermostat
-              entity: climate.upper_level
-              card_mod:
-                style: >-
-                  ha-card { border-radius: 20px; } .thermostat-state.heat {
-                  background-color: #d32f2f !important; }
-              header:
-                name: Upstairs
-              layout:
-                mode:
-                  headings: false
-              control:
-                hvac:
-                  _name: Mode
-              sensors:
-                - entity: climate.upper_level
-                  attribute: current_humidity
-                  name: Humidity
+            - type: custom:better-thermostat-ui-card
+              entity: climate.bt_t_stat_main_floor
+            - type: custom:better-thermostat-ui-card
+              entity: climate.bt_t_stat_upstairs
         - type: custom:mushroom-title-card
           alignment: center
         - type: markdown
