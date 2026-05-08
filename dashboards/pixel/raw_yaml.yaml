@@ -26,7 +26,6 @@ button_card_templates:
               ? '#4CAF50' 
               : 'var(--paper-item-icon-color)' 
             ]]]
-
 views:
   - title: Mobile Home
     path: mobile
@@ -36,7 +35,6 @@ views:
       grid-template-rows: auto
       grid-gap: 8px
     cards:
-      # SECTION 1: ALARM & HSM STATUS
       - type: vertical-stack
         cards:
           - type: custom:mushroom-chips-card
@@ -45,16 +43,15 @@ views:
               - type: template
                 entity: sensor.virtual_hsm_status_mirror_hsm_status
                 icon: >
-                  {% if is_state(entity, 'disarmed') %} mdi:shield-check {%
-                  elif is_state(entity, 'armedHome') %} mdi:shield-home {%
-                  else %} mdi:shield-lock {% endif %}
-                icon_color: "{{ 'green' if is_state(entity, 'disarmed') else 'orange' }}"
-                content: "Status: {{ states(entity) | capitalize }}"
-
+                  {% if is_state(entity, 'disarmed') %} mdi:shield-check {% elif
+                  is_state(entity, 'armedHome') %} mdi:shield-home {% else %}
+                  mdi:shield-lock {% endif %}
+                icon_color: '{{ ''green'' if is_state(entity, ''disarmed'') else ''orange'' }}'
+                content: 'Status: {{ states(entity) | capitalize }}'
           - type: custom:mushroom-template-card
             entity: switch.vs_alarm_disarm_for_hass
-            primary: "Disarm Alarm"
-            secondary: "Tap to Toggle"
+            primary: Disarm Alarm
+            secondary: Tap to Toggle
             tap_action:
               action: toggle
             card_mod:
@@ -66,7 +63,6 @@ views:
                   background-position: center 15%;
                   border-radius: 12px;
                 }
-
           - type: grid
             columns: 2
             square: false
@@ -87,10 +83,8 @@ views:
                 layout: horizontal
                 tap_action:
                   action: toggle
-
-      # SECTION 2: SYSTEM ALERTS
       - type: custom:mushroom-title-card
-        title: "System Alerts"
+        title: System Alerts
       - type: grid
         columns: 2
         square: false
@@ -115,140 +109,145 @@ views:
             entity: switch.yard_door_alerts_vs
             name: Yard Alerts
             icon: mdi:alert-box
-
-      # SECTION 3: FULL HOME STATUS (RESTORED FORMATTING)
       - type: custom:mushroom-title-card
-        title: "Gates, Locks & Doors"
+        title: Gates, Locks & Doors
       - type: custom:mushroom-chips-card
         alignment: start
         chips:
-          # GATES
           - type: template
             entity: binary_sensor.gate_alley_yard_lr_contact
-            icon: "{{ 'mdi:gate-open' if is_state(entity, 'on') else 'mdi:gate' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            icon: '{{ ''mdi:gate-open'' if is_state(entity, ''on'') else ''mdi:gate'' }}'
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
             content: Alley Gate
           - type: template
             entity: binary_sensor.gate_front_yard_lr_contact
-            icon: "{{ 'mdi:gate-open' if is_state(entity, 'on') else 'mdi:gate' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            icon: '{{ ''mdi:gate-open'' if is_state(entity, ''on'') else ''mdi:gate'' }}'
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
             content: Yard Gate
           - type: template
             entity: binary_sensor.gate_trash_lr_contact
-            icon: "{{ 'mdi:gate-open' if is_state(entity, 'on') else 'mdi:gate' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            icon: '{{ ''mdi:gate-open'' if is_state(entity, ''on'') else ''mdi:gate'' }}'
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
             content: Trash Gate
-          # LOCKS
           - type: template
             entity: lock.front_door_lock
-            icon: "{{ 'mdi:lock-open' if is_state(entity, 'unlocked') else 'mdi:lock' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'unlocked') else 'green' }}"
+            icon: >-
+              {{ 'mdi:lock-open' if is_state(entity, 'unlocked') else 'mdi:lock'
+              }}
+            icon_color: '{{ ''red'' if is_state(entity, ''unlocked'') else ''green'' }}'
             content: Front Lock
           - type: template
             entity: lock.garage_house_lock
-            icon: "{{ 'mdi:lock-open' if is_state(entity, 'unlocked') else 'mdi:lock' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'unlocked') else 'green' }}"
+            icon: >-
+              {{ 'mdi:lock-open' if is_state(entity, 'unlocked') else 'mdi:lock'
+              }}
+            icon_color: '{{ ''red'' if is_state(entity, ''unlocked'') else ''green'' }}'
             content: Mud Lock
           - type: template
             entity: lock.garage_yard_lock
-            icon: "{{ 'mdi:lock-open' if is_state(entity, 'unlocked') else 'mdi:lock' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'unlocked') else 'green' }}"
+            icon: >-
+              {{ 'mdi:lock-open' if is_state(entity, 'unlocked') else 'mdi:lock'
+              }}
+            icon_color: '{{ ''red'' if is_state(entity, ''unlocked'') else ''green'' }}'
             content: Yard Lock
           - type: template
             entity: binary_sensor.kitchen_sliding_door_lock_lr_contact
-            icon: "{{ 'mdi:lock-open' if is_state(entity, 'on') else 'mdi:lock' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            icon: '{{ ''mdi:lock-open'' if is_state(entity, ''on'') else ''mdi:lock'' }}'
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
             content: Slider Lock
-          # DOORS
           - type: template
             entity: binary_sensor.front_door_sensor_contact
-            icon: "{{ 'mdi:door-open' if is_state(entity, 'on') else 'mdi:door-closed' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            icon: >-
+              {{ 'mdi:door-open' if is_state(entity, 'on') else
+              'mdi:door-closed' }}
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
             content: Front Door
           - type: template
             entity: binary_sensor.garage_house_door_sensor_contact
-            icon: "{{ 'mdi:door-open' if is_state(entity, 'on') else 'mdi:door-closed' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            icon: >-
+              {{ 'mdi:door-open' if is_state(entity, 'on') else
+              'mdi:door-closed' }}
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
             content: Mud Door
           - type: template
             entity: binary_sensor.garage_yard_door_sensor_contact
-            icon: "{{ 'mdi:door-open' if is_state(entity, 'on') else 'mdi:door-closed' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            icon: >-
+              {{ 'mdi:door-open' if is_state(entity, 'on') else
+              'mdi:door-closed' }}
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
             content: Yard Door
           - type: template
             entity: binary_sensor.kitching_sliding_door_sensor_contact
-            icon: "{{ 'mdi:door-open' if is_state(entity, 'on') else 'mdi:door-closed' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            icon: >-
+              {{ 'mdi:door-open' if is_state(entity, 'on') else
+              'mdi:door-closed' }}
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
             content: Sliding Door
           - type: template
             entity: binary_sensor.kitchen_screen_door_lr_contact
-            icon: "{{ 'mdi:door-open' if is_state(entity, 'on') else 'mdi:door-closed' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+            icon: >-
+              {{ 'mdi:door-open' if is_state(entity, 'on') else
+              'mdi:door-closed' }}
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
             content: Screen Door
           - type: template
             entity: cover.garage_door_opener_door
-            icon: "{{ 'mdi:garage-open' if is_state(entity, 'open') else 'mdi:garage' }}"
-            icon_color: "{{ 'red' if is_state(entity, 'open') else 'green' }}"
+            icon: >-
+              {{ 'mdi:garage-open' if is_state(entity, 'open') else 'mdi:garage'
+              }}
+            icon_color: '{{ ''red'' if is_state(entity, ''open'') else ''green'' }}'
             content: Garage
-
-      # SECTION 4: APPLIANCE TEMPERATURES
       - type: custom:mushroom-title-card
-        title: "Fridges & Freezers"
+        title: Fridges & Freezers
       - type: custom:mushroom-chips-card
         alignment: start
         chips:
           - type: template
             entity: sensor.keezer_temp_lr_temperature
             icon: mdi:beer
-            icon_color: "{{ 'blue' if states(entity)|float < 42 else 'red' }}"
-            content: "Beer {{ states(entity) }}°"
+            icon_color: '{{ ''blue'' if states(entity)|float < 42 else ''red'' }}'
+            content: Beer {{ states(entity) }}°
           - type: template
             entity: sensor.basement_fridge_temp_sensor_temperature
             icon: mdi:fridge-bottom
-            icon_color: "{{ 'blue' if states(entity)|float < 40 else 'red' }}"
-            content: "Bsmt Fridge {{ states(entity) }}°"
+            icon_color: '{{ ''blue'' if states(entity)|float < 40 else ''red'' }}'
+            content: Bsmt Fridge {{ states(entity) }}°
           - type: template
             entity: sensor.kitchen_fridge_temp_sensor_temperature
             icon: mdi:fridge-outline
-            icon_color: "{{ 'blue' if states(entity)|float < 40 else 'red' }}"
-            content: "Kitch Fridge {{ states(entity) }}°"
+            icon_color: '{{ ''blue'' if states(entity)|float < 40 else ''red'' }}'
+            content: Kitch Fridge {{ states(entity) }}°
           - type: template
             entity: sensor.chest_freezer_temp_temperature
             icon: mdi:snowflake
-            icon_color: "{{ 'blue' if states(entity)|float < 15 else 'red' }}"
-            content: "Chest {{ states(entity) }}°"
+            icon_color: '{{ ''blue'' if states(entity)|float < 15 else ''red'' }}'
+            content: Chest {{ states(entity) }}°
           - type: template
             entity: sensor.kitchen_freezer_lr_temperature
             icon: mdi:snowflake
-            icon_color: "{{ 'blue' if states(entity)|float < 15 else 'red' }}"
-            content: "Kitch Freez {{ states(entity) }}°"
+            icon_color: '{{ ''blue'' if states(entity)|float < 15 else ''red'' }}'
+            content: Kitch Freez {{ states(entity) }}°
           - type: template
             entity: sensor.basement_freezer_lr_temperature
             icon: mdi:snowflake
-            icon_color: "{{ 'blue' if states(entity)|float < 15 else 'red' }}"
-            content: "Bsmt Freez {{ states(entity) }}°"
-
-      # SECTION 5: CLIMATE
+            icon_color: '{{ ''blue'' if states(entity)|float < 15 else ''red'' }}'
+            content: Bsmt Freez {{ states(entity) }}°
       - type: custom:mushroom-title-card
-        title: "Climate"
-      - type: custom:simple-thermostat
-        entity: climate.main_level
+        title: Climate
+      - type: custom:better-thermostat-ui-card
+        entity: climate.bt_t_stat_main_floor
         header:
           name: Main Floor
-      - type: custom:simple-thermostat
-        entity: climate.upper_level
+      - type: custom:better-thermostat-ui-card
+        entity: climate.bt_t_stat_upstairs
         header:
           name: Upstairs
-
-      # SECTION 6: ROOM CONTROLS
       - type: custom:mushroom-title-card
-        title: "Room Controls"
-
-      # Kitchen
+        title: Room Controls
       - type: custom:stack-in-card
         cards:
           - type: custom:mushroom-title-card
-            subtitle: "Kitchen"
+            subtitle: Kitchen
           - type: grid
             columns: 2
             square: false
@@ -261,12 +260,10 @@ views:
                 entity: light.kitchen_island_ceiling_lights
               - type: custom:mushroom-entity-card
                 entity: switch.pantry_and_cubbie
-
-      # Backyard
       - type: custom:stack-in-card
         cards:
           - type: custom:mushroom-title-card
-            subtitle: "Backyard"
+            subtitle: Backyard
           - type: grid
             columns: 2
             square: false
@@ -285,12 +282,10 @@ views:
                 entity: switch.patio_fans
               - type: custom:mushroom-entity-card
                 entity: switch.backyard_fountain
-
-      # Master
       - type: custom:stack-in-card
         cards:
           - type: custom:mushroom-title-card
-            subtitle: "Master"
+            subtitle: Master
           - type: grid
             columns: 2
             square: false
@@ -304,12 +299,10 @@ views:
               - type: custom:mushroom-entity-card
                 entity: switch.master_fan_2
                 name: Fan
-
-      # Kids: Savannah
       - type: custom:stack-in-card
         cards:
           - type: custom:mushroom-title-card
-            subtitle: "Savannah"
+            subtitle: Savannah
           - type: grid
             columns: 2
             square: false
@@ -326,12 +319,10 @@ views:
               - type: custom:mushroom-light-card
                 entity: light.savannah_auxiliary_switch
                 name: Aux
-
-      # Kids: Claire
       - type: custom:stack-in-card
         cards:
           - type: custom:mushroom-title-card
-            subtitle: "Claire"
+            subtitle: Claire
           - type: grid
             columns: 2
             square: false
@@ -348,12 +339,10 @@ views:
               - type: custom:mushroom-entity-card
                 entity: switch.claire_aux_new
                 name: Aux
-
-      # Kids: Hudson
       - type: custom:stack-in-card
         cards:
           - type: custom:mushroom-title-card
-            subtitle: "Hudson"
+            subtitle: Hudson
           - type: grid
             columns: 2
             square: false
