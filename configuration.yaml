@@ -53,11 +53,6 @@ template:
         state_class: measurement
         state: "{{ states('sensor.house_gas_meter_gas_flow_rate') }}"
 
-      - name: "Water Fixed Daily Cost"
-        unique_id: water_fixed_daily_cost
-        unit_of_measurement: "USD"
-        state: "{{ (20.91 + 52.92) / 30 }}" # Fixed Monthly / Average Days per Denver Water bill
-
       - name: "Denver Water Current Price"
         unique_id: denver_water_current_price
         unit_of_measurement: "USD/gal"
@@ -70,6 +65,7 @@ template:
           {% else %}
             0.00725
           {% endif %}
+
       # for chip on custom energy dashboard
       - name: "Today Water Cost"
         unique_id: today_water_cost
@@ -79,6 +75,41 @@ template:
           {% set vol = states('sensor.daily_water_total') | float(0) %}
           {% set price = states('sensor.denver_water_current_price') | float(0) %}
           {{ (vol * price) | round(2) }}          
+
+      # Fixed Water Meter Fee ($20.91 / 32 days) [cite: 252, 233]
+      - name: "Water Meter Fixed Daily"
+        unique_id: water_meter_fixed_daily
+        unit_of_measurement: "USD"
+        state: "{{ (20.91 / 32) | round(4) }}"
+
+      # Fixed Sewer Charge ($52.92 / 32 days) [cite: 258, 233]
+      - name: "Sewer Fixed Daily"
+        unique_id: sewer_fixed_daily
+        unit_of_measurement: "USD"
+        state: "{{ (52.92 / 32) | round(4) }}"
+
+      # Sum of all non-usage utility fees (Electric, Gas, Water, Sewer)
+      - name: "Total Utility Daily Fixed Costs"
+        unique_id: total_utility_daily_fixed_costs
+        unit_of_measurement: "USD"
+        state: >
+          {% set elec_fixed = 10.18 / 30 %}
+          {% set gas_fixed = 11.83 / 30 %}
+          {% set water_fixed = states('sensor.water_meter_fixed_daily') | float(0) %}
+          {% set sewer_fixed = states('sensor.sewer_fixed_daily') | float(0) %}
+          {{ (elec_fixed + gas_fixed + water_fixed + sewer_fixed) | round(2) }}
+
+      # Calculation for the large "Total Utility Cost Today" chip
+      - name: "Total Utility Cost Today"
+        unique_id: total_utility_cost_today
+        unit_of_measurement: "USD"
+        state: >
+          {% set elec = (states('sensor.daily_electric_import_off_peak_cost') | float(0)) + (states('sensor.daily_electric_import_on_peak_cost') | float(0)) %}
+          {% set sold = (states('sensor.daily_solar_export_off_peak') | float(0)) + (states('sensor.daily_solar_export_on_peak') | float(0)) %}
+          {% set gas = states('sensor.daily_gas_cost') | float(0) %}
+          {% set water = states('sensor.today_water_cost') | float(0) %}
+          {% set fixed = states('sensor.total_utility_daily_fixed_costs') | float(0) %}
+          {{ (elec - sold + gas + water + fixed) | round(2) }}
 
   # Trigger-based Weather Sensors
   - trigger:
@@ -120,18 +151,21 @@ utility_meter:
     tariffs:
       - off_peak
       - on_peak        
-# Water Metrics - Clean slate
+
   monthly_water_total:
     source: sensor.droplet_volume
     name: Monthly Water Total
     cycle: monthly
     offset:
       days: 12
-# For chip cost on custom energy dashboard  
+    delta_values: true
+
   daily_water_total:
     source: sensor.droplet_volume
     name: Daily Water Total
-    cycle: daily      
+    cycle: daily
+    delta_values: true
+
 ## =============================================================================
 ##  EXTERNAL ECOSYSTEMS
 ## =============================================================================
