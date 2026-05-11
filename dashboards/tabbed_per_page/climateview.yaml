@@ -32,8 +32,8 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
-          backdrop-filter: blur(12px); /* The frosted glass magic */
+          background: rgba(30, 30, 30, 0.3) !important;
+          backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
           border: 1px solid rgba(255, 255, 255, 0.15); 
@@ -50,18 +50,26 @@ cards:
               icon: mdi:thermometer-chevron-up
               icon_color: orange
               content: "Today's High Temp: {{ states(entity) }}°"
-        - type: custom:mushroom-title-card
-          alignment: center
         - type: grid
           columns: 2
           square: false
           cards:
-            - type: custom:better-thermostat-ui-card
-              entity: climate.bt_t_stat_main_floor
-            - type: custom:better-thermostat-ui-card
-              entity: climate.bt_t_stat_upstairs
-        - type: custom:mushroom-title-card
-          alignment: center
+            - type: thermostat
+              entity: climate.honeywell_t_stat_main_floor
+              features:
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - heat
+                    - cool
+                    - "off"
+            - type: thermostat
+              entity: climate.honeywell_t_stat_upstairs
+              features:
+                - type: climate-hvac-modes
+                  hvac_modes:
+                    - heat
+                    - cool
+                    - "off"
         - type: markdown
           card_mod:
             style: >-
@@ -69,9 +77,9 @@ cards:
               !important; border: none !important; padding: 0px; margin-top:
               -10px; }
           content: >
-            <div style="width: 100%; text-align: center;"> <table style="width:
+            <div style="width: 100%; text-align: center;">  <table style="width:
             450px; margin-left: auto; margin-right: auto; border-collapse:
-            collapse; border: none;">  {% set items = [
+            collapse; border: none;">   {% set items = [
               ('sensor.outside_temperature_temperature','Outdoor Ambient','ext'),
               ('sensor.back_porch_temp_sensor_zigbee_temperature','Back Porch','ext'),
               ('sensor.front_porch_motion_lr_temperature','Front Porch','ext'),
@@ -83,21 +91,21 @@ cards:
               ('sensor.claires_bathroom_door_temperature',"Claire's Room",'int'),
               ('sensor.savannahs_bathroom_door_temperature',"Savi's Room",'int'),
               ('sensor.hudsons_bedroom_door_temperature',"Hud's Room",'int')
-            ] %}  {% for s in items -%} 
-              {% set t = states(s[0]) | float(0) %} 
-              {% set last_ch = relative_time(states[s[0]].last_changed) ~ " ago" if states[s[0]] else "?" %} 
-              {% if s[2] == 'ext' %} 
-                {% set color = 'blue' if t < 40 else ('#4caf50' if t <= 90 else 'purple') %} 
-              {% else %} 
-                {% set color = 'blue' if t < 65 else ('#4caf50' if t <= 74 else 'red') %} 
-              {% endif %} 
-              <tr> 
-                <td style="width: 30px; padding: 6px 0; border: none; text-align: center;"><font color="{{ color }}" style="font-size: 16px;">❄</font></td> 
-                <td style="width: 150px; font-family: monospace; font-size: 13px; border: none; white-space: nowrap; text-align: left;">{{ s[1] }}</td> 
-                <td style="width: 70px; font-family: monospace; font-size: 13px; text-align: left; border: none;"><font color="{{ color }}"><b>{{ "%5.1f"|format(t) }}°</b></font></td> 
-                <td style="font-family: monospace; font-size: 10px; text-align: right; opacity: 0.6; border: none; white-space: nowrap;">{{ last_ch }}</td> 
-              </tr> 
-            {%- endfor %} </table> </div>
+            ] %}   {% for s in items -%}  
+              {% set t = states(s[0]) | float(0) %}  
+              {% set last_ch = relative_time(states[s[0]].last_changed) ~ " ago" if states[s[0]] is defined else "?" %}  
+              {% if s[2] == 'ext' %}  
+                {% set color = 'blue' if t < 40 else ('#4caf50' if t <= 90 else 'purple') %}  
+              {% else %}  
+                {% set color = 'blue' if t < 65 else ('#4caf50' if t <= 74 else 'red') %}  
+              {% endif %}  
+              <tr>  
+                <td style="width: 30px; padding: 6px 0; border: none; text-align: center;"><font color="{{ color }}" style="font-size: 16px;">❄</font></td>  
+                <td style="width: 150px; font-family: monospace; font-size: 13px; border: none; white-space: nowrap; text-align: left;">{{ s[1] }}</td>  
+                <td style="width: 70px; font-family: monospace; font-size: 13px; text-align: left; border: none;"><font color="{{ color }}"><b>{{ "%5.1f"|format(t) }}°</b></font></td>  
+                <td style="font-family: monospace; font-size: 10px; text-align: right; opacity: 0.6; border: none; white-space: nowrap;">{{ last_ch }}</td>  
+              </tr>  
+            {%- endfor %}  </table>  </div>
   - type: custom:decluttering-card
     template: global_calendar
     view_layout:
