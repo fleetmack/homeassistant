@@ -1,0 +1,65 @@
+alias: "HVAC: Smart Shutoff & Restore"
+description: ""
+triggers:
+  - entity_id:
+      - binary_sensor.kitching_sliding_door_sensor_contact
+      - binary_sensor.front_door_sensor_contact
+      - binary_sensor.garage_yard_door_sensor_contact
+    to: "on"
+    for:
+      hours: 0
+      minutes: 30
+      seconds: 0
+    trigger: state
+conditions:
+  - condition: or
+    conditions:
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: climate.honeywell_t_stat_main_floor
+            state: "off"
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: climate.honeywell_t_stat_upstairs
+            state: "off"
+actions:
+  - data:
+      scene_id: hvac_snapshot_before_door_open
+      snapshot_entities:
+        - climate.honeywell_t_stat_main_floor
+        - climate.honeywell_t_stat_upstairs
+    action: scene.create
+  - target:
+      entity_id:
+        - climate.honeywell_t_stat_main_floor
+        - climate.honeywell_t_stat_upstairs
+    data:
+      hvac_mode: "off"
+    action: climate.set_hvac_mode
+  - data:
+      title: HVAC Disabled 🚪
+      message: >-
+        The A/C was turned off because an exterior door was left open for 30
+        minutes.
+    action: notify.notify
+  - wait_for_trigger:
+      - value_template: >
+          {{ is_state('binary_sensor.kitching_sliding_door_sensor_contact',
+          'off') and
+             is_state('binary_sensor.front_door_sensor_contact', 'off') and
+             is_state('binary_sensor.garage_yard_door_sensor_contact', 'off') }}
+        trigger: template
+    timeout: "08:00:00"
+    continue_on_timeout: false
+  - target:
+      entity_id: scene.hvac_snapshot_before_door_open
+    action: scene.turn_on
+  - data:
+      title: HVAC Restored 🌬️
+      message: >-
+        All exterior doors have been closed. The HVAC has resumed its previous
+        schedule.
+    action: notify.notify
+mode: single
