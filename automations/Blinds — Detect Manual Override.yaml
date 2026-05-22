@@ -1,0 +1,30 @@
+alias: Blinds — Detect Manual Override
+description: ""
+triggers:
+  - entity_id:
+      - cover.piano_shades_all_homekit
+      - cover.office_shades_all_homekit
+      - cover.entry_blinds_homekit
+      - cover.living_room_shades_all_homekit
+      - cover.kitchen_shades_all_homekit
+    trigger: state
+conditions:
+  - condition: template
+    value_template: |
+      {{ trigger.to_state.context.parent_id == none }}
+  - condition: state
+    entity_id: input_boolean.blinds_manual_override
+    state: "off"
+actions:
+  - target:
+      entity_id: input_boolean.blinds_manual_override
+    action: input_boolean.turn_on
+  - data:
+      title: 🙌 Blind manual override active
+      message: >
+        Manual blind adjustment detected. Blind automations paused for today and
+        will resume tomorrow.
+    action: notify.send_message
+    target:
+      entity_id: notify.pixel_9_pro
+mode: single
