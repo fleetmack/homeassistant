@@ -1,0 +1,25 @@
+alias: Blinds — Reopen East (Sun on West Side)
+description: ""
+triggers:
+  - entity_id: sun.sun
+    attribute: azimuth
+    above: 200
+    trigger: numeric_state
+conditions:
+  - condition: template
+    value_template: "{{ now().month >= 4 and now().month <= 10 }}"
+  - condition: numeric_state
+    entity_id: sun.sun
+    attribute: elevation
+    above: 5
+  - condition: state
+    entity_id: input_boolean.blinds_manual_override
+    state: "off"
+actions:
+  - target:
+      entity_id:
+        - cover.piano_shades_all_homekit
+        - cover.office_shades_all_homekit
+        - cover.entry_blinds_homekit
+    action: cover.open_cover
+mode: single
