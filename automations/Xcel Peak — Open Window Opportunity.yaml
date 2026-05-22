@@ -1,0 +1,27 @@
+alias: Xcel Peak — Open Window Opportunity
+description: ""
+triggers:
+  - at: "21:00:00"
+    trigger: time
+  - at: "22:00:00"
+    trigger: time
+  - at: "23:00:00"
+    trigger: time
+conditions:
+  - condition: template
+    value_template: "{{ now().month >= 5 and now().month <= 9 }}"
+  - condition: template
+    value_template: >
+      {% set outdoor = states('sensor.outside_temperature_temperature') |
+      float(999) %} {{ outdoor < 70 }}
+actions:
+  - data:
+      title: 🪟 Open windows tonight?
+      message: >
+        It's {{ states('sensor.outside_temperature_temperature') }}°F outside —
+        cooler than indoors. Consider opening windows and skipping the A/C for
+        free overnight cooling. Classic Denver night!
+    action: notify.send_message
+    target:
+      entity_id: notify.pixel_9_pro
+mode: single
