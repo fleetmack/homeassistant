@@ -1,0 +1,33 @@
+alias: Xcel Peak — Pre-cool Start (2pm)
+description: ""
+triggers:
+  - at: "14:00:00"
+    trigger: time
+conditions:
+  - condition: template
+    value_template: "{{ now().month >= 5 and now().month <= 9 }}"
+  - condition: state
+    entity_id: input_boolean.thermostat_manual_override
+    state: "off"
+  - condition: template
+    value_template: >
+      {{ states('climate.honeywell_t_stat_main_floor') == 'cool'  or
+      states('climate.honeywell_t_stat_main_floor') == 'fan_only' }}
+    alias: Only run if A/C is in cooling or fan mode, not heating
+actions:
+  - target:
+      entity_id:
+        - climate.honeywell_t_stat_main_floor
+        - climate.honeywell_t_stat_upstairs
+    data:
+      temperature: 72
+    action: climate.set_temperature
+  - data:
+      title: 🌞 Pre-cooling started
+      message: >
+        House is pre-cooling to 72°F. Peak hours start at 5pm — thermostats will
+        float warm then to maximize solar export.
+    action: notify.send_message
+    target:
+      entity_id: notify.pixel_9_pro
+mode: single
