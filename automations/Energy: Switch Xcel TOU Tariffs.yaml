@@ -1,0 +1,42 @@
+alias: "Energy: Switch Xcel TOU Tariffs"
+description: Shifts the utility meter based on Xcel Colorado 5-9 PM TOU
+triggers:
+  - at: "17:00:00"
+    id: on_peak_start
+    trigger: time
+  - at: "21:00:00"
+    id: off_peak_start
+    trigger: time
+conditions:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: on_peak_start
+        sequence:
+          - target:
+              entity_id:
+                - select.xcel_grid_import_monthly
+                - select.xcel_grid_export_monthly
+            data:
+              option: on_peak
+            action: select.select_option
+      - conditions:
+          - condition: trigger
+            id: off_peak_start
+        sequence:
+          - target:
+              entity_id:
+                - select.xcel_grid_import_monthly
+                - select.xcel_grid_export_monthly
+            data:
+              option: off_peak
+            action: select.select_option
+mode: single
