@@ -1,0 +1,26 @@
+alias: Xcel Peak — Pre-cool Upstairs Boost (1:30pm)
+description: ""
+triggers:
+  - at: "13:30:00"
+    trigger: time
+conditions:
+  - condition: template
+    value_template: "{{ now().month >= 5 and now().month <= 9 }}"
+  - condition: numeric_state
+    entity_id: sensor.outside_temperature_temperature
+    above: 84
+  - condition: state
+    entity_id: input_boolean.thermostat_manual_override
+    state: "off"
+  - condition: template
+    value_template: >
+      {{ states('climate.honeywell_t_stat_upstairs') == 'cool'  or
+      states('climate.honeywell_t_stat_upstairs') == 'fan_only' }}
+    alias: Only run if A/C is in cooling or fan mode, not heating
+actions:
+  - target:
+      entity_id: climate.honeywell_t_stat_upstairs
+    data:
+      temperature: 71
+    action: climate.set_temperature
+mode: single
