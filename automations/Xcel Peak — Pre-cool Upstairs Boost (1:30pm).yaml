@@ -8,10 +8,7 @@ conditions:
     value_template: "{{ now().month >= 5 and now().month <= 9 }}"
   - condition: numeric_state
     entity_id: sensor.outside_temperature_temperature
-    above: 84
-  - condition: state
-    entity_id: input_boolean.thermostat_manual_override
-    state: "off"
+    above: 81
   - condition: template
     value_template: >
       {{ states('climate.honeywell_t_stat_upstairs') == 'cool'  or
