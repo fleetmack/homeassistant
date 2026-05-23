@@ -12,9 +12,6 @@ conditions:
     entity_id: sun.sun
     attribute: elevation
     above: 10
-  - condition: state
-    entity_id: input_boolean.blinds_manual_override
-    state: "off"
 actions:
   - target:
       entity_id:
