@@ -6,9 +6,6 @@ triggers:
 conditions:
   - condition: template
     value_template: "{{ now().month >= 5 and now().month <= 9 }}"
-  - condition: state
-    entity_id: input_boolean.thermostat_manual_override
-    state: "off"
   - condition: template
     value_template: >
       {{ states('climate.honeywell_t_stat_main_floor') == 'cool'  or
