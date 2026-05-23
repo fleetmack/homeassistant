@@ -15,12 +15,12 @@ conditions:
   - condition: state
     entity_id: input_boolean.blinds_manual_override
     state: "off"
-  - condition: template
-    value_template: "{{ now().hour >= 12 and now().hour < 17 }}"
 actions:
   - target:
       entity_id:
+        - cover.kitchen_blinds_kitchen_wl
+        - cover.kitchen_blinds_kitchen_wm
+        - cover.kitchen_blinds_kitchen_wr
         - cover.living_room_shades_all_homekit
-        - cover.kitchen_shades_all_homekit
     action: cover.close_cover
 mode: single
