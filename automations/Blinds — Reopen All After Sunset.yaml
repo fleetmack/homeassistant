@@ -12,7 +12,8 @@ conditions:
     entity_id: input_boolean.blinds_manual_override
     state: "off"
   - condition: template
-    value_template: "{{ now().hour >= 18 }}"
+    value_template: "{{ states('sun.sun') == 'below_horizon' }}"
+    alias: "Only fire at evening sunset, not pre-dawn"
 actions:
   - target:
       entity_id:
