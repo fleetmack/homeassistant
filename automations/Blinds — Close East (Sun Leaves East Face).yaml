@@ -12,16 +12,18 @@ conditions:
     entity_id: sun.sun
     attribute: elevation
     above: 5
-  - condition: state
-    entity_id: input_boolean.blinds_manual_override
-    state: "off"
   - condition: template
     value_template: "{{ now().hour < 13 }}"
 actions:
   - target:
       entity_id:
-        - cover.piano_shades_all_homekit
-        - cover.office_shades_all_homekit
         - cover.entry_blinds_homekit
+        - cover.top_of_stairs
+        - cover.laundy
+        - cover.loft_loft_east_left
+        - cover.loft_loft_east_middle
+        - cover.loft_loft_east_right
+        - cover.piano_blinds_piano_ne
+        - cover.piano_blinds_piano_se
     action: cover.close_cover
 mode: single
