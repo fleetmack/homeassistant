@@ -8,12 +8,9 @@ triggers:
 conditions:
   - condition: template
     value_template: "{{ now().month >= 4 and now().month <= 10 }}"
-  - condition: state
-    entity_id: input_boolean.blinds_manual_override
-    state: "off"
   - condition: template
     value_template: "{{ states('sun.sun') == 'below_horizon' }}"
-    alias: "Only fire at evening sunset, not pre-dawn"
+    alias: Only fire at evening sunset, not pre-dawn
 actions:
   - target:
       entity_id:
