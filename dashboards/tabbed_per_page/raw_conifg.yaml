@@ -2,7 +2,7 @@ button_card_templates:
   sidebar_nav:
     variables:
       path: ''
-    triggers_update: all
+    triggers_update: none
     styles:
       card:
         - height: 80px
@@ -269,7 +269,10 @@ decluttering_templates:
               primary: ''
               secondary: ''
               tap_action:
-                action: toggle
+                action: call-service
+                service: switch.turn_on
+                target:
+                  entity_id: switch.vs_alarm_disarm_for_hass
               card_mod:
                 style: |
                   ha-card {
@@ -297,7 +300,10 @@ decluttering_templates:
                   icon_color: blue
                   layout: horizontal
                   tap_action:
-                    action: toggle
+                    action: call-service
+                    service: switch.turn_on
+                    target:
+                      entity_id: switch.vs_alarm_home_for_hass
                 - type: custom:mushroom-template-card
                   entity: switch.vs_alarm_away_for_hass
                   primary: Away
@@ -305,7 +311,10 @@ decluttering_templates:
                   icon_color: red
                   layout: horizontal
                   tap_action:
-                    action: toggle
+                    action: call-service
+                    service: switch.turn_on
+                    target:
+                      entity_id: switch.vs_alarm_away_for_hass
   global_sidebar:
     card:
       type: vertical-stack
@@ -463,7 +472,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -512,6 +521,15 @@ views:
                     states.binary_sensor.kitchen_motion_motion.last_changed %}  
                     Last Motion: {{ "Now" if is_state(entity, 'on') else
                     as_timestamp(last) | timestamp_custom('%-I:%M %p') }}
+                - type: template
+                  entity: switch.yard_door_alerts_vs
+                  icon: >-
+                    {{ 'mdi:alert-box' if is_state(entity, 'on') else
+                    'mdi:alert-box-outline' }}
+                  content: Yard Alerts
+                  icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''disabled'' }}'
+                  tap_action:
+                    action: toggle
             - type: grid
               columns: 2
               square: false
@@ -543,7 +561,6 @@ views:
                         style: |
                           :host { flex: 0 0 30% !important; }
                           ha-card { 
-                            /* The only border we want is this right-side divider */
                             border-right: 1px solid var(--divider-color, rgba(0,0,0,0.1)) !important;
                             border-top: none !important;
                             border-bottom: none !important;
@@ -577,7 +594,7 @@ views:
                         height: 106px !important;
                         background: var(--ha-card-background, white) !important;
                         box-shadow: none !important;
-                        border-radius: 12px !important; /* Matches the roundness of the 'Cabinets' card */
+                        border-radius: 12px !important;
                       }
             - type: grid
               columns: 3
@@ -625,7 +642,7 @@ views:
               card_mod:
                 style: |
                   ha-card {
-                    background: rgba(0, 0, 0, 0.2); /* Slight tint so text stays legible when art isn't playing */
+                    background: rgba(0, 0, 0, 0.2);
                   }
             - type: grid
               columns: 3
@@ -665,7 +682,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -766,7 +783,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -808,6 +825,22 @@ views:
                   icon_color: orange
                   tap_action:
                     action: more-info
+                - type: template
+                  entity: switch.yard_door_alerts_vs
+                  icon: >-
+                    {{ 'mdi:alert-box' if is_state(entity, 'on') else
+                    'mdi:alert-box-outline' }}
+                  content: Yard Alerts
+                  icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''disabled'' }}'
+                  tap_action:
+                    action: toggle
+                - type: template
+                  entity: switch.vs_pergola_misters
+                  icon: mdi:weather-fog
+                  content: Pergola Misters
+                  icon_color: '{{ ''blue'' if is_state(entity, ''on'') else ''disabled'' }}'
+                  tap_action:
+                    action: toggle
             - type: horizontal-stack
               cards:
                 - type: picture-entity
@@ -851,7 +884,7 @@ views:
                         height: 120px !important; 
                       }
                 - type: picture-entity
-                  entity: camera.playground_low_resolution_channel
+                  entity: camera.g5_turret_ultra_low_resolution_channel
                   camera_view: live
                   show_name: false
                   show_state: false
@@ -871,7 +904,7 @@ views:
                         height: 120px !important; 
                       }
             - type: picture-entity
-              entity: camera.alley_wide_onvif_profile001_substream
+              entity: camera.alleyunifi180_low_resolution_channel
               camera_view: live
               show_name: false
               show_state: false
@@ -1054,7 +1087,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -1073,8 +1106,8 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
-              backdrop-filter: blur(12px); /* The frosted glass magic */
+              background: rgba(30, 30, 30, 0.3) !important;
+              backdrop-filter: blur(12px);
               -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
@@ -1098,12 +1131,21 @@ views:
                     85 else ('blue' if t < 40 else 'green') }}
                   tap_action:
                     action: more-info
+                - type: template
+                  entity: switch.vs_garage_alert
+                  icon: >-
+                    {{ 'mdi:garage-alert' if is_state(entity, 'on') else
+                    'mdi:garage-alert-variant' }}
+                  content: Garage Alerts
+                  icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''disabled'' }}'
+                  tap_action:
+                    action: toggle
             - type: grid
               columns: 2
               square: false
               cards:
                 - type: picture-entity
-                  entity: camera.garage_low_resolution_channel
+                  entity: camera.garageunifig5_low_resolution_channel
                   camera_view: live
                   show_state: false
                   show_name: false
@@ -1117,9 +1159,10 @@ views:
                         background: none !important;
                         box-shadow: none !important;
                         border: none !important;
+                        height: 100%;
                       }
                       .footer {
-                        display: none !important; /* This hides the semi-transparent bottom bar */
+                        display: none !important;
                       }
                       hui-image img {
                         object-fit: cover !important;
@@ -1173,7 +1216,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -1222,6 +1265,15 @@ views:
                     states.binary_sensor.front_porch_motion_lr_motion.last_changed
                     %}  Last Motion: {{ "Now" if is_state(entity, 'on') else
                     as_timestamp(last) | timestamp_custom('%-I:%M %p') }}
+                - type: template
+                  entity: switch.blue_iris_texts_vs
+                  icon: >-
+                    {{ 'mdi:cellphone' if is_state(entity, 'on') else
+                    'mdi:cellphone-basic' }}
+                  content: Porch Texts
+                  icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''disabled'' }}'
+                  tap_action:
+                    action: toggle
             - type: grid
               columns: 3
               square: true
@@ -1358,7 +1410,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -1612,7 +1664,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -1708,7 +1760,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -1727,8 +1779,8 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
-              backdrop-filter: blur(12px); /* The frosted glass magic */
+              background: rgba(30, 30, 30, 0.3) !important;
+              backdrop-filter: blur(12px);
               -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
@@ -1817,6 +1869,13 @@ views:
                   name: Blinds
                   show_position_control: true
                   show_buttons_control: true
+                - type: custom:mini-media-player
+                  entity: media_player.claire
+                  name: Claire's Sonos
+                  artwork: material
+                  hide:
+                    power: true
+                    source: true
                 - type: custom:mini-media-player
                   entity: media_player.claire_display
                   name: Claire's Mini
@@ -1931,6 +1990,13 @@ views:
                   show_position_control: true
                   show_buttons_control: true
                 - type: custom:mini-media-player
+                  entity: media_player.hudson
+                  name: Hudson's Sonos
+                  artwork: material
+                  hide:
+                    power: true
+                    source: true
+                - type: custom:mini-media-player
                   entity: media_player.hudson_display
                   name: Hudson's Mini
                   artwork: material
@@ -2016,6 +2082,13 @@ views:
                   show_position_control: true
                   show_buttons_control: true
                 - type: custom:mini-media-player
+                  entity: media_player.savannah
+                  name: Savannah's Sonos
+                  artwork: material
+                  hide:
+                    power: true
+                    source: true
+                - type: custom:mini-media-player
                   entity: media_player.savannah_display
                   name: Savannah's Mini
                   artwork: material
@@ -2041,7 +2114,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -2164,7 +2237,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -2183,8 +2256,8 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
-              backdrop-filter: blur(12px); /* The frosted glass magic */
+              background: rgba(30, 30, 30, 0.3) !important;
+              backdrop-filter: blur(12px);
               -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
@@ -2201,50 +2274,26 @@ views:
                   icon: mdi:thermometer-chevron-up
                   icon_color: orange
                   content: 'Today''s High Temp: {{ states(entity) }}°'
-            - type: custom:mushroom-title-card
-              alignment: center
             - type: grid
               columns: 2
               square: false
               cards:
-                - type: custom:simple-thermostat
-                  entity: climate.main_level
-                  card_mod:
-                    style: >-
-                      ha-card { border-radius: 20px; } .thermostat-state.heat {
-                      background-color: #d32f2f !important; }
-                  header:
-                    name: Main Floor
-                  layout:
-                    mode:
-                      headings: false
-                  control:
-                    hvac:
-                      _name: Mode
-                  sensors:
-                    - entity: climate.main_level
-                      attribute: current_humidity
-                      name: Humidity
-                - type: custom:simple-thermostat
-                  entity: climate.upper_level
-                  card_mod:
-                    style: >-
-                      ha-card { border-radius: 20px; } .thermostat-state.heat {
-                      background-color: #d32f2f !important; }
-                  header:
-                    name: Upstairs
-                  layout:
-                    mode:
-                      headings: false
-                  control:
-                    hvac:
-                      _name: Mode
-                  sensors:
-                    - entity: climate.upper_level
-                      attribute: current_humidity
-                      name: Humidity
-            - type: custom:mushroom-title-card
-              alignment: center
+                - type: thermostat
+                  entity: climate.honeywell_t_stat_main_floor
+                  features:
+                    - type: climate-hvac-modes
+                      hvac_modes:
+                        - heat
+                        - cool
+                        - 'off'
+                - type: thermostat
+                  entity: climate.honeywell_t_stat_upstairs
+                  features:
+                    - type: climate-hvac-modes
+                      hvac_modes:
+                        - heat
+                        - cool
+                        - 'off'
             - type: markdown
               card_mod:
                 style: >-
@@ -2252,9 +2301,9 @@ views:
                   !important; border: none !important; padding: 0px; margin-top:
                   -10px; }
               content: >
-                <div style="width: 100%; text-align: center;"> <table
+                <div style="width: 100%; text-align: center;">  <table
                 style="width: 450px; margin-left: auto; margin-right: auto;
-                border-collapse: collapse; border: none;">  {% set items = [
+                border-collapse: collapse; border: none;">   {% set items = [
                   ('sensor.outside_temperature_temperature','Outdoor Ambient','ext'),
                   ('sensor.back_porch_temp_sensor_zigbee_temperature','Back Porch','ext'),
                   ('sensor.front_porch_motion_lr_temperature','Front Porch','ext'),
@@ -2266,21 +2315,21 @@ views:
                   ('sensor.claires_bathroom_door_temperature',"Claire's Room",'int'),
                   ('sensor.savannahs_bathroom_door_temperature',"Savi's Room",'int'),
                   ('sensor.hudsons_bedroom_door_temperature',"Hud's Room",'int')
-                ] %}  {% for s in items -%} 
-                  {% set t = states(s[0]) | float(0) %} 
-                  {% set last_ch = relative_time(states[s[0]].last_changed) ~ " ago" if states[s[0]] else "?" %} 
-                  {% if s[2] == 'ext' %} 
-                    {% set color = 'blue' if t < 40 else ('#4caf50' if t <= 90 else 'purple') %} 
-                  {% else %} 
-                    {% set color = 'blue' if t < 65 else ('#4caf50' if t <= 74 else 'red') %} 
-                  {% endif %} 
-                  <tr> 
-                    <td style="width: 30px; padding: 6px 0; border: none; text-align: center;"><font color="{{ color }}" style="font-size: 16px;">❄</font></td> 
-                    <td style="width: 150px; font-family: monospace; font-size: 13px; border: none; white-space: nowrap; text-align: left;">{{ s[1] }}</td> 
-                    <td style="width: 70px; font-family: monospace; font-size: 13px; text-align: left; border: none;"><font color="{{ color }}"><b>{{ "%5.1f"|format(t) }}°</b></font></td> 
-                    <td style="font-family: monospace; font-size: 10px; text-align: right; opacity: 0.6; border: none; white-space: nowrap;">{{ last_ch }}</td> 
-                  </tr> 
-                {%- endfor %} </table> </div>
+                ] %}   {% for s in items -%}  
+                  {% set t = states(s[0]) | float(0) %}  
+                  {% set last_ch = relative_time(states[s[0]].last_changed) ~ " ago" if states[s[0]] is defined else "?" %}  
+                  {% if s[2] == 'ext' %}  
+                    {% set color = 'blue' if t < 40 else ('#4caf50' if t <= 90 else 'purple') %}  
+                  {% else %}  
+                    {% set color = 'blue' if t < 65 else ('#4caf50' if t <= 74 else 'red') %}  
+                  {% endif %}  
+                  <tr>  
+                    <td style="width: 30px; padding: 6px 0; border: none; text-align: center;"><font color="{{ color }}" style="font-size: 16px;">❄</font></td>  
+                    <td style="width: 150px; font-family: monospace; font-size: 13px; border: none; white-space: nowrap; text-align: left;">{{ s[1] }}</td>  
+                    <td style="width: 70px; font-family: monospace; font-size: 13px; text-align: left; border: none;"><font color="{{ color }}"><b>{{ "%5.1f"|format(t) }}°</b></font></td>  
+                    <td style="font-family: monospace; font-size: 10px; text-align: right; opacity: 0.6; border: none; white-space: nowrap;">{{ last_ch }}</td>  
+                  </tr>  
+                {%- endfor %}  </table>  </div>
       - type: custom:decluttering-card
         template: global_calendar
         view_layout:
@@ -2300,7 +2349,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -2375,7 +2424,7 @@ views:
       alignment: center
       size: cover
       repeat: repeat
-      attachment: fixed
+      attachment: scroll
       image:
         media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
         media_content_type: image/jpeg
@@ -2394,74 +2443,78 @@ views:
         card_mod:
           style: |
             ha-card { 
-              background: rgba(30, 30, 30, 0.3) !important;
-              backdrop-filter: blur(12px);
-              -webkit-backdrop-filter: blur(12px);
-              border-radius: 20px;
-              border: 1px solid rgba(255, 255, 255, 0.15); 
-              padding: 10px; 
+              background: rgba(128, 128, 128, 0.1) !important;
+              backdrop-filter: blur(15px);
+              border-radius: 24px;
+              border: 1px solid rgba(255, 255, 255, 0.1); 
+              padding: 10px;
             }
         card:
-          type: grid
-          columns: 1
-          square: false
+          type: vertical-stack
           cards:
-            - type: custom:mushroom-chips-card
-              alignment: center
-              card_mod:
-                style: >
-                  ha-card { --chip-box-shadow: none; --chip-background: none;
-                  border: none; }
-              chips:
-                - type: template
-                  icon: mdi:lightning-bolt
-                  icon_color: amber
-                  content: >
-                    {% set imp_off =
-                    states('sensor.daily_electric_import_off_peak_cost') |
-                    float(0) %} {% set imp_on =
-                    states('sensor.daily_electric_import_on_peak_cost') |
-                    float(0) %} Elec: ${{ (imp_off + imp_on) | round(2) }}
-                - type: template
-                  icon: mdi:solar-power
-                  icon_color: green
-                  content: >
-                    {% set exp_off =
-                    states('sensor.daily_solar_export_off_peak') | float(0) %}
-                    {% set exp_on = states('sensor.daily_solar_export_on_peak')
-                    | float(0) %} Sold: ${{ (exp_off + exp_on) | round(2) }}
-                - type: template
-                  icon: mdi:bank-transfer
-                  icon_color: blue
-                  content: >
-                    {% set imp_off =
-                    states('sensor.daily_electric_import_off_peak_cost') |
-                    float(0) %} {% set imp_on =
-                    states('sensor.daily_electric_import_on_peak_cost') |
-                    float(0) %} {% set exp_off =
-                    states('sensor.daily_solar_export_off_peak') | float(0) %}
-                    {% set exp_on = states('sensor.daily_solar_export_on_peak')
-                    | float(0) %} {% set net = (imp_off + imp_on) - (exp_off +
-                    exp_on) %} Net: ${{ net | round(2) }}
-                - type: template
-                  icon: mdi:fire
-                  icon_color: orange
-                  content: >
-                    {% set gas = states('sensor.daily_gas_cost') | float(0) %}
-                    Gas: ${{ gas | round(2) }}
-                - type: template
-                  icon: mdi:water
-                  icon_color: blue
-                  content: >
-                    {% set w1 = states('sensor.daily_water_cost_tier_1') |
-                    float(0) %} {% set w2 =
-                    states('sensor.daily_water_cost_tier_2') | float(0) %} {%
-                    set w3 = states('sensor.daily_water_cost_tier_3') | float(0)
-                    %} Water: ${{ (w1 + w2 + w3) | round(2) }}
             - type: grid
-              columns: 3
+              columns: 4
               square: false
               cards:
+                - type: markdown
+                  content: >
+                    | Utility | Formula | Fixed | Total |
+
+                    | :--- | :--- | :--- | :--- |
+
+                    | <ha-icon icon="mdi:lightning-bolt"></ha-icon> **Elec** |
+                    ${{
+                    '%.2f'|format(states('sensor.daily_electric_import_off_peak_cost')|float(0)
+                    +
+                    states('sensor.daily_electric_import_on_peak_cost')|float(0))
+                    }} - ${{
+                    '%.2f'|format(states('sensor.daily_solar_export_off_peak')|float(0)
+                    + states('sensor.daily_solar_export_on_peak')|float(0)) }} |
+                    $0.34 | **${{
+                    '%.2f'|format((states('sensor.daily_electric_import_off_peak_cost')|float(0)
+                    +
+                    states('sensor.daily_electric_import_on_peak_cost')|float(0))
+                    - (states('sensor.daily_solar_export_off_peak')|float(0) +
+                    states('sensor.daily_solar_export_on_peak')|float(0)) +
+                    0.34) }}** |
+
+                    | <ha-icon icon="mdi:water"></ha-icon> **Water** | ${{
+                    '%.2f'|format(states('sensor.today_water_cost')|float(0)) }}
+                    + $0.65 | $1.65 | **${{
+                    '%.2f'|format(states('sensor.today_water_cost')|float(0) +
+                    0.65 + 1.65) }}** |
+
+                    | <ha-icon icon="mdi:fire"></ha-icon> **Gas** | ${{
+                    '%.2f'|format(states('sensor.daily_gas_cost')|float(0)) }} |
+                    $0.39 | **${{
+                    '%.2f'|format(states('sensor.daily_gas_cost')|float(0) +
+                    0.39) }}** |
+
+                    | <ha-icon icon="mdi:sigma"></ha-icon> **GRAND** | | | <font
+                    color="{% set total =
+                    states('sensor.total_utility_cost_today')|float(0) %}{% if
+                    total < 8 %}#2ecc71{% elif total <= 10
+                    %}var(--primary-text-color){% else %}#e74c3c{% endif
+                    %}">**${{
+                    '%.2f'|format(states('sensor.total_utility_cost_today')|float(0))
+                    }}**</font> |
+                  card_mod:
+                    style: >
+                      ha-card { 
+                        border: none; 
+                        font-size: 0.85em;
+                        border-radius: 12px;
+                        /* Uses HA internal variables to automatically match theme */
+                        background: var(--card-background-color, inherit) !important;
+                      }
+
+                      table { width: 100%; border-collapse: collapse; }
+
+                      th { text-align: left; color: #bdbdbd; border-bottom: 1px
+                      solid rgba(255,255,255,0.1); padding: 4px; }
+
+                      td { padding: 8px 4px; border-bottom: 1px solid
+                      rgba(255,255,255,0.05); }
                 - type: energy-grid-neutrality-gauge
                 - type: energy-solar-consumed-gauge
                 - type: energy-self-sufficiency-gauge
@@ -2475,11 +2528,14 @@ views:
                       link_dashboard: false
                     - type: energy-usage-graph
                       card_mod:
-                        style: |
-                          ha-card {
-                            --primary-text-color: #e1e1e1 !important;
-                            --secondary-text-color: #bdbdbd !important;
-                          }
+                        style: >
+                          @media (prefers-color-scheme: dark) { ha-card {
+                          --primary-text-color: #e1e1e1 !important;
+                          --secondary-text-color: #bdbdbd !important; } }
+
+                          @media (prefers-color-scheme: light) { ha-card {
+                          --primary-text-color: #424242 !important;
+                          --secondary-text-color: #757575 !important; } }
                 - type: energy-sources-table
             - type: grid
               columns: 2
@@ -2487,16 +2543,22 @@ views:
               cards:
                 - type: energy-gas-graph
                   card_mod:
-                    style: |
-                      ha-card {
-                        --primary-text-color: #e1e1e1 !important;
-                        --secondary-text-color: #bdbdbd !important;
-                      }
+                    style: >
+                      @media (prefers-color-scheme: dark) { ha-card {
+                      --primary-text-color: #e1e1e1 !important;
+                      --secondary-text-color: #bdbdbd !important; } }
+
+                      @media (prefers-color-scheme: light) { ha-card {
+                      --primary-text-color: #424242 !important;
+                      --secondary-text-color: #757575 !important; } }
                 - type: energy-water-graph
                   card_mod:
-                    style: |
-                      ha-card {
-                        --primary-text-color: #e1e1e1 !important;
-                        --secondary-text-color: #bdbdbd !important;
-                      }
+                    style: >
+                      @media (prefers-color-scheme: dark) { ha-card {
+                      --primary-text-color: #e1e1e1 !important;
+                      --secondary-text-color: #bdbdbd !important; } }
+
+                      @media (prefers-color-scheme: light) { ha-card {
+                      --primary-text-color: #424242 !important;
+                      --secondary-text-color: #757575 !important; } }
             - type: energy-date-selection
