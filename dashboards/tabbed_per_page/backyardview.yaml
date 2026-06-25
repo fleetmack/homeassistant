@@ -13,7 +13,7 @@ background:
   alignment: center
   size: cover
   repeat: repeat
-  attachment: fixed
+  attachment: scroll
   image:
     media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
     media_content_type: image/jpeg
@@ -64,6 +64,13 @@ cards:
               icon_color: "{{ 'red' if is_state(entity, 'on') else 'disabled' }}"
               tap_action:
                 action: toggle
+            - type: template
+              entity: switch.vs_pergola_misters
+              icon: mdi:weather-fog
+              content: Pergola Misters
+              icon_color: "{{ 'blue' if is_state(entity, 'on') else 'disabled' }}"
+              tap_action:
+                action: toggle
         - type: horizontal-stack
           cards:
             - type: picture-entity
@@ -107,7 +114,7 @@ cards:
                     height: 120px !important; 
                   }
             - type: picture-entity
-              entity: camera.playground_low_resolution_channel
+              entity: camera.g5_turret_ultra_low_resolution_channel
               camera_view: live
               show_name: false
               show_state: false
@@ -127,7 +134,7 @@ cards:
                     height: 120px !important; 
                   }
         - type: picture-entity
-          entity: camera.alley_wide_onvif_profile001_substream
+          entity: camera.alleyunifi180_low_resolution_channel
           camera_view: live
           show_name: false
           show_state: false
