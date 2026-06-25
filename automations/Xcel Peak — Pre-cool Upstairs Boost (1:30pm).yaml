@@ -4,6 +4,9 @@ triggers:
   - at: "13:30:00"
     trigger: time
 conditions:
+  - condition: state
+    entity_id: input_boolean.hvac_killswitch
+    state: "off"
   - condition: template
     value_template: "{{ now().month >= 5 and now().month <= 9 }}"
   - condition: numeric_state
