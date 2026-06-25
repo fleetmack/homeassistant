@@ -13,7 +13,7 @@ background:
   alignment: center
   size: cover
   repeat: repeat
-  attachment: fixed
+  attachment: scroll
   image:
     media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
     media_content_type: image/jpeg
@@ -50,6 +50,18 @@ cards:
               icon: mdi:thermometer-chevron-up
               icon_color: orange
               content: "Today's High Temp: {{ states(entity) }}°"
+            - type: template
+              entity: input_boolean.hvac_killswitch
+              icon: mdi:power
+              icon_color: >-
+                {{ 'red' if is_state('input_boolean.hvac_killswitch', 'off')
+                else 'green' }}
+              content: >
+                {{ 'Climate: KILLED' if
+                is_state('input_boolean.hvac_killswitch', 'on') else 'Climate:
+                Active' }}
+              tap_action:
+                action: toggle
         - type: grid
           columns: 2
           square: false
