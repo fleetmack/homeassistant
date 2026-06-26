@@ -121,7 +121,6 @@ cards:
                   - border-radius: 12px
                   - background-color: "#004687"
                   - border: 2px solid
-                  - opacity: "0.5"
                 icon:
                   - color: "#BD9B60"
                 name:
@@ -129,7 +128,8 @@ cards:
                   - font-weight: bold
                   - font-size: 13px
               tap_action:
-                action: none
+                action: call-service
+                service: script.royals_lights
         - type: grid
           columns: 2
           square: false
