@@ -22,7 +22,9 @@ actions:
       seahawks_winner: "{{ state_attr('sensor.nfl_seattle_seahawks', 'team_winner') }}"
       holiday_season: "{{ states('sensor.holiday_season') }}"
       active_team: |
-        {% if huskers_state == 'IN' %}
+        {% if active_team is defined %}
+          {{ active_team }}
+        {% elif huskers_state == 'IN' %}
           huskers
         {% elif cyclones_fb_state == 'IN' or cyclones_bb_state == 'IN' %}
           cyclones
