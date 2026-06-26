@@ -21,7 +21,8 @@ SCENES = {
     "default":    {"fence": 3970319, "pergola": 3970321, "playset": 3970317},
     "seahawks":   {"fence": 3970156, "pergola": 3970263, "playset": 1455380},
     "huskers":    {"fence": 3970158, "pergola": 3970264, "playset": 1455422},
-    "cyclones":   {"fence": 3970159, "pergola": 3970265, "playset": 3970306},    
+    "cyclones":   {"fence": 3970159, "pergola": 3970265, "playset": 3970306}, 
+     "royals":     {"fence": 3970160, "pergola": 3970266, "playset": 3970307},
 }
 
 def trigger_snapshot(device_id, sku, value):
