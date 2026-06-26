@@ -182,6 +182,18 @@ cards:
                     border: 2px solid #BD9B60;
                     background: rgba(0, 70, 135, 0.3) !important;
                   }
+            - type: custom:compact-team-tracker
+              entities:
+                - sensor.ncaam_iowa_state_cyclones
+              layout: standard
+              show_league: true
+              card_mod:
+                style: |
+                  ha-card {
+                    border-radius: 12px;
+                    border: 2px solid #F1BE48;
+                    background: rgba(200, 16, 46, 0.3) !important;
+                  }                  
   - type: custom:decluttering-card
     template: global_calendar
     view_layout:
