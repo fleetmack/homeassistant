@@ -391,6 +391,39 @@ cards:
                   entity_id: automation.holiday_lights_apply_season
                   variables:
                     season: default
+            - type: template
+              icon: mdi:football
+              icon_color: "#e31937"
+              content: Huskers
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.sports_lights_game_day
+                  variables:
+                    active_team: huskers
+            - type: template
+              icon: mdi:football
+              icon_color: "#ae192d"
+              content: Cyclones
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.sports_lights_game_day
+                  variables:
+                    active_team: cyclones
+            - type: template
+              icon: mdi:football
+              icon_color: "#002a5c"
+              content: Seahawks
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.sports_lights_game_day
+                  variables:
+                    active_team: seahawks
   - type: custom:decluttering-card
     template: global_calendar
     view_layout:
