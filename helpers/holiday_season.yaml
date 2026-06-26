@@ -30,11 +30,23 @@
 
 {% set jan1_dow = strptime(year ~ '-01-01', '%Y-%m-%d').weekday() %}
 {% set days_to_sun = (6 - jan1_dow) % 7 %}
-{% set first_sun = 1 + days_to_sun %}
-{% set third_sun = first_sun + 14 %}
+{% set third_sun = 1 + days_to_sun + 14 %}
 {% set stock_show_ts = strptime(year ~ '-01-' ~ '%02d' % third_sun, '%Y-%m-%d').timestamp() %}
 {% set stock_show_end = stock_show_ts | timestamp_custom('%m-%d', true) %}
 {% set stock_show_plus1 = (stock_show_ts + 86400) | timestamp_custom('%m-%d', true) %}
+
+{% set may31_dow = strptime(year ~ '-05-31', '%Y-%m-%d').weekday() %}
+{% set memorial_ts = strptime(year ~ '-05-31', '%Y-%m-%d').timestamp() - (86400 * may31_dow) %}
+{% set memorial_str = memorial_ts | timestamp_custom('%m-%d', true) %}
+{% set memorial_minus3 = (memorial_ts - 86400 * 3) | timestamp_custom('%m-%d', true) %}
+{% set memorial_plus1 = (memorial_ts + 86400) | timestamp_custom('%m-%d', true) %}
+
+{% set sep1_dow = strptime(year ~ '-09-01', '%Y-%m-%d').weekday() %}
+{% set days_to_mon = (7 - sep1_dow) % 7 %}
+{% set labor_ts = strptime(year ~ '-09-01', '%Y-%m-%d').timestamp() + (86400 * days_to_mon) %}
+{% set labor_str = labor_ts | timestamp_custom('%m-%d', true) %}
+{% set labor_minus3 = (labor_ts - 86400 * 3) | timestamp_custom('%m-%d', true) %}
+{% set labor_plus1 = (labor_ts + 86400) | timestamp_custom('%m-%d', true) %}
 
 {% if md >= tgiving_plus1 and md <= '12-31' %}
   xmas
@@ -48,6 +60,18 @@
   default
 {% elif md >= tgiving_minus7 and md <= tgiving_str %}
   thanks
+{% elif md >= memorial_minus3 and md <= memorial_str %}
+  rwb
+{% elif md == memorial_plus1 %}
+  default
+{% elif md >= '06-28' and md <= '07-05' %}
+  rwb
+{% elif md == '07-06' %}
+  default
+{% elif md >= labor_minus3 and md <= labor_str %}
+  rwb
+{% elif md == labor_plus1 %}
+  default
 {% elif md >= '02-07' and md <= '02-14' %}
   valentines
 {% elif md == '02-15' %}
