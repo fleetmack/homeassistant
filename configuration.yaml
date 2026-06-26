@@ -25,7 +25,6 @@ frontend:
 ## =============================================================================
 automation: !include automations.yaml
 script: !include scripts.yaml
-scene: !include scenes.yaml
 browser_mod:
   prefix: "browser_"
   devices: {}
@@ -111,6 +110,14 @@ template:
           {% set fixed = states('sensor.total_utility_daily_fixed_costs') | float(0) %}
           {{ (elec - sold + gas + water + fixed) | round(2) }}
 
+## Plant Sensor Extras
+      - name: "Plant Fiddle Leaf Fig Kitchen Soil Moisture"
+        unit_of_measurement: "%"
+        device_class: moisture
+        state_class: measurement
+        state: "{{ states('sensor.plant_fiddle_leaf_fig_kitchen_humidity') }}"
+        icon: mdi:water-percent
+
   # Trigger-based Weather Sensors
   - trigger:
       - platform: time_pattern
@@ -193,3 +200,9 @@ google_assistant:
       expose: true
     cover.savannah_blinds_homekit:
       expose: true
+      
+scene: !include scenes.yaml
+
+ ## Shell Command to run Govee lights via python
+shell_command:
+  govee_holiday: "python3 /config/scripts/govee_holiday.py {{ holiday }}"
