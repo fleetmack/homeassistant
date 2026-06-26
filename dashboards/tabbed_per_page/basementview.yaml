@@ -1,254 +1,958 @@
-title: Basement
-path: basement
-type: custom:grid-layout
-layout:
-  grid-template-columns: 260px 1fr 300px
-  grid-template-rows: auto 1fr
-  grid-template-areas: |
-    "header header header"
-    "sidebar main calendar"
-  grid-gap: 10px
-background:
-  opacity: 100
-  alignment: center
-  size: cover
-  repeat: repeat
-  attachment: scroll
-  image:
-    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-    media_content_type: image/jpeg
-cards:
-  - type: custom:decluttering-card
-    template: global_header
-    view_layout:
-      grid-area: header
-  - type: custom:decluttering-card
-    template: global_sidebar
-    view_layout:
-      grid-area: sidebar
-  - type: custom:mod-card
-    view_layout:
-      grid-area: main
-    card_mod:
-      style: |
-        ha-card { 
-          background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
-          backdrop-filter: blur(12px); /* The frosted glass magic */
-          -webkit-backdrop-filter: blur(12px);
-          border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.15); 
-          padding: 10px; 
-        }
-    card:
-      type: vertical-stack
-      cards:
-        - type: custom:mushroom-title-card
-          title: Basement
-        - type: custom:mushroom-chips-card
-          alignment: justify
-          chips:
-            - type: template
-              icon: mdi:thermometer
-              content: >-
-                Basement: {{
-                states('sensor.basement_dart_temp_zigbee_temperature') }}°
-              icon_color: >-
-                {{ 'orange' if
-                states('sensor.basement_dart_temp_zigbee_temperature') | float >
-                72 else 'blue' }}
-              tap_action:
-                action: more-info
-          entity: sensor.basement_dart_temp_zigbee_temperature
-        - type: grid
-          columns: 3
-          square: false
-          cards:
-            - type: custom:stack-in-card
-              mode: horizontal
-              cards:
-                - type: custom:mushroom-template-card
-                  entity: switch.basement_lounge_switches
-                  icon: mdi:sofa
-                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
-                  layout: vertical
-                  tap_action:
-                    action: toggle
-                  card_mod:
-                    style: >
-                      :host { flex: 0 0 40% !important; } ha-card {
-                      border-right: 1px solid rgba(255,255,255,0.1); }
-                - type: custom:mushroom-template-card
-                  entity: light.basement_lounge_ceiling_lights
-                  primary: Lounge
-                  secondary: Tap for Color
-                  icon: mdi:palette
-                  layout: vertical
-                  tap_action:
-                    action: more-info
-                  card_mod:
-                    style: |
-                      :host { flex: 1 1 60% !important; }
-              card_mod:
-                style: |
-                  ha-card { border: 1px solid var(--divider-color); }
-            - type: custom:mushroom-template-card
-              entity: light.basement_bar_lights
-              primary: Bar Fun Lights
-              secondary: Tap for Color
-              icon: mdi:glass-cocktail
-              icon_color: "{{ 'blue' if is_state(entity, 'on') else 'grey' }}"
-              layout: horizontal
-              tap_action:
-                action: more-info
-              card_mod:
-                style: |
-                  ha-card { 
-                    height: 100%; 
-                    border: 1px dashed rgba(255,255,255,0.1);
-                  }
-            - type: custom:stack-in-card
-              mode: horizontal
-              cards:
-                - type: custom:mushroom-template-card
-                  entity: switch.basement_play_area_switches
-                  icon: mdi:nintendo-switch
-                  icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
-                  layout: vertical
-                  tap_action:
-                    action: toggle
-                  card_mod:
-                    style: >
-                      :host { flex: 0 0 40% !important; } ha-card {
-                      border-right: 1px solid rgba(255,255,255,0.1); }
-                - type: custom:mushroom-template-card
-                  entity: light.basement_playroom_lights_2
-                  primary: Playroom
-                  secondary: Tap for Color
-                  icon: mdi:palette
-                  layout: vertical
-                  tap_action:
-                    action: more-info
-                  card_mod:
-                    style: |
-                      :host { flex: 1 1 60% !important; }
-              card_mod:
-                style: |
-                  ha-card { border: 1px solid var(--divider-color); }
-        - type: grid
-          columns: 3
-          square: false
-          cards:
-            - type: custom:mushroom-entity-card
-              entity: switch.basement_storage_switch
-              name: Storage
-              icon: mdi:package-variant-closed
-              tap_action:
-                action: toggle
-            - type: custom:mushroom-entity-card
-              entity: light.basement_bath_lights_lr
-              name: Bathroom
-              icon: mdi:shower
-              tap_action:
-                action: toggle
-            - type: custom:mushroom-entity-card
-              entity: light.basement_stairs_lights
-              name: Stairs
-              icon: mdi:stairs
-              tap_action:
-                action: toggle
-        - type: custom:mushroom-title-card
-          subtitle: Entertainment & Bar
-        - type: grid
-          columns: 2
-          square: false
-          cards:
-            - type: custom:mushroom-light-card
-              entity: light.basement_tv_strip_inovelli
-              name: Lounge TV
-              icon: mdi:television
-              use_light_color: true
-              show_color_temp_control: true
-              show_brightness_control: true
-              show_color_control: true
-            - type: custom:mushroom-light-card
-              entity: light.hue_kids_tv
-              icon: mdi:television
-              name: Kids TV
-              use_light_color: true
-              show_color_temp_control: true
-              show_brightness_control: true
-              show_color_control: true
-        - type: grid
-          columns: 2
-          square: false
-          cards:
-            - type: custom:mushroom-light-card
-              entity: light.hue_basement_bartop_strip
-              name: Under Bar
-              icon: mdi:led-strip-variant
-              use_light_color: true
-              show_brightness_control: true
-              show_color_temp_control: true
-              show_color_control: true
-            - type: custom:mushroom-entity-card
-              entity: switch.basement_seahawks_switch_lr
-              name: Seahawks Neon
-              icon: mdi:football
-              icon_color: blue
-              tap_action:
-                action: toggle
-              card_mod:
-                style: |
-                  ha-card {
-                    height: 106px !important;
-                    background-image: url(/local/seahawks_on.jpg) !important;
-                    background-size: contain;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                  }
-        - type: grid
-          columns: 2
-          square: false
-          cards:
-            - type: custom:mushroom-light-card
-              entity: light.bartoplifx
-              icon: mdi:led-strip-variant
-              name: Top Shelf
-              use_light_color: true
-              show_color_temp_control: true
-              show_brightness_control: true
-              show_color_control: true
-            - type: custom:mushroom-light-card
-              entity: light.barbottomlifx
-              name: Bottom Shelf
-              icon: mdi:led-strip-variant
-              use_light_color: true
-              show_color_temp_control: true
-              show_brightness_control: true
-              show_color_control: true
-        - type: grid
-          columns: 2
-          square: false
-          cards:
-            - type: custom:mushroom-light-card
-              entity: light.hue_play_1
-              name: Play Left
-              use_light_color: true
-              show_color_control: true
-              show_color_temp_control: true
-            - type: custom:mushroom-light-card
-              entity: light.hue_play_2
-              name: Play Right
-              use_light_color: true
-              show_color_control: true
-              show_color_temp_control: true
-        - type: custom:mini-media-player
-          entity: media_player.basement_beam_sonos
-          name: Basement Beam
-          artwork: cover
-          hide:
-            power: true
-  - type: custom:decluttering-card
-    template: global_calendar
-    view_layout:
-      grid-area: calendar
+views:
+  - title: Mobile Home
+    path: mobile
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: 100%
+      grid-template-rows: auto
+      grid-gap: 8px
+    cards:
+      - type: custom:state-switch
+        entity: input_select.mobile_section
+        states:
+          Home:
+            type: vertical-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: custom:mushroom-chips-card
+                    alignment: center
+                    chips:
+                      - type: template
+                        entity: sensor.virtual_hsm_status_mirror_hsm_status
+                        icon: >
+                          {% if is_state(entity, 'disarmed') %} mdi:shield-check
+                          {% elif is_state(entity, 'armedHome') %}
+                          mdi:shield-home {% else %} mdi:shield-lock {% endif %}
+                        icon_color: >-
+                          {{ 'green' if is_state(entity, 'disarmed') else
+                          'orange' }}
+                        content: "Status: {{ states(entity) | capitalize }}"
+                  - type: custom:mushroom-template-card
+                    entity: switch.vs_alarm_disarm_for_hass
+                    primary: Disarm Alarm
+                    secondary: Tap to Toggle
+                    tap_action:
+                      action: toggle
+                    card_mod:
+                      style: |
+                        ha-card {
+                          height: 100px;
+                          background-image: url("/local/parrot.jpg");
+                          background-size: cover;
+                          background-position: center 15%;
+                          border-radius: 12px;
+                        }
+                  - type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:mushroom-template-card
+                        entity: switch.vs_alarm_home_for_hass
+                        primary: Home
+                        icon: mdi:bed
+                        icon_color: blue
+                        layout: horizontal
+                        tap_action:
+                          action: toggle
+                      - type: custom:mushroom-template-card
+                        entity: switch.vs_alarm_away_for_hass
+                        primary: Away
+                        icon: mdi:shield-airplane
+                        icon_color: red
+                        layout: horizontal
+                        tap_action:
+                          action: toggle
+              - type: custom:mushroom-title-card
+                title: Gates, Locks & Doors
+              - type: custom:mushroom-chips-card
+                alignment: start
+                chips:
+                  - type: template
+                    entity: binary_sensor.gate_alley_yard_lr_contact
+                    icon: >-
+                      {{ 'mdi:gate-open' if is_state(entity, 'on') else
+                      'mdi:gate' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                    content: Alley Gate
+                  - type: template
+                    entity: binary_sensor.gate_front_yard_lr_contact
+                    icon: >-
+                      {{ 'mdi:gate-open' if is_state(entity, 'on') else
+                      'mdi:gate' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                    content: Yard Gate
+                  - type: template
+                    entity: binary_sensor.gate_trash_lr_contact
+                    icon: >-
+                      {{ 'mdi:gate-open' if is_state(entity, 'on') else
+                      'mdi:gate' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                    content: Trash Gate
+                  - type: template
+                    entity: lock.front_door_lock
+                    icon: >-
+                      {{ 'mdi:lock-open' if is_state(entity, 'unlocked') else
+                      'mdi:lock' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'unlocked') else 'green' }}"
+                    content: Front Lock
+                  - type: template
+                    entity: lock.garage_house_lock
+                    icon: >-
+                      {{ 'mdi:lock-open' if is_state(entity, 'unlocked') else
+                      'mdi:lock' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'unlocked') else 'green' }}"
+                    content: Mud Lock
+                  - type: template
+                    entity: lock.garage_yard_lock
+                    icon: >-
+                      {{ 'mdi:lock-open' if is_state(entity, 'unlocked') else
+                      'mdi:lock' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'unlocked') else 'green' }}"
+                    content: Yard Lock
+                  - type: template
+                    entity: binary_sensor.kitchen_sliding_door_lock_lr_contact
+                    icon: >-
+                      {{ 'mdi:lock-open' if is_state(entity, 'on') else
+                      'mdi:lock' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                    content: Slider Lock
+                  - type: template
+                    entity: binary_sensor.front_door_sensor_contact
+                    icon: >-
+                      {{ 'mdi:door-open' if is_state(entity, 'on') else
+                      'mdi:door-closed' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                    content: Front Door
+                  - type: template
+                    entity: binary_sensor.garage_house_door_sensor_contact
+                    icon: >-
+                      {{ 'mdi:door-open' if is_state(entity, 'on') else
+                      'mdi:door-closed' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                    content: Mud Door
+                  - type: template
+                    entity: binary_sensor.garage_yard_door_sensor_contact
+                    icon: >-
+                      {{ 'mdi:door-open' if is_state(entity, 'on') else
+                      'mdi:door-closed' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                    content: Yard Door
+                  - type: template
+                    entity: binary_sensor.kitching_sliding_door_sensor_contact
+                    icon: >-
+                      {{ 'mdi:door-open' if is_state(entity, 'on') else
+                      'mdi:door-closed' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                    content: Sliding Door
+                  - type: template
+                    entity: binary_sensor.kitchen_screen_door_lr_contact
+                    icon: >-
+                      {{ 'mdi:door-open' if is_state(entity, 'on') else
+                      'mdi:door-closed' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                    content: Screen Door
+                  - type: template
+                    entity: cover.garage_door_opener_door
+                    icon: >-
+                      {{ 'mdi:garage-open' if is_state(entity, 'open') else
+                      'mdi:garage' }}
+                    icon_color: "{{ 'red' if is_state(entity, 'open') else 'green' }}"
+                    content: Garage
+              - type: custom:mushroom-title-card
+                title: Fridges & Freezers
+              - type: custom:mushroom-chips-card
+                alignment: start
+                chips:
+                  - type: template
+                    entity: sensor.keezer_temp_lr_temperature
+                    icon: mdi:beer
+                    icon_color: "{{ 'blue' if states(entity)|float < 42 else 'red' }}"
+                    content: Beer {{ states(entity) }}°
+                  - type: template
+                    entity: sensor.basement_fridge_temp_sensor_temperature
+                    icon: mdi:fridge-bottom
+                    icon_color: "{{ 'blue' if states(entity)|float < 40 else 'red' }}"
+                    content: Bsmt Fridge {{ states(entity) }}°
+                  - type: template
+                    entity: sensor.kitchen_fridge_temp_sensor_temperature
+                    icon: mdi:fridge-outline
+                    icon_color: "{{ 'blue' if states(entity)|float < 40 else 'red' }}"
+                    content: Kitch Fridge {{ states(entity) }}°
+                  - type: template
+                    entity: sensor.chest_freezer_temp_temperature
+                    icon: mdi:snowflake
+                    icon_color: "{{ 'blue' if states(entity)|float < 15 else 'red' }}"
+                    content: Chest {{ states(entity) }}°
+                  - type: template
+                    entity: sensor.kitchen_freezer_lr_temperature
+                    icon: mdi:snowflake
+                    icon_color: "{{ 'blue' if states(entity)|float < 15 else 'red' }}"
+                    content: Kitch Freez {{ states(entity) }}°
+                  - type: template
+                    entity: sensor.basement_freezer_lr_temperature
+                    icon: mdi:snowflake
+                    icon_color: "{{ 'blue' if states(entity)|float < 15 else 'red' }}"
+                    content: Bsmt Freez {{ states(entity) }}°
+          Climate:
+            type: vertical-stack
+            cards:
+              - type: custom:mushroom-chips-card
+                alignment: center
+                chips:
+                  - type: template
+                    entity: input_boolean.hvac_killswitch
+                    icon: mdi:power
+                    icon_color: >-
+                      {{ 'red' if is_state('input_boolean.hvac_killswitch',
+                      'on') else 'green' }}
+                    content: >
+                      {{ 'Climate: KILLED' if
+                      is_state('input_boolean.hvac_killswitch', 'on') else
+                      'Climate: Active' }}
+                    tap_action:
+                      action: toggle
+              - type: custom:mushroom-title-card
+                title: Climate
+              - type: grid
+                columns: 1
+                square: false
+                cards:
+                  - type: thermostat
+                    entity: climate.honeywell_t_stat_main_floor
+                    features:
+                      - type: climate-hvac-modes
+                        hvac_modes:
+                          - heat
+                          - cool
+                          - "off"
+                  - type: thermostat
+                    entity: climate.honeywell_t_stat_upstairs
+                    features:
+                      - type: climate-hvac-modes
+                        hvac_modes:
+                          - heat
+                          - cool
+                          - "off"
+          Energy:
+            type: vertical-stack
+            cards:
+              - type: custom:mushroom-title-card
+                title: Energy
+              - type: energy-distribution
+                link_dashboard: false
+              - type: energy-usage-graph
+              - type: energy-water-graph
+              - type: energy-date-selection
+          Kitchen:
+            type: custom:stack-in-card
+            cards:
+              - type: custom:mushroom-title-card
+                subtitle: Kitchen
+              - type: grid
+                columns: 2
+                square: false
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.kitchen_cabinets
+                  - type: custom:mushroom-light-card
+                    entity: light.kitchen_table_chandelier
+                  - type: custom:mushroom-light-card
+                    entity: light.kitchen_island_ceiling_lights
+                  - type: custom:mushroom-entity-card
+                    entity: switch.pantry_and_cubbie
+          Backyard:
+            type: custom:stack-in-card
+            cards:
+              - type: custom:mushroom-title-card
+                subtitle: Backyard
+              - type: grid
+                columns: 2
+                square: false
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.backyard_garage_lights_lr
+                    name: Garage Sconce
+                  - type: custom:mushroom-light-card
+                    entity: light.fence_lights_2
+                  - type: custom:mushroom-light-card
+                    entity: light.pergola_lights_new_2
+                    name: Pergola
+                  - type: custom:mushroom-light-card
+                    entity: light.playset_lights_2
+                  - type: custom:mushroom-entity-card
+                    entity: switch.patio_fans
+                  - type: custom:mushroom-entity-card
+                    entity: switch.backyard_fountain
+          Master:
+            type: custom:stack-in-card
+            cards:
+              - type: custom:mushroom-title-card
+                subtitle: Master
+              - type: grid
+                columns: 2
+                square: false
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.master_bedroom_entry_lights
+                    name: Entry
+                  - type: custom:mushroom-light-card
+                    entity: light.master_bedroom_main_lights
+                    name: Main
+                  - type: custom:mushroom-entity-card
+                    entity: switch.master_fan_2
+                    name: Fan
+          Kids:
+            type: vertical-stack
+            cards:
+              - type: custom:mushroom-title-card
+                title: Kids' Rooms
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:mushroom-title-card
+                    subtitle: Savannah
+                  - type: custom:mushroom-chips-card
+                    alignment: center
+                    chips:
+                      - type: template
+                        entity: sensor.savannahs_bathroom_door_temperature
+                        content: "{{ states(entity) }}°F"
+                        icon: mdi:thermometer
+                        icon_color: >
+                          {% set t = states(entity) | float(0) %} {% if t > 75
+                          %} red {% elif t < 60 %} blue {% else %} black {%
+                          endif %}
+                      - type: template
+                        entity: binary_sensor.savannah_window_lr_contact
+                        content: "{{ 'Open' if is_state(entity, 'on') else 'Closed' }}"
+                        icon: >-
+                          {{ 'mdi:window-open-variant' if is_state(entity, 'on')
+                          else 'mdi:window-closed-variant' }}
+                        icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                  - type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.savannah_lights
+                        name: Main
+                      - type: custom:mushroom-light-card
+                        entity: light.savannah_dome_lights
+                        name: Dome
+                      - type: custom:mushroom-light-card
+                        entity: light.hue_savannah_light_strip
+                        name: Strip
+                      - type: custom:mushroom-light-card
+                        entity: light.savannah_auxiliary_switch
+                        name: Aux
+                  - type: custom:mini-media-player
+                    entity: media_player.savannah
+                    name: Savannah's Sonos
+                    artwork: material
+                    hide:
+                      power: true
+                      source: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:mushroom-title-card
+                    subtitle: Claire
+                  - type: custom:mushroom-chips-card
+                    alignment: center
+                    chips:
+                      - type: template
+                        entity: sensor.claires_bathroom_door_temperature
+                        content: "{{ states(entity) }}°F"
+                        icon: mdi:thermometer
+                        icon_color: >
+                          {% set t = states(entity) | float(0) %} {% if t > 75
+                          %} red {% elif t < 60 %} blue {% else %} black {%
+                          endif %}
+                      - type: template
+                        entity: binary_sensor.claire_window_lr_contact
+                        content: "{{ 'Open' if is_state(entity, 'on') else 'Closed' }}"
+                        icon: >-
+                          {{ 'mdi:window-open-variant' if is_state(entity, 'on')
+                          else 'mdi:window-closed-variant' }}
+                        icon_color: "{{ 'red' if is_state(entity, 'on') else 'green' }}"
+                  - type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.claire_lights
+                        name: Main
+                      - type: custom:mushroom-light-card
+                        entity: light.claire_dome_lights
+                        name: Dome
+                      - type: custom:mushroom-light-card
+                        entity: light.claire_light_strip
+                        name: Strip
+                      - type: custom:mushroom-entity-card
+                        entity: switch.claire_aux_new
+                        name: Aux
+                  - type: custom:mini-media-player
+                    entity: media_player.claire
+                    name: Claire's Sonos
+                    artwork: material
+                    hide:
+                      power: true
+                      source: true
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:mushroom-title-card
+                    subtitle: Hudson
+                  - type: custom:mushroom-chips-card
+                    alignment: center
+                    chips:
+                      - type: template
+                        entity: sensor.hudsons_bedroom_door_temperature
+                        content: "{{ states(entity) }}°F"
+                        icon: mdi:thermometer
+                        icon_color: >
+                          {% set t = states(entity) | float(0) %} {% if t > 75
+                          %} red {% elif t < 60 %} blue {% else %} black {%
+                          endif %}
+                      - type: template
+                        icon: >-
+                          {% if
+                          is_state('binary_sensor.hudson_north_window_lr_contact',
+                          'on') or
+                          is_state('binary_sensor.hudsons_east_window_contact',
+                          'on') %}
+                            mdi:window-open-variant
+                          {% else %}
+                            mdi:window-closed-variant
+                          {% endif %}
+                        icon_color: >-
+                          {% if
+                          is_state('binary_sensor.hudson_north_window_lr_contact',
+                          'on') or
+                          is_state('binary_sensor.hudsons_east_window_contact',
+                          'on') %}
+                            red
+                          {% else %}
+                            green
+                          {% endif %}
+                        content: >-
+                          {% set n =
+                          is_state('binary_sensor.hudson_north_window_lr_contact',
+                          'on') %} {% set e =
+                          is_state('binary_sensor.hudsons_east_window_contact',
+                          'on') %} {% if n and e %} Both Open {% elif n %} N
+                          Open {% elif e %} E Open {% else %} Closed {% endif %}
+                      - type: template
+                        entity: switch.kid_door_alerts_vs
+                        content: Hud Motion Alerts
+                        icon: mdi:bell
+                        icon_color: "{{ 'red' if is_state(entity, 'on') else 'grey' }}"
+                        tap_action:
+                          action: toggle
+                  - type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.hudson_lights
+                        name: Main
+                      - type: custom:mushroom-light-card
+                        entity: light.hudson_dome_lights
+                        name: Dome
+                      - type: custom:mushroom-light-card
+                        entity: light.hue_hud_light_strip
+                        name: Strip
+                      - type: custom:mushroom-entity-card
+                        entity: switch.hudson_aux_switch
+                        name: Aux
+                  - type: custom:mini-media-player
+                    entity: media_player.hudson
+                    name: Hudson's Sonos
+                    artwork: material
+                    hide:
+                      power: true
+                      source: true
+          Basement:
+            type: vertical-stack
+            cards:
+              - type: custom:mushroom-title-card
+                title: Basement
+              - type: custom:mushroom-chips-card
+                alignment: justify
+                chips:
+                  - type: template
+                    icon: mdi:thermometer
+                    content: >-
+                      Basement: {{
+                      states('sensor.basement_dart_temp_zigbee_temperature') }}°
+                    icon_color: >-
+                      {{ 'orange' if
+                      states('sensor.basement_dart_temp_zigbee_temperature') |
+                      float > 72 else 'blue' }}
+                    tap_action:
+                      action: more-info
+                entity: sensor.basement_dart_temp_zigbee_temperature
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:mushroom-title-card
+                    subtitle: Rooms
+                  - type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:stack-in-card
+                        mode: horizontal
+                        cards:
+                          - type: custom:mushroom-template-card
+                            entity: switch.basement_lounge_switches
+                            icon: mdi:sofa
+                            icon_color: >-
+                              {{ 'amber' if is_state(entity, 'on') else 'grey'
+                              }}
+                            layout: vertical
+                            tap_action:
+                              action: toggle
+                            card_mod:
+                              style: |
+                                :host { flex: 0 0 40% !important; }
+                          - type: custom:mushroom-template-card
+                            entity: light.basement_lounge_ceiling_lights
+                            primary: Lounge
+                            secondary: Tap for Color
+                            icon: mdi:palette
+                            layout: vertical
+                            tap_action:
+                              action: more-info
+                            card_mod:
+                              style: |
+                                :host { flex: 1 1 60% !important; }
+                      - type: custom:mushroom-template-card
+                        entity: light.basement_bar_lights
+                        primary: Bar Fun
+                        secondary: Tap for Color
+                        icon: mdi:glass-cocktail
+                        icon_color: "{{ 'blue' if is_state(entity, 'on') else 'grey' }}"
+                        layout: horizontal
+                        tap_action:
+                          action: more-info
+                      - type: custom:stack-in-card
+                        mode: horizontal
+                        cards:
+                          - type: custom:mushroom-template-card
+                            entity: switch.basement_play_area_switches
+                            icon: mdi:nintendo-switch
+                            icon_color: >-
+                              {{ 'amber' if is_state(entity, 'on') else 'grey'
+                              }}
+                            layout: vertical
+                            tap_action:
+                              action: toggle
+                            card_mod:
+                              style: |
+                                :host { flex: 0 0 40% !important; }
+                          - type: custom:mushroom-template-card
+                            entity: light.basement_playroom_lights_2
+                            primary: Playroom
+                            secondary: Tap for Color
+                            icon: mdi:palette
+                            layout: vertical
+                            tap_action:
+                              action: more-info
+                            card_mod:
+                              style: |
+                                :host { flex: 1 1 60% !important; }
+                  - type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:mushroom-entity-card
+                        entity: switch.basement_storage_switch
+                        name: Storage
+                        icon: mdi:package-variant-closed
+                        tap_action:
+                          action: toggle
+                      - type: custom:mushroom-entity-card
+                        entity: light.basement_bath_lights_lr
+                        name: Bathroom
+                        icon: mdi:shower
+                        tap_action:
+                          action: toggle
+                      - type: custom:mushroom-entity-card
+                        entity: light.basement_stairs_lights
+                        name: Stairs
+                        icon: mdi:stairs
+                        tap_action:
+                          action: toggle
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:mushroom-title-card
+                    subtitle: Entertainment & Bar
+                  - type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.basement_tv_strip_inovelli
+                        name: Lounge TV
+                        icon: mdi:television
+                        use_light_color: true
+                        show_color_temp_control: true
+                        show_brightness_control: true
+                        show_color_control: true
+                      - type: custom:mushroom-light-card
+                        entity: light.hue_kids_tv
+                        icon: mdi:television
+                        name: Kids TV
+                        use_light_color: true
+                        show_color_temp_control: true
+                        show_brightness_control: true
+                        show_color_control: true
+                  - type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.hue_basement_bartop_strip
+                        name: Under Bar
+                        icon: mdi:led-strip-variant
+                        use_light_color: true
+                        show_brightness_control: true
+                        show_color_temp_control: true
+                        show_color_control: true
+                      - type: custom:mushroom-entity-card
+                        entity: switch.basement_seahawks_switch_lr
+                        name: Seahawks Neon
+                        icon: mdi:football
+                        icon_color: blue
+                        tap_action:
+                          action: toggle
+                        card_mod:
+                          style: |
+                            ha-card {
+                              height: 106px !important;
+                              background-image: url(/local/seahawks_on.jpg) !important;
+                              background-size: contain;
+                              background-position: center;
+                              background-repeat: no-repeat;
+                            }
+                  - type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.bartoplifx
+                        icon: mdi:led-strip-variant
+                        name: Top Shelf
+                        use_light_color: true
+                        show_color_temp_control: true
+                        show_brightness_control: true
+                        show_color_control: true
+                      - type: custom:mushroom-light-card
+                        entity: light.barbottomlifx
+                        name: Bottom Shelf
+                        icon: mdi:led-strip-variant
+                        use_light_color: true
+                        show_color_temp_control: true
+                        show_brightness_control: true
+                        show_color_control: true
+                  - type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.hue_play_1
+                        name: Play Left
+                        use_light_color: true
+                        show_color_control: true
+                        show_color_temp_control: true
+                      - type: custom:mushroom-light-card
+                        entity: light.hue_play_2
+                        name: Play Right
+                        use_light_color: true
+                        show_color_control: true
+                        show_color_temp_control: true
+          Alerts:
+            type: vertical-stack
+            cards:
+              - type: custom:mushroom-title-card
+                title: System Alerts
+              - type: grid
+                columns: 2
+                square: false
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: switch.vs_garage_alert
+                    name: Garage Alerts
+                    icon: mdi:garage-alert
+                  - type: custom:mushroom-entity-card
+                    entity: switch.vs_disable_hsm
+                    name: Disable HSM
+                    icon: mdi:moon-waning-crescent
+                  - type: custom:mushroom-entity-card
+                    entity: switch.vs_alarm_disarm_for_hass
+                    name: Parrot Alert
+                    icon: mdi:alert-box
+                  - type: custom:mushroom-entity-card
+                    entity: switch.blue_iris_texts_vs
+                    name: Porch Texts
+                    icon: mdi:cellphone
+                  - type: custom:mushroom-entity-card
+                    entity: switch.yard_door_alerts_vs
+                    name: Yard Alerts
+                    icon: mdi:alert-box
+          Office:
+            type: vertical-stack
+            cards:
+              - type: custom:mushroom-title-card
+                title: Home Office
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-template-card
+                    entity: light.office_lights
+                    primary: Office On/Off
+                    icon: mdi:ceiling-light-multiple
+                    icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
+                    layout: horizontal
+                    tap_action:
+                      action: toggle
+                    card_mod:
+                      style: |
+                        :host {
+                          flex: 0 0 20% !important;
+                        }
+                        ha-card {
+                          height: 100%;
+                        }
+                  - type: custom:mushroom-light-card
+                    entity: light.office_overhead_bulbs
+                    name: Color Control
+                    icon: mdi:lightbulb-group
+                    use_light_color: true
+                    show_brightness_control: true
+                    show_color_control: true
+                    show_color_temp_control: true
+                    collapsible_controls: false
+                    tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        :host {
+                          flex: 1 1 80% !important;
+                        }
+              - type: custom:mushroom-light-card
+                entity: light.hue_office_monitors_lights
+                name: Monitors
+                icon: mdi:monitor
+                use_light_color: true
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                collapsible_controls: true
+              - type: custom:mushroom-cover-card
+                entity: cover.office_shades_all_homekit
+                name: Office Shades
+                show_position_control: true
+                show_buttons_control: true
+              - type: custom:mini-media-player
+                entity: media_player.den
+                artwork: cover
+          Garage:
+            type: vertical-stack
+            cards:
+              - type: custom:mushroom-chips-card
+                alignment: start
+                card_mod:
+                  style: |
+                    mushroom-chip { margin-right: 10px !important; }
+                chips:
+                  - type: template
+                    entity: sensor.garage_temp_sensor_temperature
+                    icon: mdi:thermometer
+                    content: "Garage: {{ states(entity) }}°"
+                    icon_color: >-
+                      {% set t = states(entity) | float(0) %}  {{ 'orange' if t
+                      > 85 else ('blue' if t < 40 else 'green') }}
+                    tap_action:
+                      action: more-info
+                  - type: template
+                    entity: switch.vs_garage_alert
+                    icon: >-
+                      {{ 'mdi:garage-alert' if is_state(entity, 'on') else
+                      'mdi:garage-alert-variant' }}
+                    content: Garage Alerts
+                    icon_color: "{{ 'red' if is_state(entity, 'on') else 'disabled' }}"
+                    tap_action:
+                      action: toggle
+              - type: custom:mushroom-light-card
+                entity: light.garage_lights
+                show_brightness_control: true
+                use_light_color: true
+              - type: grid
+                columns: 2
+                square: false
+                cards:
+                  - type: custom:mushroom-lock-card
+                    entity: lock.garage_house_lock
+                    name: House
+                    layout: vertical
+                  - type: custom:mushroom-lock-card
+                    entity: lock.reliable_garage_yard_lock
+                    name: Yard
+                    layout: vertical
+              - type: custom:mushroom-title-card
+                subtitle: Audio
+              - type: custom:mini-media-player
+                entity: media_player.garage_sonos_play1_tools
+                name: Sonos Tools
+                artwork: cover
+              - type: custom:mini-media-player
+                entity: media_player.newly
+                name: Sonos Door
+                artwork: cover
+      - type: custom:mushroom-title-card
+        title: Areas
+      - type: grid
+        columns: 3
+        square: false
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Home
+            icon: mdi:home
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Home') else
+              'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Home
+          - type: custom:mushroom-template-card
+            primary: Climate
+            icon: mdi:thermostat
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Climate')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Climate
+          - type: custom:mushroom-template-card
+            primary: Energy
+            icon: mdi:lightning-bolt
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Energy')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Energy
+          - type: custom:mushroom-template-card
+            primary: Kitchen
+            icon: mdi:countertop
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Kitchen')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Kitchen
+          - type: custom:mushroom-template-card
+            primary: Backyard
+            icon: mdi:pine-tree
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Backyard')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Backyard
+          - type: custom:mushroom-template-card
+            primary: Master
+            icon: mdi:bed-king
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Master')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Master
+          - type: custom:mushroom-template-card
+            primary: Kids
+            icon: mdi:human-male-child
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Kids') else
+              'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Kids
+          - type: custom:mushroom-template-card
+            primary: Basement
+            icon: mdi:stairs-down
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Basement')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Basement
+          - type: custom:mushroom-template-card
+            primary: Alerts
+            icon: mdi:bell-alert
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Alerts')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Alerts
+          - type: custom:mushroom-template-card
+            primary: Office
+            icon: mdi:desk
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Office')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Office
+          - type: custom:mushroom-template-card
+            primary: Garage
+            icon: mdi:garage
+            icon_color: >-
+              {{ 'green' if is_state('input_select.mobile_section', 'Garage')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.mobile_section
+              data:
+                option: Garage
