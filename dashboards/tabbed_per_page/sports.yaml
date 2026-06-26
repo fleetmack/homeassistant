@@ -1,0 +1,188 @@
+title: Sports
+path: sports
+type: custom:grid-layout
+layout:
+  grid-template-columns: 260px 1fr 300px
+  grid-template-rows: auto 1fr
+  grid-template-areas: |
+    "header header header"
+    "sidebar main calendar"
+  grid-gap: 10px
+background:
+  opacity: 50
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: scroll
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
+cards:
+  - type: custom:decluttering-card
+    template: global_header
+    view_layout:
+      grid-area: header
+  - type: custom:decluttering-card
+    template: global_sidebar
+    view_layout:
+      grid-area: sidebar
+  - type: custom:mod-card
+    view_layout:
+      grid-area: main
+    card_mod:
+      style: |
+        ha-card { 
+          background: rgba(30, 30, 30, 0.3) !important;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.15); 
+          padding: 10px; 
+        }
+    card:
+      type: vertical-stack
+      cards:
+        - type: grid
+          columns: 4
+          square: false
+          cards:
+            - type: custom:button-card
+              name: Seahawks
+              icon: mdi:football
+              styles:
+                card:
+                  - height: 70px
+                  - border-radius: 12px
+                  - background-color: "#002244"
+                  - border: 2px solid
+                icon:
+                  - color: "#69BE28"
+                name:
+                  - color: "#69BE28"
+                  - font-weight: bold
+                  - font-size: 13px
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.sports_lights_game_day
+                  variables:
+                    active_team: seahawks
+            - type: custom:button-card
+              name: Huskers
+              icon: mdi:football
+              styles:
+                card:
+                  - height: 70px
+                  - border-radius: 12px
+                  - background-color: "#E41C38"
+                  - border: 2px solid
+                icon:
+                  - color: "#F5F5F5"
+                name:
+                  - color: "#F5F5F5"
+                  - font-weight: bold
+                  - font-size: 13px
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.sports_lights_game_day
+                  variables:
+                    active_team: huskers
+            - type: custom:button-card
+              name: Cyclones
+              icon: mdi:football
+              styles:
+                card:
+                  - height: 70px
+                  - border-radius: 12px
+                  - background-color: "#C8102E"
+                  - border: 2px solid
+                icon:
+                  - color: "#F1BE48"
+                name:
+                  - color: "#F1BE48"
+                  - font-weight: bold
+                  - font-size: 13px
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.sports_lights_game_day
+                  variables:
+                    active_team: cyclones
+            - type: custom:button-card
+              name: Royals
+              icon: mdi:baseball
+              styles:
+                card:
+                  - height: 70px
+                  - border-radius: 12px
+                  - background-color: "#004687"
+                  - border: 2px solid
+                  - opacity: "0.5"
+                icon:
+                  - color: "#BD9B60"
+                name:
+                  - color: "#BD9B60"
+                  - font-weight: bold
+                  - font-size: 13px
+              tap_action:
+                action: none
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:compact-team-tracker
+              entities:
+                - sensor.nfl_seattle_seahawks
+              layout: standard
+              show_league: true
+              card_mod:
+                style: |
+                  ha-card {
+                    border-radius: 12px;
+                    border: 2px solid #69BE28;
+                    background: rgba(0, 34, 68, 0.6) !important;
+                  }
+            - type: custom:compact-team-tracker
+              entities:
+                - sensor.ncaaf_nebraska_cornhuskers
+              layout: standard
+              show_league: true
+              card_mod:
+                style: |
+                  ha-card {
+                    border-radius: 12px;
+                    border: 2px solid #F5F5F5;
+                    background: rgba(228, 28, 56, 0.3) !important;
+                  }
+            - type: custom:compact-team-tracker
+              entities:
+                - sensor.ncaaf_iowa_state_cyclones
+              layout: standard
+              show_league: true
+              card_mod:
+                style: |
+                  ha-card {
+                    border-radius: 12px;
+                    border: 2px solid #F1BE48;
+                    background: rgba(200, 16, 46, 0.3) !important;
+                  }
+            - type: custom:compact-team-tracker
+              entities:
+                - sensor.mlb_kansas_city_royals
+              layout: standard
+              show_league: true
+              card_mod:
+                style: |
+                  ha-card {
+                    border-radius: 12px;
+                    border: 2px solid #BD9B60;
+                    background: rgba(0, 70, 135, 0.3) !important;
+                  }
+  - type: custom:decluttering-card
+    template: global_calendar
+    view_layout:
+      grid-area: calendar
