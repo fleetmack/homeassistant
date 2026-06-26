@@ -13,7 +13,7 @@ background:
   alignment: center
   size: cover
   repeat: repeat
-  attachment: fixed
+  attachment: scroll
   image:
     media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
     media_content_type: image/jpeg
@@ -211,7 +211,7 @@ cards:
           square: false
           cards:
             - type: custom:mushroom-light-card
-              entity: light.lifx_bar_top
+              entity: light.bartoplifx
               icon: mdi:led-strip-variant
               name: Top Shelf
               use_light_color: true
@@ -219,7 +219,7 @@ cards:
               show_brightness_control: true
               show_color_control: true
             - type: custom:mushroom-light-card
-              entity: light.lifx_bar_bottom
+              entity: light.barbottomlifx
               name: Bottom Shelf
               icon: mdi:led-strip-variant
               use_light_color: true
