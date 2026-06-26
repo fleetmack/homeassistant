@@ -1,0 +1,17 @@
+alias: Royals Lights
+sequence:
+  - action: shell_command.govee_holiday
+    data:
+      holiday: royals
+  - action: scene.turn_on
+    target:
+      entity_id: scene.ally_ally_alley_royals
+  - action: light.turn_on
+    target:
+      entity_id: light.front_porch_lights
+  - delay:
+      seconds: 3
+  - action: scene.turn_on
+    target:
+      entity_id: scene.front_porch_front_porch_hue_porch_royals
+mode: single
