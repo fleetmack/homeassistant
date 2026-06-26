@@ -638,7 +638,7 @@ views:
                     square: false
                     cards:
                       - type: custom:mushroom-light-card
-                        entity: light.lifx_bar_top
+                        entity: light.bartoplifx
                         icon: mdi:led-strip-variant
                         name: Top Shelf
                         use_light_color: true
@@ -646,7 +646,7 @@ views:
                         show_brightness_control: true
                         show_color_control: true
                       - type: custom:mushroom-light-card
-                        entity: light.lifx_bar_bottom
+                        entity: light.barbottomlifx
                         name: Bottom Shelf
                         icon: mdi:led-strip-variant
                         use_light_color: true
