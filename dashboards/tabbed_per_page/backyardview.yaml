@@ -186,7 +186,7 @@ cards:
         - type: horizontal-stack
           cards:
             - type: custom:mushroom-template-card
-              entity: light.fence_lights
+              entity: light.fence_lights_2
               primary: Fence On/Off
               icon: mdi:fence
               icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
@@ -198,7 +198,7 @@ cards:
                   :host { flex: 0 0 25% !important; }
                   ha-card { height: 100%; }
             - type: custom:mushroom-light-card
-              entity: light.fence_lights
+              entity: light.fence_lights_2
               name: Fence Color
               use_light_color: true
               show_brightness_control: true
@@ -213,7 +213,7 @@ cards:
         - type: horizontal-stack
           cards:
             - type: custom:mushroom-template-card
-              entity: light.pergola_lights_new
+              entity: light.pergola_lights_new_2
               primary: Pergola On/Off
               icon: mdi:string-lights
               icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
@@ -225,7 +225,7 @@ cards:
                   :host { flex: 0 0 25% !important; }
                   ha-card { height: 100%; }
             - type: custom:mushroom-light-card
-              entity: light.pergola_lights_new
+              entity: light.pergola_lights_new_2
               name: Pergola Color
               use_light_color: true
               show_brightness_control: true
@@ -240,7 +240,7 @@ cards:
         - type: horizontal-stack
           cards:
             - type: custom:mushroom-template-card
-              entity: light.playset_lights
+              entity: light.playset_lights_2
               primary: Playset On/Off
               icon: mdi:slide
               icon_color: "{{ 'amber' if is_state(entity, 'on') else 'grey' }}"
@@ -252,7 +252,7 @@ cards:
                   :host { flex: 0 0 25% !important; }
                   ha-card { height: 100%; }
             - type: custom:mushroom-light-card
-              entity: light.playset_lights
+              entity: light.playset_lights_2
               name: Playset Color
               use_light_color: true
               show_brightness_control: true
@@ -298,6 +298,99 @@ cards:
           artwork: cover
           hide:
             power: true
+        - type: custom:mushroom-title-card
+          title: Holiday Override
+        - type: custom:mushroom-chips-card
+          alignment: center
+          chips:
+            - type: template
+              icon: mdi:heart
+              icon_color: red
+              content: Val
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.holiday_lights_apply_season
+                  variables:
+                    season: valentines
+            - type: template
+              icon: mdi:clover
+              icon_color: green
+              content: StPats
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.holiday_lights_apply_season
+                  variables:
+                    season: stpats
+            - type: template
+              icon: mdi:egg-easter
+              icon_color: purple
+              content: Easter
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.holiday_lights_apply_season
+                  variables:
+                    season: easter
+            - type: template
+              icon: mdi:flag-variant
+              icon_color: blue
+              content: RWB
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.holiday_lights_apply_season
+                  variables:
+                    season: rwb
+            - type: template
+              icon: mdi:ghost
+              icon_color: orange
+              content: 👻
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.holiday_lights_apply_season
+                  variables:
+                    season: halloween
+            - type: template
+              icon: mdi:turkey
+              icon_color: amber
+              content: Thanks
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.holiday_lights_apply_season
+                  variables:
+                    season: thanks
+            - type: template
+              icon: mdi:pine-tree
+              icon_color: green
+              content: Xmas
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.holiday_lights_apply_season
+                  variables:
+                    season: xmas
+            - type: template
+              icon: mdi:brightness-5
+              icon_color: yellow
+              content: Default
+              tap_action:
+                action: call-service
+                service: automation.trigger
+                service_data:
+                  entity_id: automation.holiday_lights_apply_season
+                  variables:
+                    season: default
   - type: custom:decluttering-card
     template: global_calendar
     view_layout:
