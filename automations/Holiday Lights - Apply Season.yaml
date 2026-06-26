@@ -1,0 +1,141 @@
+alias: Holiday Lights - Apply Season
+description: Applies holiday lighting scenes based on time of year
+triggers:
+  - at: "00:01:00"
+    trigger: time
+  - event: start
+    trigger: homeassistant
+  - entity_id: sensor.holiday_season
+    trigger: state
+conditions:
+  - condition: template
+    value_template: "{{ states('sensor.holiday_season') != 'idle' }}"
+actions:
+  - variables:
+      season: "{{ states('sensor.holiday_season') }}"
+
+  # Govee
+  - data:
+      holiday: "{{ season }}"
+    action: shell_command.govee_holiday
+
+  # Alley Hue
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'xmas' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.ally_ally_christmas
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'halloween' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.ally_ally_halloween
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'stpats' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.ally_ally_ally_st_paddys
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'easter' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.ally_ally_easter
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'rwb' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.ally_ally_july_4
+    default:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.ally_ally_bright
+
+  # Backyard Hue
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'xmas' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.back_yard_backyard_christmas
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'halloween' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.back_yard_backyard_backyard_halloween
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'stpats' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.back_yard_backyard_backyard_st_paddys
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'seahawks' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.back_yard_backyard_seahawks
+    default:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.back_yard_backyard_bright
+
+  # Porch Hue
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'xmas' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.front_porch_front_porch_christmas
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'halloween' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.front_porch_front_porch_halloween
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'stpats' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.front_porch_front_porch_front_porch_st_paddys
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'easter' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.front_porch_front_porch_easter
+      - conditions:
+          - condition: template
+            value_template: "{{ season == 'rwb' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.front_porch_front_porch_july4
+    default:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.front_porch_front_porch_bright
+
+mode: single
