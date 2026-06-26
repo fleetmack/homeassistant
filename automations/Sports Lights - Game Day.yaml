@@ -1,0 +1,171 @@
+alias: Sports Lights - Game Day
+description: Applies team lighting scenes during games, reverts after
+triggers:
+  - trigger: state
+    entity_id: sensor.ncaaf_nebraska_cornhuskers
+  - trigger: state
+    entity_id: sensor.ncaaf_iowa_state_cyclones
+  - trigger: state
+    entity_id: sensor.ncaam_iowa_state_cyclones
+  - trigger: state
+    entity_id: sensor.nfl_seattle_seahawks
+conditions: []
+actions:
+  - variables:
+      huskers_state: "{{ states('sensor.ncaaf_nebraska_cornhuskers') }}"
+      cyclones_fb_state: "{{ states('sensor.ncaaf_iowa_state_cyclones') }}"
+      cyclones_bb_state: "{{ states('sensor.ncaam_iowa_state_cyclones') }}"
+      seahawks_state: "{{ states('sensor.nfl_seattle_seahawks') }}"
+      huskers_winner: "{{ state_attr('sensor.ncaaf_nebraska_cornhuskers', 'team_winner') }}"
+      cyclones_fb_winner: "{{ state_attr('sensor.ncaaf_iowa_state_cyclones', 'team_winner') }}"
+      cyclones_bb_winner: "{{ state_attr('sensor.ncaam_iowa_state_cyclones', 'team_winner') }}"
+      seahawks_winner: "{{ state_attr('sensor.nfl_seattle_seahawks', 'team_winner') }}"
+      holiday_season: "{{ states('sensor.holiday_season') }}"
+      active_team: |
+        {% if huskers_state == 'IN' %}
+          huskers
+        {% elif cyclones_fb_state == 'IN' or cyclones_bb_state == 'IN' %}
+          cyclones
+        {% elif seahawks_state == 'IN' %}
+          seahawks
+        {% else %}
+          none
+        {% endif %}
+      post_team: |
+        {% if huskers_state == 'POST' %}
+          huskers
+        {% elif cyclones_fb_state == 'POST' or cyclones_bb_state == 'POST' %}
+          cyclones
+        {% elif seahawks_state == 'POST' %}
+          seahawks
+        {% else %}
+          none
+        {% endif %}
+      post_winner: |
+        {% if huskers_state == 'POST' %}
+          {{ huskers_winner }}
+        {% elif cyclones_fb_state == 'POST' or cyclones_bb_state == 'POST' %}
+          {{ cyclones_fb_winner if cyclones_fb_state == 'POST' else cyclones_bb_winner }}
+        {% elif seahawks_state == 'POST' %}
+          {{ seahawks_winner }}
+        {% else %}
+          false
+        {% endif %}
+  - if:
+      - condition: template
+        value_template: "{{ active_team != 'none' }}"
+    then:
+      - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ active_team == 'huskers' }}"
+            sequence:
+              - action: shell_command.govee_holiday
+                data:
+                  holiday: huskers
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.ally_ally_alley_cyhusk
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.back_yard_backyard_backyard_red
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.lifx_huskers
+              - action: light.turn_on
+                target:
+                  entity_id: light.front_porch_lights
+              - delay:
+                  seconds: 3
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.front_porch_front_porch_hue_porch_huskers
+          - conditions:
+              - condition: template
+                value_template: "{{ active_team == 'cyclones' }}"
+            sequence:
+              - action: shell_command.govee_holiday
+                data:
+                  holiday: cyclones
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.ally_ally_alley_cyhusk
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.back_yard_backyard_backyard_red
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.lifx_cyclones
+              - action: light.turn_on
+                target:
+                  entity_id: light.front_porch_lights
+              - delay:
+                  seconds: 3
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.front_porch_front_porch_hue_porch_cyclones
+          - conditions:
+              - condition: template
+                value_template: "{{ active_team == 'seahawks' }}"
+            sequence:
+              - action: shell_command.govee_holiday
+                data:
+                  holiday: seahawks
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.ally_ally_seahawks
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.back_yard_backyard_seahawks
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.lifx_seahawks
+              - action: switch.turn_on
+                target:
+                  entity_id: switch.basement_seahawks_switch_lr
+              - action: light.turn_on
+                target:
+                  entity_id: light.front_porch_lights
+              - delay:
+                  seconds: 3
+              - action: scene.turn_on
+                target:
+                  entity_id: scene.front_porch_front_porch_seahawks
+  - if:
+      - condition: template
+        value_template: "{{ post_team != 'none' }}"
+    then:
+      - if:
+          - condition: template
+            value_template: "{{ post_winner == true }}"
+        then:
+          - delay:
+              hours: 2
+          - action: shell_command.govee_holiday
+            data:
+              holiday: "{{ holiday_season }}"
+          - action: automation.trigger
+            target:
+              entity_id: automation.holiday_lights_apply_season
+          - if:
+              - condition: template
+                value_template: "{{ post_team == 'seahawks' }}"
+            then:
+              - action: switch.turn_off
+                target:
+                  entity_id: switch.basement_seahawks_switch_lr
+        else:
+          - action: shell_command.govee_holiday
+            data:
+              holiday: "{{ holiday_season }}"
+          - action: automation.trigger
+            target:
+              entity_id: automation.holiday_lights_apply_season
+          - if:
+              - condition: template
+                value_template: "{{ post_team == 'seahawks' }}"
+            then:
+              - action: switch.turn_off
+                target:
+                  entity_id: switch.basement_seahawks_switch_lr
+mode: restart
