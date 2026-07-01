@@ -1,0 +1,12 @@
+alias: Sunset - Reapply Holiday Scene (fix for Hue Hubitat)
+description: ""
+triggers:
+  - trigger: sun
+    event: sunset
+    offset: "00:05:00"
+actions:
+  - delay:
+      seconds: 10
+  - action: automation.trigger
+    target:
+      entity_id: automation.holiday_lights_apply_season
