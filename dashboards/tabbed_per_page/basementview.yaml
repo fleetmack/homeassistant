@@ -68,8 +68,30 @@ cards:
               card:
                 type: media-control
                 entity: media_player.plex_plex_for_roku_roku_ultra
-            - type: media-control
-              entity: media_player.roku_ultra_basement_main
+            - type: vertical-stack
+              cards:
+                - type: conditional
+                  conditions:
+                    - entity: media_player.basement_roku_ultra_basement_main
+                      state:
+                        - playing
+                        - paused
+                  card:
+                    type: media-control
+                    entity: media_player.basement_roku_ultra_basement_main
+                - type: conditional
+                  conditions:
+                    - entity: media_player.basement_roku_ultra_basement_main
+                      state_not:
+                        - playing
+                        - paused
+                  card:
+                    type: custom:mushroom-entity-card
+                    entity: media_player.basement_roku_ultra_basement_main
+                    name: Roku
+                    icon: mdi:remote
+                    tap_action:
+                      action: more-info
         - type: grid
           columns: 3
           square: false
