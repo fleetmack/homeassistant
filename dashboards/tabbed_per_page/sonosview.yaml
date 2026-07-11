@@ -13,7 +13,7 @@ background:
   alignment: center
   size: cover
   repeat: repeat
-  attachment: fixed
+  attachment: scroll
   image:
     media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
     media_content_type: image/jpeg
@@ -32,9 +32,11 @@ cards:
     card_mod:
       style: |
         ha-card { 
-          background: rgba(150, 150, 150, 0.05); 
+          background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
+          backdrop-filter: blur(12px); /* The frosted glass magic */
+          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
         }
     card:
@@ -57,16 +59,30 @@ cards:
                 - volumes
                 - grouping
               card_mod:
-                style: >-
-                  ha-card { height: calc((100vh - 230px) / 2 - 4px) !important;
-                  overflow-y: auto; }
+                style: |
+                  ha-card {
+                    height: calc((100vh - 230px) / 2 - 4px) !important;
+                    overflow-y: auto !important;
+                  }
+                  ha-card > div {
+                    height: auto !important;
+                    min-height: 100%;
+                    overflow: visible !important;
+                  }
             - type: custom:sonos-card
               sections:
                 - media browser
               card_mod:
-                style: >-
-                  ha-card { height: calc((100vh - 230px) / 2 - 4px) !important;
-                  overflow-y: auto; }
+                style: |
+                  ha-card {
+                    height: calc((100vh - 230px) / 2 - 4px) !important;
+                    overflow-y: auto !important;
+                  }
+                  ha-card > div {
+                    height: auto !important;
+                    min-height: 100%;
+                    overflow: visible !important;
+                  }
   - type: custom:decluttering-card
     template: global_calendar
     view_layout:
