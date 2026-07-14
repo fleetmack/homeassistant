@@ -5,6 +5,7 @@ triggers:
     attribute: azimuth
     above: 225
     trigger: numeric_state
+
 conditions:
   - condition: template
     value_template: "{{ now().month >= 4 and now().month <= 10 }}"
@@ -12,12 +13,43 @@ conditions:
     entity_id: sun.sun
     attribute: elevation
     above: 10
+
 actions:
-  - target:
-      entity_id:
-        - cover.kitchen_blinds_kitchen_wl
-        - cover.kitchen_blinds_kitchen_wm
-        - cover.kitchen_blinds_kitchen_wr
-        - cover.living_room_shades_all_homekit
-    action: cover.close_cover
+  - repeat:
+      count: 3
+      sequence:
+        - target:
+            entity_id:
+              - cover.kitchen_blinds_kitchen_wl
+              - cover.kitchen_blinds_kitchen_wm
+          action: cover.close_cover
+
+        - delay:
+            seconds: 10
+
+        - target:
+            entity_id:
+              - cover.kitchen_blinds_kitchen_wr
+              - cover.living_room_shades_all_homekit
+          action: cover.close_cover
+
+        - delay:
+            seconds: 15
+
+        - if:
+            - condition: state
+              entity_id: cover.kitchen_blinds_kitchen_wl
+              state: "closed"
+            - condition: state
+              entity_id: cover.kitchen_blinds_kitchen_wm
+              state: "closed"
+            - condition: state
+              entity_id: cover.kitchen_blinds_kitchen_wr
+              state: "closed"
+            - condition: state
+              entity_id: cover.living_room_shades_all_homekit
+              state: "closed"
+          then:
+            - stop: "All west blinds closed successfully"
+
 mode: single
