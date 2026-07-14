@@ -23,7 +23,7 @@ triggers:
     id: on_10_min
   # --- Rule 2: Outdoor temp climbs above 70 while fireplace is on ---
   - trigger: numeric_state
-    entity_id: sensor.outdoor_temperature   # <-- REPLACE with your outdoor temp sensor
+    entity_id: sensor.outdoor_temperature
     above: 70
     id: temp_above_70
   # --- Rule 3: Midnight ---
@@ -56,19 +56,25 @@ actions:
           - action: switch.turn_off
             target:
               entity_id: switch.living_room_fireplace
-      # Rule 2: Over 70 outside AND fireplace on for 10+ minutes
+      # Rule 2a: Fireplace hit the 10-minute mark -> just check temp
       - conditions:
           - condition: trigger
-            id:
-              - on_10_min
-              - temp_above_70
+            id: on_10_min
           - condition: numeric_state
-            entity_id: sensor.outdoor_temperature   # <-- REPLACE here too
+            entity_id: sensor.outdoor_temperature
             above: 70
-          - condition: template
-            value_template: >-
-              {{ now() - states.switch.living_room_fireplace.last_changed
-                 >= timedelta(minutes=10) }}
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.living_room_fireplace
+      # Rule 2b: Temp crossed above 70 -> check fireplace on 10+ min
+      - conditions:
+          - condition: trigger
+            id: temp_above_70
+          - condition: state
+            entity_id: switch.living_room_fireplace
+            state: "on"
+            for: "00:10:00"
         sequence:
           - action: switch.turn_off
             target:
