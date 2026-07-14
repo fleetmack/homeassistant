@@ -1,0 +1,83 @@
+alias: Fireplace Safety Controls
+description: >-
+  Turns off the living room fireplace when (1) the alarm arms in Away mode or
+  the fireplace turns on while armed Away, (2) it's over 70°F outside and the
+  fireplace has been on 10+ minutes, or (3) it's midnight.
+mode: single
+triggers:
+  # --- Rule 1: Alarm goes to Away ---
+  - trigger: state
+    entity_id: sensor.virtual_hsm_status_mirror_hsm_status
+    to: armedAway
+    id: alarm_away
+  # --- Rule 1b: Fireplace turned on while already armed Away ---
+  - trigger: state
+    entity_id: switch.living_room_fireplace
+    to: "on"
+    id: fireplace_on
+  # --- Rule 2: Fireplace has been on for 10 minutes ---
+  - trigger: state
+    entity_id: switch.living_room_fireplace
+    to: "on"
+    for: "00:10:00"
+    id: on_10_min
+  # --- Rule 2: Outdoor temp climbs above 70 while fireplace is on ---
+  - trigger: numeric_state
+    entity_id: sensor.outdoor_temperature   # <-- REPLACE with your outdoor temp sensor
+    above: 70
+    id: temp_above_70
+  # --- Rule 3: Midnight ---
+  - trigger: time
+    at: "00:00:00"
+    id: midnight
+conditions:
+  # Nothing to do if the fireplace is already off
+  - condition: state
+    entity_id: switch.living_room_fireplace
+    state: "on"
+actions:
+  - choose:
+      # Rule 1: Alarm just armed Away -> always turn off
+      - conditions:
+          - condition: trigger
+            id: alarm_away
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.living_room_fireplace
+      # Rule 1b: Fireplace turned on while system is armed Away
+      - conditions:
+          - condition: trigger
+            id: fireplace_on
+          - condition: state
+            entity_id: sensor.virtual_hsm_status_mirror_hsm_status
+            state: armedAway
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.living_room_fireplace
+      # Rule 2: Over 70 outside AND fireplace on for 10+ minutes
+      - conditions:
+          - condition: trigger
+            id:
+              - on_10_min
+              - temp_above_70
+          - condition: numeric_state
+            entity_id: sensor.outdoor_temperature   # <-- REPLACE here too
+            above: 70
+          - condition: template
+            value_template: >-
+              {{ now() - states.switch.living_room_fireplace.last_changed
+                 >= timedelta(minutes=10) }}
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.living_room_fireplace
+      # Rule 3: Midnight -> turn off if on
+      - conditions:
+          - condition: trigger
+            id: midnight
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.living_room_fireplace
