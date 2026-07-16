@@ -244,7 +244,7 @@ cards:
           square: false
           cards:
             - type: custom:mushroom-light-card
-              entity: light.bartoplifx
+              entity: light.bar_top_govee
               icon: mdi:led-strip-variant
               name: Top Shelf
               use_light_color: true
@@ -252,7 +252,7 @@ cards:
               show_brightness_control: true
               show_color_control: true
             - type: custom:mushroom-light-card
-              entity: light.barbottomlifx
+              entity: light.bar_bottom_govee
               name: Bottom Shelf
               icon: mdi:led-strip-variant
               use_light_color: true
