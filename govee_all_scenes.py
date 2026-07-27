@@ -7,6 +7,9 @@ DEVICES = [
     ("1C:AB:D3:32:34:39:45:05", "H7039", "Fence Lights"),
     ("1A:21:D2:2D:44:46:06:3C", "H7039", "Pergola Lights"),
     ("D8:86:D9:38:30:33:72:53", "H705A", "Playset Lights"),
+    ("60:78:C2:80:76:66:04:63", "H61F2", "Bar Top Govee"),
+    ("2A:65:C2:80:6E:66:16:33", "H61F2", "Bar Bottom Govee"),
+    ("B4:9D:DD:6E:03:06:3C:6F", "H6099", "Basement TV"),
 ]
 
 req = urllib.request.Request(
