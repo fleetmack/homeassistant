@@ -4,17 +4,16 @@
 default_config:
 
 homeassistant:
-  external_url: "https://fleetmack.ddns.net"
+  external_url: "https://fleetmack.duckdns.org:8123"
   auth_providers:
     - type: trusted_networks
       trusted_networks:
         - 192.168.1.0/24  
       allow_bypass_login: true
     - type: homeassistant
-
 http:
   ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem  
+  ssl_key: /ssl/privkey.pem
 
 # Load frontend themes
 frontend:
