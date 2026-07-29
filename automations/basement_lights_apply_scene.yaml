@@ -7,10 +7,27 @@ conditions: []
 actions:
   - variables:
       scene_name: "{{ states('input_select.basement_scene') }}"
-  - data:
-      scene: "{{ scene_name }}"
-    action: shell_command.govee_basement
+  - if:
+      - condition: template
+        value_template: "{{ scene_name != 'off' }}"
+    then:
+      - data:
+          scene: "{{ scene_name }}"
+        action: shell_command.govee_basement
   - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ scene_name == 'off' }}"
+        sequence:
+          - action: light.turn_off
+            target:
+              entity_id:
+                - light.basement_tv
+                - light.bar_top_govee
+                - light.bar_bottom_govee
+                - light.hue_play_1
+                - light.hue_play_2
+                - light.hue_basement_bartop_strip
       - conditions:
           - condition: template
             value_template: "{{ scene_name == 'christmas' }}"
