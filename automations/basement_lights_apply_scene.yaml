@@ -1,0 +1,59 @@
+alias: Basement Lights - Apply Scene
+description: Applies basement Govee + Hue scenes when a scene is selected
+triggers:
+  - entity_id: input_select.basement_scene
+    trigger: state
+conditions: []
+actions:
+  - variables:
+      scene_name: "{{ states('input_select.basement_scene') }}"
+  - data:
+      scene: "{{ scene_name }}"
+    action: shell_command.govee_basement
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ scene_name == 'christmas' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.basement_basement_bsmt_bar_xmas
+      - conditions:
+          - condition: template
+            value_template: "{{ scene_name == 'seahawks' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.basement_basement_bsmt_bar_seahawks
+          - action: switch.turn_on
+            target:
+              entity_id: switch.basement_seahawks_switch_lr
+      - conditions:
+          - condition: template
+            value_template: "{{ scene_name == 'royals' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.basement_basement_bsmt_bar_royals
+      - conditions:
+          - condition: template
+            value_template: "{{ scene_name == 'huskers' or scene_name == 'cyclones' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.basement_basement_bsmt_huebar_red
+      - conditions:
+          - condition: template
+            value_template: "{{ scene_name == 'white' }}"
+        sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.basement_basement_bsmt_white
+  - if:
+      - condition: template
+        value_template: "{{ scene_name != 'seahawks' }}"
+    then:
+      - action: switch.turn_off
+        target:
+          entity_id: switch.basement_seahawks_switch_lr
+mode: single
