@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+# govee_basement.py — basement scene control ONLY
+# Completely independent of govee_holiday.py (outdoor lights).
+# Save as: /config/scripts/govee_basement.py
+import urllib.request
+import json
+import sys
+
+API_KEY = "e5cfab60-957e-4407-838c-62de0a1480d9"
+
+# --- Basement Govee devices (TODO: fill in device ID + SKU) ---
+DEVICES = {
+    "bartop": ("60:78:C2:80:76:66:04:63", "H61F2"),  # Bar Top Govee
+    "barbtm": ("2A:65:C2:80:6E:66:16:33", "H61F2"),  # Bar Bottom Govee
+    "bsmttv": ("B4:9D:DD:6E:03:06:3C:6F", "H6099"),  # Basement TV
+}
+
+SCENES = {
+    "christmas": {"bartop": 4040974, "barbtm": 4042678, "bsmttv": 4067606},
+    "white":     {"bartop": 4067513, "barbtm": 4067511, "bsmttv": 4067608},
+    "seahawks":  {"bartop": 4040971, "barbtm": 4042677, "bsmttv": 4067600},
+    "huskers":   {"bartop": 4040969, "barbtm": 4042675, "bsmttv": 4067604},
+    "royals":    {"bartop": 4040972, "barbtm": 4042679, "bsmttv": 4067601},
+    "cyclones":  {"bartop": 4040970, "barbtm": 4042676, "bsmttv": 4067605},
+}
+
+def trigger_snapshot(device_id, sku, value):
+    payload = {
+        "requestId": "1",
+        "payload": {
+            "sku": sku,
+            "device": device_id,
+            "capability": {
+                "type": "devices.capabilities.dynamic_scene",
+                "instance": "snapshot",
+                "value": value
+            }
+        }
+    }
+    data = json.dumps(payload).encode()
+    req = urllib.request.Request(
+        "https://openapi.api.govee.com/router/api/v1/device/control",
+        data=data,
+        headers={"Govee-API-Key": API_KEY, "Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req) as resp:
+        result = json.loads(resp.read().decode())
+        return result.get("code") == 200
+
+def apply_scene(scene_name):
+    if scene_name not in SCENES:
+        print(f"Unknown scene: {scene_name}")
+        print(f"Valid scenes: {', '.join(SCENES)}")
+        sys.exit(1)
+    for device_name, value in SCENES[scene_name].items():
+        device_id, sku = DEVICES[device_name]
+        success = trigger_snapshot(device_id, sku, value)
+        print(f"OK {device_name} -> {scene_name}" if success else f"FAIL {device_name} -> {scene_name}")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python3 govee_basement.py <scene>")
+        sys.exit(1)
+    apply_scene(sys.argv[1])
