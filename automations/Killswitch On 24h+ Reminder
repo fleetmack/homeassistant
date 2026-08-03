@@ -1,0 +1,20 @@
+alias: "Killswitch On 24h+ Reminder"
+trigger:
+  - platform: state
+    entity_id: input_boolean.hvac_killswitch
+    to: "on"
+    for:
+      hours: 24
+action:
+  - repeat:
+      while:
+        - condition: state
+          entity_id: input_boolean.hvac_killswitch
+          state: "on"
+      sequence:
+        - service: notify.mobile_app_YOUR_PHONE
+          data:
+            title: "Climate Killswitch Still ON"
+            message: "It's been on since {{ as_timestamp(states.input_boolean.hvac_killswitch.last_changed) | timestamp_custom('%b %d, %I:%M %p') }}. Your thermostat/blinds automations are disabled."
+        - delay:
+            hours: 24
