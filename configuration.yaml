@@ -11,9 +11,6 @@ homeassistant:
         - 192.168.1.0/24  
       allow_bypass_login: true
     - type: homeassistant
-http:
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
 
 # Load frontend themes
 frontend:
@@ -205,3 +202,4 @@ scene: !include scenes.yaml
  ## Shell Command to run Govee lights via python
 shell_command:
   govee_holiday: "python3 /config/scripts/govee_holiday.py {{ holiday }}"
+  govee_basement: "python3 /config/scripts/govee_basement.py {{ scene }}"
