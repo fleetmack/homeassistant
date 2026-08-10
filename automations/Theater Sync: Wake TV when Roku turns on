@@ -1,0 +1,30 @@
+alias: "Theater Sync: Wake TV when Roku turns on"
+description: Explicit WoL, replaces the deprecated implicit Samsung turn_on
+triggers:
+  - trigger: state
+    entity_id: media_player.roku_ultra   # <-- your Roku entity
+    from: "off"
+    to: "on"
+conditions:
+  - condition: not
+    conditions:
+      - condition: state
+        entity_id: media_player.samsung_q60_series_75_hass
+        state: "on"
+actions:
+  - repeat:
+      sequence:
+        - action: button.press
+          target:
+            entity_id: button.basement_wakeonlansamsungbsmttv
+        - delay: "00:00:03"
+      until:
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: media_player.samsung_q60_series_75_hass
+              state: "on"
+            - condition: template
+              value_template: "{{ repeat.index >= 6 }}"
+mode: single
+max_exceeded: silent
