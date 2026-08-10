@@ -1,13 +1,13 @@
-alias: "Theater Sync: TV Power (Final - Using Correct Entity)"
+alias: 'Theater Sync: TV Power (Final - Using Correct Entity)'
 description: Switched to the primary Denon entity that supports power commands
 triggers:
   - trigger: state
     entity_id: media_player.samsung_q60_series_75_hass
-    to: "on"
+    to: 'on'
     id: tv_on
   - trigger: state
     entity_id: media_player.samsung_q60_series_75_hass
-    to: "off"
+    to: 'off'
     id: tv_off
 actions:
   - choose:
@@ -20,7 +20,7 @@ actions:
               entity_id: media_player.denon_avr_x3800h
           - action: light.turn_on
             target:
-              entity_id: light.basement_tv_strip_inovelli
+              entity_id: light.basement_tv
             data:
               brightness_pct: 70
       - conditions:
@@ -32,5 +32,5 @@ actions:
               entity_id: media_player.denon_avr_x3800h
           - action: light.turn_off
             target:
-              entity_id: light.basement_tv_strip_inovelli
+              entity_id: light.basement_tv
 mode: restart
