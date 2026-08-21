@@ -1,0 +1,272 @@
+title: Home
+path: home
+icon: mdi:home
+cards:
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Home
+        icon: mdi:home
+        icon_color: green
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/home
+      - type: custom:mushroom-template-card
+        primary: Climate
+        icon: mdi:thermostat
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/climate
+      - type: custom:mushroom-template-card
+        primary: Energy
+        icon: mdi:lightning-bolt
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/energy
+      - type: custom:mushroom-template-card
+        primary: Kitchen
+        icon: mdi:countertop
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/kitchen
+      - type: custom:mushroom-template-card
+        primary: Backyard
+        icon: mdi:pine-tree
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/backyard
+      - type: custom:mushroom-template-card
+        primary: Master
+        icon: mdi:bed-king
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/master
+      - type: custom:mushroom-template-card
+        primary: Kids
+        icon: mdi:human-male-child
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/kids
+      - type: custom:mushroom-template-card
+        primary: Basement
+        icon: mdi:stairs-down
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/basement
+      - type: custom:mushroom-template-card
+        primary: Alerts
+        icon: mdi:bell-alert
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/alerts
+      - type: custom:mushroom-template-card
+        primary: Office
+        icon: mdi:desk
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/office
+      - type: custom:mushroom-template-card
+        primary: Garage
+        icon: mdi:garage
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/garage
+      - type: custom:mushroom-template-card
+        primary: Cameras
+        icon: mdi:cctv
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/cameras
+      - type: custom:mushroom-template-card
+        primary: Sonos
+        icon: mdi:speaker-multiple
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/sonos
+  - type: vertical-stack
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-chips-card
+            alignment: center
+            chips:
+              - type: template
+                entity: sensor.virtual_hsm_status_mirror_hsm_status
+                icon: >
+                  {% if is_state(entity, 'disarmed') %} mdi:shield-check {% elif
+                  is_state(entity, 'armedHome') %} mdi:shield-home {% else %}
+                  mdi:shield-lock {% endif %}
+                icon_color: '{{ ''green'' if is_state(entity, ''disarmed'') else ''orange'' }}'
+                content: 'Status: {{ states(entity) | capitalize }}'
+          - type: custom:mushroom-template-card
+            entity: switch.vs_alarm_disarm_for_hass
+            primary: Disarm Alarm
+            secondary: Tap to Toggle
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  height: 100px;
+                  background-image: url("/local/parrot.jpg");
+                  background-size: cover;
+                  background-position: center 15%;
+                  border-radius: 12px;
+                }
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-template-card
+                entity: switch.vs_alarm_home_for_hass
+                primary: Home
+                icon: mdi:bed
+                icon_color: blue
+                layout: horizontal
+                tap_action:
+                  action: toggle
+              - type: custom:mushroom-template-card
+                entity: switch.vs_alarm_away_for_hass
+                primary: Away
+                icon: mdi:shield-airplane
+                icon_color: red
+                layout: horizontal
+                tap_action:
+                  action: toggle
+      - type: custom:mushroom-title-card
+        title: Gates, Locks & Doors
+      - type: custom:mushroom-chips-card
+        alignment: start
+        chips:
+          - type: template
+            entity: binary_sensor.gate_alley_yard_lr_contact
+            icon: '{{ ''mdi:gate-open'' if is_state(entity, ''on'') else ''mdi:gate'' }}'
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
+            content: Alley Gate
+          - type: template
+            entity: binary_sensor.gate_front_yard_lr_contact
+            icon: '{{ ''mdi:gate-open'' if is_state(entity, ''on'') else ''mdi:gate'' }}'
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
+            content: Yard Gate
+          - type: template
+            entity: binary_sensor.gate_trash_lr_contact
+            icon: '{{ ''mdi:gate-open'' if is_state(entity, ''on'') else ''mdi:gate'' }}'
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
+            content: Trash Gate
+          - type: template
+            entity: lock.front_door_lock
+            icon: >-
+              {{ 'mdi:lock-open' if is_state(entity, 'unlocked') else 'mdi:lock'
+              }}
+            icon_color: '{{ ''red'' if is_state(entity, ''unlocked'') else ''green'' }}'
+            content: Front Lock
+          - type: template
+            entity: lock.garage_house_lock
+            icon: >-
+              {{ 'mdi:lock-open' if is_state(entity, 'unlocked') else 'mdi:lock'
+              }}
+            icon_color: '{{ ''red'' if is_state(entity, ''unlocked'') else ''green'' }}'
+            content: Mud Lock
+          - type: template
+            entity: lock.garage_yard_lock
+            icon: >-
+              {{ 'mdi:lock-open' if is_state(entity, 'unlocked') else 'mdi:lock'
+              }}
+            icon_color: '{{ ''red'' if is_state(entity, ''unlocked'') else ''green'' }}'
+            content: Yard Lock
+          - type: template
+            entity: binary_sensor.kitchen_sliding_door_lock_lr_contact
+            icon: '{{ ''mdi:lock-open'' if is_state(entity, ''on'') else ''mdi:lock'' }}'
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
+            content: Slider Lock
+          - type: template
+            entity: binary_sensor.front_door_sensor_contact
+            icon: >-
+              {{ 'mdi:door-open' if is_state(entity, 'on') else
+              'mdi:door-closed' }}
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
+            content: Front Door
+          - type: template
+            entity: binary_sensor.garage_house_door_sensor_contact
+            icon: >-
+              {{ 'mdi:door-open' if is_state(entity, 'on') else
+              'mdi:door-closed' }}
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
+            content: Mud Door
+          - type: template
+            entity: binary_sensor.garage_yard_door_sensor_contact
+            icon: >-
+              {{ 'mdi:door-open' if is_state(entity, 'on') else
+              'mdi:door-closed' }}
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
+            content: Yard Door
+          - type: template
+            entity: binary_sensor.kitching_sliding_door_sensor_contact
+            icon: >-
+              {{ 'mdi:door-open' if is_state(entity, 'on') else
+              'mdi:door-closed' }}
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
+            content: Sliding Door
+          - type: template
+            entity: binary_sensor.kitchen_screen_door_lr_contact
+            icon: >-
+              {{ 'mdi:door-open' if is_state(entity, 'on') else
+              'mdi:door-closed' }}
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
+            content: Screen Door
+          - type: template
+            entity: cover.garage_door_opener_door
+            icon: >-
+              {{ 'mdi:garage-open' if is_state(entity, 'open') else 'mdi:garage'
+              }}
+            icon_color: '{{ ''red'' if is_state(entity, ''open'') else ''green'' }}'
+            content: Garage
+      - type: custom:mushroom-title-card
+        title: Fridges & Freezers
+      - type: custom:mushroom-chips-card
+        alignment: start
+        chips:
+          - type: template
+            entity: sensor.keezer_temp_lr_temperature
+            icon: mdi:beer
+            icon_color: '{{ ''blue'' if states(entity)|float < 42 else ''red'' }}'
+            content: Beer {{ states(entity) }}°
+          - type: template
+            entity: sensor.basement_fridge_temp_sensor_temperature
+            icon: mdi:fridge-bottom
+            icon_color: '{{ ''blue'' if states(entity)|float < 40 else ''red'' }}'
+            content: Bsmt Fridge {{ states(entity) }}°
+          - type: template
+            entity: sensor.kitchen_fridge_temp_sensor_temperature
+            icon: mdi:fridge-outline
+            icon_color: '{{ ''blue'' if states(entity)|float < 40 else ''red'' }}'
+            content: Kitch Fridge {{ states(entity) }}°
+          - type: template
+            entity: sensor.chest_freezer_temp_temperature
+            icon: mdi:snowflake
+            icon_color: '{{ ''blue'' if states(entity)|float < 15 else ''red'' }}'
+            content: Chest {{ states(entity) }}°
+          - type: template
+            entity: sensor.kitchen_freezer_lr_temperature
+            icon: mdi:snowflake
+            icon_color: '{{ ''blue'' if states(entity)|float < 15 else ''red'' }}'
+            content: Kitch Freez {{ states(entity) }}°
+          - type: template
+            entity: sensor.basement_freezer_lr_temperature
+            icon: mdi:snowflake
+            icon_color: '{{ ''blue'' if states(entity)|float < 15 else ''red'' }}'
+            content: Bsmt Freez {{ states(entity) }}°
