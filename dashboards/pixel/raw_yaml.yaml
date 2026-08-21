@@ -1,103 +1,147 @@
+button_card_templates:
+  nav_button:
+    variables:
+      path: ''
+    triggers_update: none
+    styles:
+      card:
+      - height: 80px
+      - border-radius: 12px
+      - border: "[[[\n  return window.location.pathname.includes(variables.path)\n  ? '2px solid #4CAF50'\n  : '1px solid var(--divider-color)'\n]]]"
+      - background-color: "[[[\n  return window.location.pathname.includes(variables.path)\n  ? 'rgba(76, 175, 80, 0.1)'\n  : 'var(--card-background-color)'\n]]]"
+      icon:
+      - color: "[[[\n  return window.location.pathname.includes(variables.path)\n  ? '#4CAF50'\n  : 'var(--paper-item-icon-color)'\n]]]"
+decluttering_templates:
+  nav_bar:
+    card:
+      type: grid
+      columns: 3
+      square: false
+      cards:
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: home
+        icon: mdi:home
+        name: Home
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/home
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: climate
+        icon: mdi:thermostat
+        name: Climate
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/climate
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: energy
+        icon: mdi:lightning-bolt
+        name: Energy
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/energy
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: kitchen
+        icon: mdi:countertop
+        name: Kitchen
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/kitchen
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: backyard
+        icon: mdi:pine-tree
+        name: Backyard
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/backyard
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: master
+        icon: mdi:bed-king
+        name: Master
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/master
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: kids
+        icon: mdi:human-male-child
+        name: Kids
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/kids
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: basement
+        icon: mdi:stairs-down
+        name: Basement
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/basement
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: alerts
+        icon: mdi:bell-alert
+        name: Alerts
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/alerts
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: office
+        icon: mdi:desk
+        name: Office
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/office
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: garage
+        icon: mdi:garage
+        name: Garage
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/garage
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: cameras
+        icon: mdi:cctv
+        name: Cameras
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/cameras
+      - type: custom:button-card
+        template: nav_button
+        variables:
+          path: sonos
+        icon: mdi:speaker-multiple
+        name: Sonos
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/sonos
 views:
 - title: Home
   path: home
   icon: mdi:home
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
     - type: vertical-stack
@@ -249,101 +293,8 @@ views:
   path: climate
   icon: mdi:thermostat
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
     - type: custom:mushroom-chips-card
@@ -385,101 +336,8 @@ views:
   path: energy
   icon: mdi:lightning-bolt
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
     - type: custom:mushroom-title-card
@@ -494,101 +352,8 @@ views:
   path: kitchen
   icon: mdi:countertop
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: custom:stack-in-card
     cards:
     - type: custom:mushroom-title-card
@@ -617,101 +382,8 @@ views:
   path: backyard
   icon: mdi:pine-tree
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: custom:stack-in-card
     cards:
     - type: custom:mushroom-title-card
@@ -876,101 +548,8 @@ views:
   path: master
   icon: mdi:bed-king
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: custom:stack-in-card
     cards:
     - type: custom:mushroom-title-card
@@ -993,101 +572,8 @@ views:
   path: kids
   icon: mdi:human-male-child
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
     - type: custom:mushroom-title-card
@@ -1229,101 +715,8 @@ views:
   path: basement
   icon: mdi:stairs-down
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
     - type: custom:mushroom-title-card
@@ -1597,101 +990,8 @@ views:
   path: alerts
   icon: mdi:bell-alert
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
     - type: custom:mushroom-title-card
@@ -1725,101 +1025,8 @@ views:
   path: office
   icon: mdi:desk
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
     - type: custom:mushroom-title-card
@@ -1871,101 +1078,8 @@ views:
   path: garage
   icon: mdi:garage
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
     - type: custom:mushroom-chips-card
@@ -2020,101 +1134,8 @@ views:
   path: cameras
   icon: mdi:cctv
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
     - type: custom:mushroom-title-card
@@ -2168,101 +1189,8 @@ views:
   path: sonos
   icon: mdi:speaker-multiple
   cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-    - type: custom:mushroom-template-card
-      primary: Home
-      icon: mdi:home
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/home
-    - type: custom:mushroom-template-card
-      primary: Climate
-      icon: mdi:thermostat
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/climate
-    - type: custom:mushroom-template-card
-      primary: Energy
-      icon: mdi:lightning-bolt
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/energy
-    - type: custom:mushroom-template-card
-      primary: Kitchen
-      icon: mdi:countertop
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kitchen
-    - type: custom:mushroom-template-card
-      primary: Backyard
-      icon: mdi:pine-tree
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/backyard
-    - type: custom:mushroom-template-card
-      primary: Master
-      icon: mdi:bed-king
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/master
-    - type: custom:mushroom-template-card
-      primary: Kids
-      icon: mdi:human-male-child
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/kids
-    - type: custom:mushroom-template-card
-      primary: Basement
-      icon: mdi:stairs-down
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/basement
-    - type: custom:mushroom-template-card
-      primary: Alerts
-      icon: mdi:bell-alert
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/alerts
-    - type: custom:mushroom-template-card
-      primary: Office
-      icon: mdi:desk
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/office
-    - type: custom:mushroom-template-card
-      primary: Garage
-      icon: mdi:garage
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/garage
-    - type: custom:mushroom-template-card
-      primary: Cameras
-      icon: mdi:cctv
-      icon_color: grey
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/cameras
-    - type: custom:mushroom-template-card
-      primary: Sonos
-      icon: mdi:speaker-multiple
-      icon_color: green
-      tap_action:
-        action: navigate
-        navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
     - type: custom:mushroom-title-card
