@@ -1,0 +1,59 @@
+title: Garage
+path: garage
+icon: mdi:garage
+cards:
+  - type: custom:decluttering-card
+    template: nav_bar
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-chips-card
+        alignment: start
+        card_mod:
+          style: |
+            mushroom-chip { margin-right: 10px !important; }
+        chips:
+          - type: template
+            entity: sensor.garage_temp_sensor_temperature
+            icon: mdi:thermometer
+            content: 'Garage: {{ states(entity) }}°'
+            icon_color: >-
+              {% set t = states(entity) | float(0) %}  {{ 'orange' if t > 85
+              else ('blue' if t < 40 else 'green') }}
+            tap_action:
+              action: more-info
+          - type: template
+            entity: switch.vs_garage_alert
+            icon: >-
+              {{ 'mdi:garage-alert' if is_state(entity, 'on') else
+              'mdi:garage-alert-variant' }}
+            content: Garage Alerts
+            icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''disabled'' }}'
+            tap_action:
+              action: toggle
+      - type: custom:mushroom-light-card
+        entity: light.garage_lights
+        show_brightness_control: true
+        use_light_color: true
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:mushroom-lock-card
+            entity: lock.garage_house_lock
+            name: House
+            layout: vertical
+          - type: custom:mushroom-lock-card
+            entity: lock.reliable_garage_yard_lock
+            name: Yard
+            layout: vertical
+      - type: custom:mushroom-title-card
+        subtitle: Audio
+      - type: custom:mini-media-player
+        entity: media_player.garage_sonos_play1_tools
+        name: Sonos Tools
+        artwork: cover
+      - type: custom:mini-media-player
+        entity: media_player.newly
+        name: Sonos Door
+        artwork: cover
+subview: true
