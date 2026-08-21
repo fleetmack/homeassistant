@@ -1,0 +1,297 @@
+title: Basement
+path: basement
+icon: mdi:stairs-down
+cards:
+  - type: custom:decluttering-card
+    template: nav_bar
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Basement
+      - type: custom:mushroom-chips-card
+        alignment: justify
+        chips:
+          - type: template
+            icon: mdi:thermometer
+            content: >-
+              Basement: {{
+              states('sensor.basement_dart_temp_zigbee_temperature') }}°
+            icon_color: >-
+              {{ 'orange' if
+              states('sensor.basement_dart_temp_zigbee_temperature') | float >
+              72 else 'blue' }}
+            tap_action:
+              action: more-info
+        entity: sensor.basement_dart_temp_zigbee_temperature
+      - type: custom:stack-in-card
+        cards:
+          - type: custom:mushroom-title-card
+            subtitle: Rooms
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:stack-in-card
+                mode: horizontal
+                cards:
+                  - type: custom:mushroom-template-card
+                    entity: switch.basement_lounge_switches
+                    icon: mdi:sofa
+                    icon_color: '{{ ''amber'' if is_state(entity, ''on'') else ''grey'' }}'
+                    layout: vertical
+                    tap_action:
+                      action: toggle
+                    card_mod:
+                      style: |
+                        :host { flex: 0 0 40% !important; }
+                  - type: custom:mushroom-template-card
+                    entity: light.basement_lounge_ceiling_lights
+                    primary: Lounge
+                    secondary: Tap for Color
+                    icon: mdi:palette
+                    layout: vertical
+                    tap_action:
+                      action: more-info
+                    card_mod:
+                      style: |
+                        :host { flex: 1 1 60% !important; }
+              - type: custom:mushroom-template-card
+                entity: light.basement_bar_lights
+                primary: Bar Fun
+                secondary: Tap for Color
+                icon: mdi:glass-cocktail
+                icon_color: '{{ ''blue'' if is_state(entity, ''on'') else ''grey'' }}'
+                layout: horizontal
+                tap_action:
+                  action: more-info
+              - type: custom:stack-in-card
+                mode: horizontal
+                cards:
+                  - type: custom:mushroom-template-card
+                    entity: switch.basement_play_area_switches
+                    icon: mdi:nintendo-switch
+                    icon_color: '{{ ''amber'' if is_state(entity, ''on'') else ''grey'' }}'
+                    layout: vertical
+                    tap_action:
+                      action: toggle
+                    card_mod:
+                      style: |
+                        :host { flex: 0 0 40% !important; }
+                  - type: custom:mushroom-template-card
+                    entity: light.basement_playroom_lights_2
+                    primary: Playroom
+                    secondary: Tap for Color
+                    icon: mdi:palette
+                    layout: vertical
+                    tap_action:
+                      action: more-info
+                    card_mod:
+                      style: |
+                        :host { flex: 1 1 60% !important; }
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: switch.basement_storage_switch
+                name: Storage
+                icon: mdi:package-variant-closed
+                tap_action:
+                  action: toggle
+              - type: custom:mushroom-entity-card
+                entity: light.basement_bath_lights_lr
+                name: Bathroom
+                icon: mdi:shower
+                tap_action:
+                  action: toggle
+              - type: custom:mushroom-entity-card
+                entity: light.basement_stairs_lights
+                name: Stairs
+                icon: mdi:stairs
+                tap_action:
+                  action: toggle
+      - type: custom:stack-in-card
+        cards:
+          - type: custom:mushroom-title-card
+            subtitle: Entertainment & Bar
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.basement_tv
+                name: Lounge TV
+                icon: mdi:television
+                use_light_color: true
+                show_color_temp_control: true
+                show_brightness_control: true
+                show_color_control: true
+              - type: custom:mushroom-light-card
+                entity: light.hue_kids_tv
+                icon: mdi:television
+                name: Kids TV
+                use_light_color: true
+                show_color_temp_control: true
+                show_brightness_control: true
+                show_color_control: true
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.hue_basement_bartop_strip
+                name: Under Bar
+                icon: mdi:led-strip-variant
+                use_light_color: true
+                show_brightness_control: true
+                show_color_temp_control: true
+                show_color_control: true
+              - type: custom:mushroom-entity-card
+                entity: switch.basement_seahawks_switch_lr
+                name: Seahawks Neon
+                icon: mdi:football
+                icon_color: blue
+                tap_action:
+                  action: toggle
+                card_mod:
+                  style: |
+                    ha-card {
+                      height: 106px !important;
+                      background-image: url(/local/seahawks_on.jpg) !important;
+                      background-size: contain;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                    }
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.bar_top_govee
+                icon: mdi:led-strip-variant
+                name: Top Shelf
+                use_light_color: true
+                show_color_temp_control: true
+                show_brightness_control: true
+                show_color_control: true
+              - type: custom:mushroom-light-card
+                entity: light.bar_bottom_govee
+                name: Bottom Shelf
+                icon: mdi:led-strip-variant
+                use_light_color: true
+                show_color_temp_control: true
+                show_brightness_control: true
+                show_color_control: true
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.hue_play_1
+                name: Play Left
+                use_light_color: true
+                show_color_control: true
+                show_color_temp_control: true
+              - type: custom:mushroom-light-card
+                entity: light.hue_play_2
+                name: Play Right
+                use_light_color: true
+                show_color_control: true
+                show_color_temp_control: true
+      - type: custom:mushroom-title-card
+        title: Basement Scenes
+      - type: custom:mushroom-chips-card
+        alignment: center
+        chips:
+          - type: template
+            icon: mdi:pine-tree
+            content: Christmas
+            icon_color: >-
+              {{ 'green' if is_state('input_select.basement_scene', 'christmas')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.basement_scene
+              data:
+                option: christmas
+          - type: template
+            icon: mdi:lightbulb-on
+            content: White
+            icon_color: >-
+              {{ 'white' if is_state('input_select.basement_scene', 'white')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.basement_scene
+              data:
+                option: white
+          - type: template
+            icon: mdi:football
+            content: Seahawks
+            icon_color: >-
+              {{ 'teal' if is_state('input_select.basement_scene', 'seahawks')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.basement_scene
+              data:
+                option: seahawks
+          - type: template
+            icon: mdi:football-helmet
+            content: Huskers
+            icon_color: >-
+              {{ 'red' if is_state('input_select.basement_scene', 'huskers')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.basement_scene
+              data:
+                option: huskers
+          - type: template
+            icon: mdi:baseball-bat
+            content: Royals
+            icon_color: >-
+              {{ 'blue' if is_state('input_select.basement_scene', 'royals')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.basement_scene
+              data:
+                option: royals
+          - type: template
+            icon: mdi:weather-tornado
+            content: Cyclones
+            icon_color: >-
+              {{ 'amber' if is_state('input_select.basement_scene', 'cyclones')
+              else 'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.basement_scene
+              data:
+                option: cyclones
+          - type: template
+            icon: mdi:power
+            content: 'Off'
+            icon_color: >-
+              {{ 'red' if is_state('input_select.basement_scene', 'off') else
+              'grey' }}
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.basement_scene
+              data:
+                option: 'off'
+subview: true
