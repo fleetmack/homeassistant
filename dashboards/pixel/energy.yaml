@@ -1,45 +1,16 @@
-title: Climate
-path: climate
-icon: mdi:thermostat
+title: Energy
+path: energy
+icon: mdi:lightning-bolt
 cards:
   - type: custom:decluttering-card
     template: nav_bar
   - type: vertical-stack
     cards:
-      - type: custom:mushroom-chips-card
-        alignment: center
-        chips:
-          - type: template
-            entity: input_boolean.hvac_killswitch
-            icon: mdi:power
-            icon_color: >-
-              {{ 'red' if is_state('input_boolean.hvac_killswitch', 'on') else
-              'green' }}
-            content: >
-              {{ 'Climate: KILLED' if is_state('input_boolean.hvac_killswitch',
-              'on') else 'Climate: Active' }}
-            tap_action:
-              action: toggle
       - type: custom:mushroom-title-card
-        title: Climate
-      - type: grid
-        columns: 1
-        square: false
-        cards:
-          - type: thermostat
-            entity: climate.honeywell_t_stat_main_floor
-            features:
-              - type: climate-hvac-modes
-                hvac_modes:
-                  - heat
-                  - cool
-                  - 'off'
-          - type: thermostat
-            entity: climate.honeywell_t_stat_upstairs
-            features:
-              - type: climate-hvac-modes
-                hvac_modes:
-                  - heat
-                  - cool
-                  - 'off'
+        title: Energy
+      - type: energy-distribution
+        link_dashboard: false
+      - type: energy-usage-graph
+      - type: energy-water-graph
+      - type: energy-date-selection
 subview: true
