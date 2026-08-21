@@ -1,109 +1,45 @@
-title: Energy
-path: energy
-icon: mdi:lightning-bolt
+title: Climate
+path: climate
+icon: mdi:thermostat
 cards:
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-      - type: custom:mushroom-template-card
-        primary: Home
-        icon: mdi:home
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/home
-      - type: custom:mushroom-template-card
-        primary: Climate
-        icon: mdi:thermostat
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/climate
-      - type: custom:mushroom-template-card
-        primary: Energy
-        icon: mdi:lightning-bolt
-        icon_color: green
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/energy
-      - type: custom:mushroom-template-card
-        primary: Kitchen
-        icon: mdi:countertop
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/kitchen
-      - type: custom:mushroom-template-card
-        primary: Backyard
-        icon: mdi:pine-tree
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/backyard
-      - type: custom:mushroom-template-card
-        primary: Master
-        icon: mdi:bed-king
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/master
-      - type: custom:mushroom-template-card
-        primary: Kids
-        icon: mdi:human-male-child
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/kids
-      - type: custom:mushroom-template-card
-        primary: Basement
-        icon: mdi:stairs-down
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/basement
-      - type: custom:mushroom-template-card
-        primary: Alerts
-        icon: mdi:bell-alert
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/alerts
-      - type: custom:mushroom-template-card
-        primary: Office
-        icon: mdi:desk
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/office
-      - type: custom:mushroom-template-card
-        primary: Garage
-        icon: mdi:garage
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/garage
-      - type: custom:mushroom-template-card
-        primary: Cameras
-        icon: mdi:cctv
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/cameras
-      - type: custom:mushroom-template-card
-        primary: Sonos
-        icon: mdi:speaker-multiple
-        icon_color: grey
-        tap_action:
-          action: navigate
-          navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:decluttering-card
+    template: nav_bar
   - type: vertical-stack
     cards:
+      - type: custom:mushroom-chips-card
+        alignment: center
+        chips:
+          - type: template
+            entity: input_boolean.hvac_killswitch
+            icon: mdi:power
+            icon_color: >-
+              {{ 'red' if is_state('input_boolean.hvac_killswitch', 'on') else
+              'green' }}
+            content: >
+              {{ 'Climate: KILLED' if is_state('input_boolean.hvac_killswitch',
+              'on') else 'Climate: Active' }}
+            tap_action:
+              action: toggle
       - type: custom:mushroom-title-card
-        title: Energy
-      - type: energy-distribution
-        link_dashboard: false
-      - type: energy-usage-graph
-      - type: energy-water-graph
-      - type: energy-date-selection
+        title: Climate
+      - type: grid
+        columns: 1
+        square: false
+        cards:
+          - type: thermostat
+            entity: climate.honeywell_t_stat_main_floor
+            features:
+              - type: climate-hvac-modes
+                hvac_modes:
+                  - heat
+                  - cool
+                  - 'off'
+          - type: thermostat
+            entity: climate.honeywell_t_stat_upstairs
+            features:
+              - type: climate-hvac-modes
+                hvac_modes:
+                  - heat
+                  - cool
+                  - 'off'
 subview: true
