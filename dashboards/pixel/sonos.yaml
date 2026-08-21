@@ -1,0 +1,96 @@
+title: Sonos
+path: sonos
+icon: mdi:speaker-multiple
+cards:
+  - type: custom:decluttering-card
+    template: nav_bar
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Sonos
+      - type: custom:mini-media-player
+        entity: media_player.basement_beam_sonos
+        name: Basement Beam
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.bedroom_playbar_sonos
+        name: Bedroom Playbar
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.claire
+        name: Claire's Room
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.den
+        name: Den
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.newly
+        name: Garage Door
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.garage_sonos_play1_tools
+        name: Garage Tools
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.gym
+        name: Gym
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.hudson
+        name: Hudson's Room
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.living_room_arc
+        name: Living Room
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.master_bath_sonos
+        name: Master Bath
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.move_2
+        name: Move 2 (Portable)
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.sonos_roam
+        name: Roam (Portable)
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.savannah
+        name: Savannah's Room
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.unnamed_room_7
+        name: Unnamed Room
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.yard_fire_pit_sonos
+        name: Yard Fire Pit
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.yard_grill_sonos
+        name: Yard Grill
+        artwork: cover
+        group: true
+      - type: custom:mini-media-player
+        entity: media_player.yard_playground_sonos
+        name: Yard Playground
+        artwork: cover
+        group: true
+subview: true
