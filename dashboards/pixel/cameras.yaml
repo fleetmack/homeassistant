@@ -1,0 +1,55 @@
+title: Cameras
+path: cameras
+icon: mdi:cctv
+cards:
+  - type: custom:decluttering-card
+    template: nav_bar
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Cameras
+      - type: picture-entity
+        entity: camera.alleydown_low_resolution_channel
+        name: Alley Down
+        camera_view: live
+      - type: picture-entity
+        entity: camera.alleysouth_low_resolution_channel
+        name: Alley South
+        camera_view: live
+      - type: picture-entity
+        entity: camera.alleyunifi180_low_resolution_channel
+        name: Alley UniFi 180
+        camera_view: live
+      - type: picture-entity
+        entity: camera.back_porch_low_resolution_channel
+        name: Back Porch
+        camera_view: live
+      - type: picture-entity
+        entity: camera.fountain_low_resolution_channel
+        name: Fountain
+        camera_view: live
+      - type: picture-entity
+        entity: camera.frontporch_low_resolution_channel
+        name: Front Porch
+        camera_view: live
+      - type: picture-entity
+        entity: camera.garageunifig5_low_resolution_channel
+        name: Garage
+        camera_view: live
+      - type: picture-entity
+        entity: camera.g5_turret_ultra_low_resolution_channel
+        name: G5 Turret Ultra
+        camera_view: live
+      - type: picture-entity
+        entity: camera.side_yard_low_resolution_channel
+        name: Side Yard
+        camera_view: live
+      - type: picture-entity
+        entity: camera.unifidoorbell_low_resolution_channel
+        name: Doorbell
+        camera_view: live
+      - type: picture-entity
+        entity: camera.unifidoorbell_package_camera
+        name: Doorbell Package
+        camera_view: live
+subview: true
