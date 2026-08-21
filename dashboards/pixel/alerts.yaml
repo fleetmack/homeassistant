@@ -1,0 +1,35 @@
+title: Alerts
+path: alerts
+icon: mdi:bell-alert
+cards:
+  - type: custom:decluttering-card
+    template: nav_bar
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: System Alerts
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:mushroom-entity-card
+            entity: switch.vs_garage_alert
+            name: Garage Alerts
+            icon: mdi:garage-alert
+          - type: custom:mushroom-entity-card
+            entity: switch.vs_disable_hsm
+            name: Disable HSM
+            icon: mdi:moon-waning-crescent
+          - type: custom:mushroom-entity-card
+            entity: switch.vs_alarm_disarm_for_hass
+            name: Parrot Alert
+            icon: mdi:alert-box
+          - type: custom:mushroom-entity-card
+            entity: switch.blue_iris_texts_vs
+            name: Porch Texts
+            icon: mdi:cellphone
+          - type: custom:mushroom-entity-card
+            entity: switch.yard_door_alerts_vs
+            name: Yard Alerts
+            icon: mdi:alert-box
+subview: true
