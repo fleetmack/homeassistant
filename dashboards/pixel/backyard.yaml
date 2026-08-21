@@ -1,0 +1,259 @@
+title: Backyard
+path: backyard
+icon: mdi:pine-tree
+cards:
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Home
+        icon: mdi:home
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/home
+      - type: custom:mushroom-template-card
+        primary: Climate
+        icon: mdi:thermostat
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/climate
+      - type: custom:mushroom-template-card
+        primary: Energy
+        icon: mdi:lightning-bolt
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/energy
+      - type: custom:mushroom-template-card
+        primary: Kitchen
+        icon: mdi:countertop
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/kitchen
+      - type: custom:mushroom-template-card
+        primary: Backyard
+        icon: mdi:pine-tree
+        icon_color: green
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/backyard
+      - type: custom:mushroom-template-card
+        primary: Master
+        icon: mdi:bed-king
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/master
+      - type: custom:mushroom-template-card
+        primary: Kids
+        icon: mdi:human-male-child
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/kids
+      - type: custom:mushroom-template-card
+        primary: Basement
+        icon: mdi:stairs-down
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/basement
+      - type: custom:mushroom-template-card
+        primary: Alerts
+        icon: mdi:bell-alert
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/alerts
+      - type: custom:mushroom-template-card
+        primary: Office
+        icon: mdi:desk
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/office
+      - type: custom:mushroom-template-card
+        primary: Garage
+        icon: mdi:garage
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/garage
+      - type: custom:mushroom-template-card
+        primary: Cameras
+        icon: mdi:cctv
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/cameras
+      - type: custom:mushroom-template-card
+        primary: Sonos
+        icon: mdi:speaker-multiple
+        icon_color: grey
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-pixeltabs/sonos
+  - type: custom:stack-in-card
+    cards:
+      - type: custom:mushroom-title-card
+        subtitle: Backyard
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.backyard_garage_lights_lr
+            name: Garage Sconce
+          - type: custom:mushroom-light-card
+            entity: light.fence_lights_2
+          - type: custom:mushroom-light-card
+            entity: light.pergola_lights_new_2
+            name: Pergola
+          - type: custom:mushroom-light-card
+            entity: light.playset_lights_2
+          - type: custom:mushroom-entity-card
+            entity: switch.patio_fans
+          - type: custom:mushroom-entity-card
+            entity: switch.backyard_fountain
+      - type: custom:mushroom-title-card
+        title: Holiday Override
+      - type: custom:mushroom-chips-card
+        alignment: center
+        chips:
+          - type: template
+            icon: mdi:heart
+            icon_color: red
+            content: Val
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.holiday_lights_apply_season
+                variables:
+                  season: valentines
+          - type: template
+            icon: mdi:clover
+            icon_color: green
+            content: StPats
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.holiday_lights_apply_season
+                variables:
+                  season: stpats
+          - type: template
+            icon: mdi:egg-easter
+            icon_color: purple
+            content: Easter
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.holiday_lights_apply_season
+                variables:
+                  season: easter
+          - type: template
+            icon: mdi:flag-variant
+            icon_color: blue
+            content: RWB
+            tap_action:
+              action: call-service
+              service_data:
+                entity_id: automation.holiday_lights_apply_season
+                variables:
+                  season: rwb
+          - type: template
+            icon: mdi:ghost
+            icon_color: orange
+            content: 👻
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.holiday_lights_apply_season
+                variables:
+                  season: halloween
+          - type: template
+            icon: mdi:turkey
+            icon_color: amber
+            content: Thanks
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.holiday_lights_apply_season
+                variables:
+                  season: thanks
+          - type: template
+            icon: mdi:pine-tree
+            icon_color: green
+            content: Xmas
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.holiday_lights_apply_season
+                variables:
+                  season: xmas
+          - type: template
+            icon: mdi:brightness-5
+            icon_color: yellow
+            content: Default
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.holiday_lights_apply_season
+                variables:
+                  season: default
+      - type: custom:mushroom-title-card
+        title: Sports
+      - type: custom:mushroom-chips-card
+        alignment: center
+        chips:
+          - type: template
+            icon: mdi:football
+            icon_color: '#e31937'
+            content: Huskers
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.sports_lights_game_day
+                variables:
+                  active_team: huskers
+          - type: template
+            icon: mdi:football
+            icon_color: '#ae192d'
+            content: Cyclones
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.sports_lights_game_day
+                variables:
+                  active_team: cyclones
+          - type: template
+            icon: mdi:football
+            icon_color: '#002a5c'
+            content: Seahawks
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.sports_lights_game_day
+                variables:
+                  active_team: seahawks
+          - type: template
+            icon: mdi:baseball
+            icon_color: '#004687'
+            content: Royals
+            tap_action:
+              action: call-service
+              service: script.royals_lights
+subview: true
