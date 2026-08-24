@@ -486,14 +486,8 @@ views:
         "sidebar main calendar"
       grid-gap: 10px
     background:
-      opacity: 50
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      opacity: 100
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -510,8 +504,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
-              backdrop-filter: blur(12px); /* The frosted glass magic */
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -721,13 +713,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -744,8 +730,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
-              backdrop-filter: blur(12px); /* The frosted glass magic */
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -822,13 +806,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -845,8 +823,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important; 
-              backdrop-filter: blur(12px); 
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -1259,13 +1235,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -1282,8 +1252,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important;
-              backdrop-filter: blur(12px);
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -1388,13 +1356,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -1411,8 +1373,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important; 
-              backdrop-filter: blur(12px); 
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -1582,13 +1542,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -1605,8 +1559,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
-              backdrop-filter: blur(12px); /* The frosted glass magic */
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -1970,13 +1922,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -1993,8 +1939,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
-              backdrop-filter: blur(12px); /* The frosted glass magic */
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -2066,13 +2010,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2089,8 +2027,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important;
-              backdrop-filter: blur(12px);
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -2427,13 +2363,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2450,8 +2380,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important; 
-              backdrop-filter: blur(12px); 
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -2556,13 +2484,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2579,8 +2501,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important;
-              backdrop-filter: blur(12px);
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -2680,13 +2600,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2703,8 +2617,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important; /* Slightly darker to make the text pop */
-              backdrop-filter: blur(12px); /* The frosted glass magic */
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -2769,13 +2681,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2921,14 +2827,8 @@ views:
         "sidebar main calendar"
       grid-gap: 10px
     background:
-      opacity: 50
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      opacity: 100
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2945,8 +2845,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important;
-              backdrop-filter: blur(12px);
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
@@ -3122,13 +3020,7 @@ views:
       grid-gap: 10px
     background:
       opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: scroll
-      image:
-        media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-        media_content_type: image/jpeg
+      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -3145,8 +3037,6 @@ views:
           style: |
             ha-card { 
               background: rgba(30, 30, 30, 0.3) !important; 
-              backdrop-filter: blur(12px); 
-              -webkit-backdrop-filter: blur(12px);
               border-radius: 20px;
               border: 1px solid rgba(255, 255, 255, 0.15); 
               padding: 10px; 
