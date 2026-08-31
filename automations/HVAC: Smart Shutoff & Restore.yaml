@@ -1,15 +1,15 @@
-alias: "HVAC: Smart Shutoff & Restore"
-description: ""
+alias: 'HVAC: Smart Shutoff & Restore (Optimized)'
+description: >-
+  Safely shuts down HVAC when doors are open and restores states sequentially to
+  prevent Honeywell API drops.
 triggers:
   - entity_id:
-      - binary_sensor.kitching_sliding_door_sensor_contact
-      - binary_sensor.front_door_sensor_contact
-      - binary_sensor.garage_yard_door_sensor_contact
-    to: "on"
+      - binary_sensor.patio_door
+      - binary_sensor.front_door
+      - binary_sensor.garage_yard
+    to: 'on'
     for:
-      hours: 0
       minutes: 30
-      seconds: 0
     trigger: state
 conditions:
   - condition: or
@@ -18,26 +18,41 @@ conditions:
         conditions:
           - condition: state
             entity_id: climate.honeywell_t_stat_main_floor
-            state: "off"
+            state: 'off'
       - condition: not
         conditions:
           - condition: state
             entity_id: climate.honeywell_t_stat_upstairs
-            state: "off"
+            state: 'off'
 actions:
-  - data:
-      scene_id: hvac_snapshot_before_door_open
-      snapshot_entities:
-        - climate.honeywell_t_stat_main_floor
-        - climate.honeywell_t_stat_upstairs
-    action: scene.create
-  - target:
-      entity_id:
-        - climate.honeywell_t_stat_main_floor
-        - climate.honeywell_t_stat_upstairs
-    data:
-      hvac_mode: "off"
-    action: climate.set_hvac_mode
+  - variables:
+      main_floor_old_mode: '{{ states(''climate.honeywell_t_stat_main_floor'') }}'
+      upstairs_old_mode: '{{ states(''climate.honeywell_t_stat_upstairs'') }}'
+  - if:
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: climate.honeywell_t_stat_main_floor
+            state: 'off'
+    then:
+      - target:
+          entity_id: climate.honeywell_t_stat_main_floor
+        data:
+          hvac_mode: 'off'
+        action: climate.set_hvac_mode
+  - delay: '00:00:10'
+  - if:
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: climate.honeywell_t_stat_upstairs
+            state: 'off'
+    then:
+      - target:
+          entity_id: climate.honeywell_t_stat_upstairs
+        data:
+          hvac_mode: 'off'
+        action: climate.set_hvac_mode
   - data:
       title: HVAC Disabled 🚪
       message: >-
@@ -51,15 +66,23 @@ actions:
              is_state('binary_sensor.front_door_sensor_contact', 'off') and
              is_state('binary_sensor.garage_yard_door_sensor_contact', 'off') }}
         trigger: template
-    timeout: "08:00:00"
+    timeout: '08:00:00'
     continue_on_timeout: false
   - target:
-      entity_id: scene.hvac_snapshot_before_door_open
-    action: scene.turn_on
+      entity_id: climate.honeywell_t_stat_main_floor
+    data:
+      hvac_mode: '{{ main_floor_old_mode }}'
+    action: climate.set_hvac_mode
+  - delay: '00:00:10'
+  - target:
+      entity_id: climate.honeywell_t_stat_upstairs
+    data:
+      hvac_mode: '{{ upstairs_old_mode }}'
+    action: climate.set_hvac_mode
   - data:
       title: HVAC Restored 🌬️
       message: >-
         All exterior doors have been closed. The HVAC has resumed its previous
-        schedule.
+        mode.
     action: notify.notify
 mode: single
