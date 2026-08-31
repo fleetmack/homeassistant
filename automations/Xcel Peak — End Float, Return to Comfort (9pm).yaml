@@ -1,36 +1,83 @@
-alias: Xcel Peak — End Float, Return to Comfort (9pm)
-description: ""
+alias: Xcel Peak — End Float, Return to Comfort (9pm) (Fixed)
+description: >-
+  Safely restores comfort setpoints after peak hours using sequential delays,
+  mode enforcement, and state verification.
 triggers:
-  - at: "21:00:00"
+  - at: '21:00:00'
     trigger: time
 conditions:
   - condition: state
     entity_id: input_boolean.hvac_killswitch
-    state: "off"
+    state: 'off'
   - condition: template
-    value_template: "{{ now().month >= 5 and now().month <= 9 }}"
-  - condition: template
-    value_template: >
-      {{ states('climate.honeywell_t_stat_main_floor') == 'cool'  or
-      states('climate.honeywell_t_stat_main_floor') == 'fan_only' }}
-    alias: Only run if A/C is in cooling or fan mode, not heating
+    value_template: '{{ now().month >= 5 and now().month <= 9 }}'
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: climate.honeywell_t_stat_main_floor
+        state: cool
+      - condition: state
+        entity_id: climate.honeywell_t_stat_upstairs
+        state: cool
 actions:
   - target:
       entity_id: climate.honeywell_t_stat_main_floor
     data:
+      hvac_mode: cool
       temperature: 74
     action: climate.set_temperature
+  - delay: '00:00:15'
   - target:
       entity_id: climate.honeywell_t_stat_upstairs
     data:
+      hvac_mode: cool
       temperature: 75
     action: climate.set_temperature
   - data:
       title: ✅ Peak hours over
-      message: >
+      message: >-
         9pm — Xcel peak window closed. Comfort setpoints restored. Checking if
-        it's cool enough to open windows…
+        it is cool enough to open windows...
     action: notify.send_message
     target:
       entity_id: notify.pixel_9_pro
+  - delay: '00:01:00'
+  - action: homeassistant.update_entity
+    target:
+      entity_id:
+        - climate.honeywell_t_stat_main_floor
+        - climate.honeywell_t_stat_upstairs
+  - if:
+      - condition: or
+        conditions:
+          - condition: numeric_state
+            entity_id: climate.honeywell_t_stat_main_floor
+            attribute: temperature
+            above: 74
+          - condition: numeric_state
+            entity_id: climate.honeywell_t_stat_upstairs
+            attribute: temperature
+            above: 75
+    then:
+      - target:
+          entity_id: climate.honeywell_t_stat_main_floor
+        data:
+          hvac_mode: cool
+          temperature: 74
+        action: climate.set_temperature
+      - delay: '00:00:15'
+      - target:
+          entity_id: climate.honeywell_t_stat_upstairs
+        data:
+          hvac_mode: cool
+          temperature: 75
+        action: climate.set_temperature
+      - data:
+          title: ⚠️ HVAC Comfort Retry
+          message: >-
+            One or more thermostats failed to drop target temperatures at 9pm.
+            Sent a forceful rewrite.
+        action: notify.send_message
+        target:
+          entity_id: notify.pixel_9_pro
 mode: single
