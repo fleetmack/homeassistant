@@ -152,28 +152,28 @@ decluttering_templates:
                 - type: template
                   icon: mdi:door-closed
                 - type: template
-                  entity: binary_sensor.front_door_sensor_contact
+                  entity: binary_sensor.front_door
                   icon: >-
                     {{ 'mdi:door-open' if is_state(entity, 'on') else
                     'mdi:door-closed' }}
                   icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
                   content: Front
                 - type: template
-                  entity: binary_sensor.garage_house_door_sensor_contact
+                  entity: binary_sensor.garage_house_door
                   icon: >-
                     {{ 'mdi:door-open' if is_state(entity, 'on') else
                     'mdi:door-closed' }}
                   icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
                   content: Mud
                 - type: template
-                  entity: binary_sensor.garage_yard_door_sensor_contact
+                  entity: binary_sensor.garage_yard_door
                   icon: >-
                     {{ 'mdi:door-open' if is_state(entity, 'on') else
                     'mdi:door-closed' }}
                   icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
                   content: Yard
                 - type: template
-                  entity: binary_sensor.kitching_sliding_door_sensor_contact
+                  entity: binary_sensor.patio_door
                   icon: >-
                     {{ 'mdi:door-open' if is_state(entity, 'on') else
                     'mdi:door-closed' }}
@@ -323,6 +323,15 @@ decluttering_templates:
           columns: 2
           square: false
           cards:
+            - type: custom:button-card
+              template: sidebar_nav
+              name: Calendar
+              icon: mdi:calendar-month
+              variables:
+                path: calendar
+              tap_action:
+                action: navigate
+                navigation_path: /dashboard-twopointoh/calendar
             - type: custom:button-card
               template: sidebar_nav
               name: Kitchen
@@ -774,7 +783,7 @@ views:
                         flex: 1 1 80% !important;
                       }
             - type: custom:mushroom-light-card
-              entity: light.hue_office_monitors_lights
+              entity: light.office_office_ambient_strip
               name: Monitors
               icon: mdi:monitor
               use_light_color: true
@@ -1509,7 +1518,7 @@ views:
                   show_color_temp_control: true
                   collapsible_controls: false
                 - type: custom:mushroom-light-card
-                  entity: light.hue_front_porch_sconce
+                  entity: light.front_porch_hue_front_porch_sconce
                   name: Sconce Hue
                   use_light_color: true
                   show_brightness_control: true
@@ -1829,7 +1838,7 @@ views:
                   show_brightness_control: true
                   show_color_control: true
                 - type: custom:mushroom-light-card
-                  entity: light.hue_kids_tv
+                  entity: light.hue_kids_tv_2
                   icon: mdi:television
                   name: Kids TV
                   use_light_color: true
@@ -1841,7 +1850,7 @@ views:
               square: false
               cards:
                 - type: custom:mushroom-light-card
-                  entity: light.hue_basement_bartop_strip
+                  entity: light.hue_basement_bartop_strip_2
                   name: Under Bar
                   icon: mdi:led-strip-variant
                   use_light_color: true
@@ -1889,13 +1898,13 @@ views:
               square: false
               cards:
                 - type: custom:mushroom-light-card
-                  entity: light.hue_play_1
+                  entity: light.hue_play_1_2
                   name: Play Left
                   use_light_color: true
                   show_color_control: true
                   show_color_temp_control: true
                 - type: custom:mushroom-light-card
-                  entity: light.hue_play_2
+                  entity: light.hue_play_2_2
                   name: Play Right
                   use_light_color: true
                   show_color_control: true
@@ -3131,3 +3140,36 @@ views:
         template: global_calendar
         view_layout:
           grid-area: calendar
+  - title: Calendar
+    path: calendar
+    type: panel
+    background:
+      opacity: 100
+      color: '#202020'
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            name: Back to Dashboard
+            icon: mdi:arrow-left
+            styles:
+              card:
+                - height: 44px
+                - border-radius: 12px
+                - width: 160px
+              name:
+                - font-weight: bold
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-twopointoh/kitchen
+          - type: calendar
+            entities:
+              - calendar.fleetmack_gmail_com
+              - calendar.family
+            initial_view: dayGridMonth
+            card_mod:
+              style: |
+                ha-card {
+                  height: calc(100vh - 70px) !important;
+                  border-radius: 20px;
+                }
