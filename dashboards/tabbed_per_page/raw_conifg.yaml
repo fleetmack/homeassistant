@@ -483,6 +483,15 @@ decluttering_templates:
               color: '#34A853'
           compactMode: true
           maxDaysToShow: 7
+background:
+  opacity: 50
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: scroll
+  image:
+    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
+    media_content_type: image/jpeg
 views:
   - title: Kitchen
     path: kitchen
@@ -494,9 +503,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -720,9 +726,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -813,9 +816,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -1242,9 +1242,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -1363,9 +1360,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -1549,9 +1543,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -1929,9 +1920,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2017,9 +2005,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2370,9 +2355,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2491,9 +2473,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2607,9 +2586,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2688,9 +2664,6 @@ views:
         "header header"
         "sidebar main"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -2835,9 +2808,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -3027,9 +2997,6 @@ views:
         "header header header"
         "sidebar main calendar"
       grid-gap: 10px
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: custom:decluttering-card
         template: global_header
@@ -3143,9 +3110,6 @@ views:
   - title: Calendar
     path: calendar
     type: panel
-    background:
-      opacity: 100
-      color: '#202020'
     cards:
       - type: vertical-stack
         cards:
