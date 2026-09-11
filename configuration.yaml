@@ -25,10 +25,6 @@ browser_mod:
   prefix: "browser_"
   devices: {}
 
-# Point the UI to the Add-on version of go2rtc
-go2rtc:
-  url: http://127.0.0.1:1984  
-
 ## =============================================================================
 ##  SENSORS & TEMPLATES
 ## =============================================================================
@@ -69,15 +65,15 @@ template:
         state: >
           {% set vol = states('sensor.daily_water_total') | float(0) %}
           {% set price = states('sensor.denver_water_current_price') | float(0) %}
-          {{ (vol * price) | round(2) }}          
+          {{ (vol * price) | round(2) }}         
 
-      # Fixed Water Meter Fee ($20.91 / 32 days) [cite: 252, 233]
+      # Fixed Water Meter Fee ($20.91 / 32 days)
       - name: "Water Meter Fixed Daily"
         unique_id: water_meter_fixed_daily
         unit_of_measurement: "USD"
         state: "{{ (20.91 / 32) | round(4) }}"
 
-      # Fixed Sewer Charge ($52.92 / 32 days) [cite: 258, 233]
+      # Fixed Sewer Charge ($52.92 / 32 days)
       - name: "Sewer Fixed Daily"
         unique_id: sewer_fixed_daily
         unit_of_measurement: "USD"
@@ -106,13 +102,42 @@ template:
           {% set fixed = states('sensor.total_utility_daily_fixed_costs') | float(0) %}
           {{ (elec - sold + gas + water + fixed) | round(2) }}
 
-## Plant Sensor Extras
+      ## Plant Sensor Extras
       - name: "Plant Fiddle Leaf Fig Kitchen Soil Moisture"
         unit_of_measurement: "%"
         device_class: moisture
         state_class: measurement
         state: "{{ states('sensor.plant_fiddle_leaf_fig_kitchen_humidity') }}"
         icon: mdi:water-percent
+
+  - binary_sensor:
+      - name: "Basement Window"
+        device_class: window
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_basement_window', 'on') }}"
+
+      - name: "Kitchen Window"
+        device_class: window
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_kitchen_window', 'on') }}"
+
+      - name: "Main Bathroom Window"
+        device_class: window
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_main_bathroom', 'on') }}"
+
+      - name: "Front Door"
+        device_class: door
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_front_door', 'on') }}"
+
+      - name: "Garage House Door"
+        device_class: door
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_garage_house_door', 'on') }}"
+
+      - name: "Garage Yard Door"
+        device_class: door
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_garage_yard_door', 'on') }}"
+
+      - name: "Patio Door"
+        device_class: door
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_patio_door', 'on') }}"
 
   # Trigger-based Weather Sensors
   - trigger:
@@ -153,7 +178,7 @@ utility_meter:
     cycle: monthly
     tariffs:
       - off_peak
-      - on_peak        
+      - on_peak         
 
   monthly_water_total:
     source: sensor.droplet_volume
@@ -168,6 +193,8 @@ utility_meter:
     name: Daily Water Total
     cycle: daily
     delta_values: true
+    
+    
 
 ## =============================================================================
 ##  EXTERNAL ECOSYSTEMS
