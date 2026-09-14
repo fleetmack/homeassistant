@@ -1,184 +1,272 @@
 alias: Sports Lights - Game Day
-description: Applies team lighting scenes during games, reverts after
+description: >
+  Applies team lighting during games. The first currently-live game retains
+  control until it ends. If another game is already live when the owning game
+  ends, control passes to that game. Wins retain team lighting for two hours.
 triggers:
   - trigger: state
     entity_id: sensor.ncaaf_nebraska_cornhuskers
+    to: IN
+    id: huskers_in
+  - trigger: state
+    entity_id: sensor.ncaaf_nebraska_cornhuskers
+    to: POST
+    id: huskers_post
   - trigger: state
     entity_id: sensor.ncaaf_iowa_state_cyclones
+    to: IN
+    id: cyclones_fb_in
+  - trigger: state
+    entity_id: sensor.ncaaf_iowa_state_cyclones
+    to: POST
+    id: cyclones_fb_post
   - trigger: state
     entity_id: sensor.ncaam_iowa_state_cyclones
+    to: IN
+    id: cyclones_bb_in
+  - trigger: state
+    entity_id: sensor.ncaam_iowa_state_cyclones
+    to: POST
+    id: cyclones_bb_post
   - trigger: state
     entity_id: sensor.nfl_seattle_seahawks
+    to: IN
+    id: seahawks_in
+  - trigger: state
+    entity_id: sensor.nfl_seattle_seahawks
+    to: POST
+    id: seahawks_post
+  - trigger: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.sports_lights_victory
+    id: victory_timer_finished
   - trigger: time
     at: '00:01:30'
+    id: midnight_reset
+  - trigger: homeassistant
+    event: start
+    id: ha_start
 conditions: []
 actions:
   - variables:
-      huskers_state: '{{ states(''sensor.ncaaf_nebraska_cornhuskers'') }}'
-      cyclones_fb_state: '{{ states(''sensor.ncaaf_iowa_state_cyclones'') }}'
-      cyclones_bb_state: '{{ states(''sensor.ncaam_iowa_state_cyclones'') }}'
-      seahawks_state: '{{ states(''sensor.nfl_seattle_seahawks'') }}'
-      huskers_winner: '{{ state_attr(''sensor.ncaaf_nebraska_cornhuskers'', ''team_winner'') }}'
-      cyclones_fb_winner: '{{ state_attr(''sensor.ncaaf_iowa_state_cyclones'', ''team_winner'') }}'
-      cyclones_bb_winner: '{{ state_attr(''sensor.ncaam_iowa_state_cyclones'', ''team_winner'') }}'
-      seahawks_winner: '{{ state_attr(''sensor.nfl_seattle_seahawks'', ''team_winner'') }}'
-      holiday_season: '{{ states(''sensor.holiday_season'') }}'
-      active_team: |
-        {% if active_team is defined %}
-          {{ active_team }}
-        {% elif huskers_state == 'IN' %}
-          huskers
-        {% elif cyclones_fb_state == 'IN' or cyclones_bb_state == 'IN' %}
-          cyclones
-        {% elif seahawks_state == 'IN' %}
-          seahawks
-        {% else %}
-          none
-        {% endif %}
-      post_team: |
-        {% if huskers_state == 'POST' %}
-          huskers
-        {% elif cyclones_fb_state == 'POST' or cyclones_bb_state == 'POST' %}
-          cyclones
-        {% elif seahawks_state == 'POST' %}
-          seahawks
-        {% else %}
-          none
-        {% endif %}
-      post_winner: |
-        {% if huskers_state == 'POST' %}
-          {{ huskers_winner }}
-        {% elif cyclones_fb_state == 'POST' or cyclones_fb_state == 'POST' %}
-          {{ cyclones_fb_winner if cyclones_fb_state == 'POST' else cyclones_bb_winner }}
-        {% elif seahawks_state == 'POST' %}
-          {{ seahawks_winner }}
+      triggered_team: |-
+        {% set teams = {
+          'huskers_in': 'huskers',
+          'huskers_post': 'huskers',
+          'cyclones_fb_in': 'cyclones',
+          'cyclones_fb_post': 'cyclones',
+          'cyclones_bb_in': 'cyclones',
+          'cyclones_bb_post': 'cyclones',
+          'seahawks_in': 'seahawks',
+          'seahawks_post': 'seahawks'
+        } %} {{ teams.get(trigger.id, 'none') }}
+      active_team: |-
+        {% set ns = namespace(team='none', ts=99999999999) %}
+        {% set games = [
+          ('huskers', states.sensor.ncaaf_nebraska_cornhuskers),
+          ('cyclones', states.sensor.ncaaf_iowa_state_cyclones),
+          ('cyclones', states.sensor.ncaam_iowa_state_cyclones),
+          ('seahawks', states.sensor.nfl_seattle_seahawks)
+        ] %}
+        {% for team, game in games %}
+          {% if game.state == 'IN' %}
+            {% set game_ts = as_timestamp(game.last_changed) %}
+            {% if game_ts < ns.ts %}
+              {% set ns.team = team %}
+              {% set ns.ts = game_ts %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {{ ns.team }}
+      post_winner: |-
+        {% if trigger.id == 'huskers_post' %}
+          {{ state_attr('sensor.ncaaf_nebraska_cornhuskers', 'team_winner') == true }}
+
+        {% elif trigger.id == 'cyclones_fb_post' %}
+          {{ state_attr('sensor.ncaaf_iowa_state_cyclones', 'team_winner') == true }}
+
+        {% elif trigger.id == 'cyclones_bb_post' %}
+          {{ state_attr('sensor.ncaam_iowa_state_cyclones', 'team_winner') == true }}
+
+        {% elif trigger.id == 'seahawks_post' %}
+          {{ state_attr('sensor.nfl_seattle_seahawks', 'team_winner') == true }}
+
         {% else %}
           false
         {% endif %}
-  - if:
-      - condition: template
-        value_template: |
-          {{ trigger.platform == 'time' and 
-             huskers_state not in ['IN'] and
-             cyclones_fb_state not in ['IN'] and
-             cyclones_bb_state not in ['IN'] and
-             seahawks_state not in ['IN'] }}
-    then:
-      - action: shell_command.govee_holiday
-        data:
-          holiday: '{{ holiday_season }}'
-      - action: automation.trigger
-        target:
-          entity_id: automation.holiday_lights_apply_season
-      - action: switch.turn_off
-        target:
-          entity_id: switch.basement_seahawks_switch_lr
-  - if:
-      - condition: template
-        value_template: '{{ trigger.platform != ''time'' and active_team.strip() != ''none'' }}'
-    then:
-      - choose:
-          - conditions:
-              - condition: template
-                value_template: '{{ active_team.strip() == ''huskers'' }}'
-            sequence:
-              - action: shell_command.govee_holiday
-                data:
-                  holiday: huskers
-              - action: scene.turn_on
-                target:
-                  entity_id: scene.ally_ally_alley_cyhusk
-              - action: scene.turn_on
-                target:
-                  entity_id: scene.back_yard_backyard_backyard_red
-              - action: light.turn_on
-                target:
-                  entity_id: light.front_porch_lights
-              - delay:
-                  seconds: 3
-              - action: scene.turn_on
-                target:
-                  entity_id: scene.front_porch_front_porch_hue_porch_huskers
-          - conditions:
-              - condition: template
-                value_template: '{{ active_team.strip() == ''cyclones'' }}'
-            sequence:
-              - action: shell_command.govee_holiday
-                data:
-                  holiday: cyclones
-              - action: scene.turn_on
-                target:
-                  entity_id: scene.ally_ally_alley_cyhusk
-              - action: scene.turn_on
-                target:
-                  entity_id: scene.back_yard_backyard_backyard_red
-              - action: light.turn_on
-                target:
-                  entity_id: light.front_porch_lights
-              - delay:
-                  seconds: 3
-              - action: scene.turn_on
-                target:
-                  entity_id: scene.front_porch_front_porch_hue_porch_cyclones
-          - conditions:
-              - condition: template
-                value_template: '{{ active_team.strip() == ''seahawks'' }}'
-            sequence:
-              - action: shell_command.govee_holiday
-                data:
-                  holiday: seahawks
-              - action: scene.turn_on
-                target:
-                  entity_id: scene.ally_ally_seahawks
-              - action: scene.turn_on
-                target:
-                  entity_id: scene.back_yard_backyard_seahawks
-              - action: switch.turn_on
-                target:
-                  entity_id: switch.basement_seahawks_switch_lr
-              - action: light.turn_on
-                target:
-                  entity_id: light.front_porch_lights
-              - delay:
-                  seconds: 3
-              - action: scene.turn_on
-                target:
-                  entity_id: scene.front_porch_front_porch_seahawks
-  - if:
-      - condition: template
-        value_template: '{{ trigger.platform != ''time'' and post_team.strip() != ''none'' }}'
-    then:
-      - if:
+  - choose:
+      - conditions:
           - condition: template
-            value_template: '{{ post_winner == true }}'
-        then:
-          - delay:
-              hours: 2
-          - action: shell_command.govee_holiday
-            data:
-              holiday: '{{ holiday_season }}'
-          - action: automation.trigger
-            target:
-              entity_id: automation.holiday_lights_apply_season
-          - if:
-              - condition: template
-                value_template: '{{ post_team.strip() == ''seahawks'' }}'
-            then:
-              - action: switch.turn_off
+            value_template: |-
+              {{ trigger.id in [
+                'huskers_in',
+                'cyclones_fb_in',
+                'cyclones_bb_in',
+                'seahawks_in'
+              ] }}
+        sequence:
+          - variables:
+              current_owner: '{{ states(''input_select.sports_lights_owner'') }}'
+              current_owner_is_live: |-
+                {% if current_owner == 'huskers' %}
+                  {{ is_state('sensor.ncaaf_nebraska_cornhuskers', 'IN') }}
+
+                {% elif current_owner == 'cyclones' %}
+                  {{
+                    is_state('sensor.ncaaf_iowa_state_cyclones', 'IN')
+                    or is_state('sensor.ncaam_iowa_state_cyclones', 'IN')
+                  }}
+
+                {% elif current_owner == 'seahawks' %}
+                  {{ is_state('sensor.nfl_seattle_seahawks', 'IN') }}
+
+                {% else %}
+                  false
+                {% endif %}
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: '{{ current_owner_is_live | bool }}'
+                sequence:
+                  - stop: Current sports-light owner is still playing
+            default:
+              - action: timer.cancel
                 target:
-                  entity_id: switch.basement_seahawks_switch_lr
-        else:
-          - action: shell_command.govee_holiday
-            data:
-              holiday: '{{ holiday_season }}'
-          - action: automation.trigger
-            target:
-              entity_id: automation.holiday_lights_apply_season
-          - if:
-              - condition: template
-                value_template: '{{ post_team.strip() == ''seahawks'' }}'
-            then:
-              - action: switch.turn_off
+                  entity_id: timer.sports_lights_victory
+              - action: input_select.select_option
                 target:
-                  entity_id: switch.basement_seahawks_switch_lr
+                  entity_id: input_select.sports_lights_owner
+                data:
+                  option: '{{ triggered_team }}'
+              - action: script.sports_lights_apply_team
+                data:
+                  team: '{{ triggered_team }}'
+      - conditions:
+          - condition: template
+            value_template: |-
+              {{ trigger.id in [
+                'huskers_post',
+                'cyclones_fb_post',
+                'cyclones_bb_post',
+                'seahawks_post'
+              ] }}
+        sequence:
+          - variables:
+              current_owner: '{{ states(''input_select.sports_lights_owner'') }}'
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: '{{ triggered_team != current_owner }}'
+                sequence:
+                  - stop: A non-owning game ended; current owner retains lighting
+              - conditions:
+                  - condition: template
+                    value_template: '{{ active_team != ''none'' }}'
+                sequence:
+                  - action: timer.cancel
+                    target:
+                      entity_id: timer.sports_lights_victory
+                  - action: input_select.select_option
+                    target:
+                      entity_id: input_select.sports_lights_owner
+                    data:
+                      option: '{{ active_team }}'
+                  - action: script.sports_lights_apply_team
+                    data:
+                      team: '{{ active_team }}'
+              - conditions:
+                  - condition: template
+                    value_template: '{{ post_winner | bool }}'
+                sequence:
+                  - action: input_select.select_option
+                    target:
+                      entity_id: input_select.sports_lights_owner
+                    data:
+                      option: '{{ triggered_team }}'
+                  - action: script.sports_lights_apply_team
+                    data:
+                      team: '{{ triggered_team }}'
+                  - action: timer.start
+                    target:
+                      entity_id: timer.sports_lights_victory
+                    data:
+                      duration: '02:00:00'
+            default:
+              - action: timer.cancel
+                target:
+                  entity_id: timer.sports_lights_victory
+              - action: script.sports_lights_restore_normal
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.id == ''victory_timer_finished'' }}'
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: '{{ active_team != ''none'' }}'
+                sequence:
+                  - action: input_select.select_option
+                    target:
+                      entity_id: input_select.sports_lights_owner
+                    data:
+                      option: '{{ active_team }}'
+                  - action: script.sports_lights_apply_team
+                    data:
+                      team: '{{ active_team }}'
+            default:
+              - action: script.sports_lights_restore_normal
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.id == ''ha_start'' }}'
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: '{{ active_team != ''none'' }}'
+                sequence:
+                  - action: timer.cancel
+                    target:
+                      entity_id: timer.sports_lights_victory
+                  - action: input_select.select_option
+                    target:
+                      entity_id: input_select.sports_lights_owner
+                    data:
+                      option: '{{ active_team }}'
+                  - action: script.sports_lights_apply_team
+                    data:
+                      team: '{{ active_team }}'
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.id == ''midnight_reset'' }}'
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: '{{ active_team != ''none'' }}'
+                sequence:
+                  - action: timer.cancel
+                    target:
+                      entity_id: timer.sports_lights_victory
+                  - action: input_select.select_option
+                    target:
+                      entity_id: input_select.sports_lights_owner
+                    data:
+                      option: '{{ active_team }}'
+                  - action: script.sports_lights_apply_team
+                    data:
+                      team: '{{ active_team }}'
+              - conditions:
+                  - condition: template
+                    value_template: |-
+                      {{
+                        is_state('timer.sports_lights_victory', 'active')
+                        and states('input_select.sports_lights_owner') != 'none'
+                      }}
+                sequence:
+                  - action: script.sports_lights_apply_team
+                    data:
+                      team: '{{ states(''input_select.sports_lights_owner'') }}'
+            default:
+              - action: script.sports_lights_restore_normal
 mode: restart
