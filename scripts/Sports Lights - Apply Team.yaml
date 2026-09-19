@@ -1,0 +1,107 @@
+alias: Sports Lights - Apply Team
+description: Powers required Hue zones and applies the requested sports theme
+mode: restart
+fields:
+  team:
+    description: Team lighting theme
+    example: seahawks
+sequence:
+  - action: switch.turn_on
+    target:
+      entity_id:
+        - light.backyard_garage_lights_lr
+        - light.front_porch_lights
+    data: {}
+  - delay:
+      seconds: 3
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: '{{ team == ''huskers'' }}'
+        sequence:
+          - action: switch.turn_off
+            continue_on_error: true
+            target:
+              entity_id: switch.basement_seahawks_switch_lr
+          - action: shell_command.govee_holiday
+            continue_on_error: true
+            data:
+              holiday: huskers
+          - action: scene.turn_on
+            continue_on_error: true
+            target:
+              entity_id: scene.ally_ally_alley_cyhusk
+          - action: scene.turn_on
+            continue_on_error: true
+            target:
+              entity_id: scene.back_yard_backyard_backyard_red
+          - action: light.turn_on
+            continue_on_error: true
+            target:
+              entity_id: light.front_porch_lights
+          - delay:
+              seconds: 3
+          - action: scene.turn_on
+            continue_on_error: true
+            target:
+              entity_id: scene.front_porch_front_porch_hue_porch_huskers
+      - conditions:
+          - condition: template
+            value_template: '{{ team == ''cyclones'' }}'
+        sequence:
+          - action: switch.turn_off
+            continue_on_error: true
+            target:
+              entity_id: switch.basement_seahawks_switch_lr
+          - action: shell_command.govee_holiday
+            continue_on_error: true
+            data:
+              holiday: cyclones
+          - action: scene.turn_on
+            continue_on_error: true
+            target:
+              entity_id: scene.ally_ally_alley_cyhusk
+          - action: scene.turn_on
+            continue_on_error: true
+            target:
+              entity_id: scene.back_yard_backyard_backyard_red
+          - action: light.turn_on
+            continue_on_error: true
+            target:
+              entity_id: light.front_porch_lights
+          - delay:
+              seconds: 3
+          - action: scene.turn_on
+            continue_on_error: true
+            target:
+              entity_id: scene.front_porch_front_porch_hue_porch_cyclones
+      - conditions:
+          - condition: template
+            value_template: '{{ team == ''seahawks'' }}'
+        sequence:
+          - action: shell_command.govee_holiday
+            continue_on_error: true
+            data:
+              holiday: seahawks
+          - action: scene.turn_on
+            continue_on_error: true
+            target:
+              entity_id: scene.ally_ally_seahawks
+          - action: scene.turn_on
+            continue_on_error: true
+            target:
+              entity_id: scene.back_yard_backyard_seahawks
+          - action: switch.turn_on
+            continue_on_error: true
+            target:
+              entity_id: switch.basement_seahawks_switch_lr
+          - action: light.turn_on
+            continue_on_error: true
+            target:
+              entity_id: light.front_porch_lights
+          - delay:
+              seconds: 3
+          - action: scene.turn_on
+            continue_on_error: true
+            target:
+              entity_id: scene.front_porch_front_porch_seahawks
