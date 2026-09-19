@@ -1,0 +1,77 @@
+alias: Sports Lights - Restore Normal
+description: Restores current holiday lighting or normal default lighting
+mode: restart
+sequence:
+  - variables:
+      holiday_season: '{{ states(''sensor.holiday_season'') }}'
+      is_daytime: '{{ now() < as_datetime(state_attr(''sun.sun'', ''next_setting'')) }}'
+  - if:
+      - condition: template
+        value_template: '{{ is_daytime }}'
+    then:
+      - action: light.turn_off
+        target:
+          entity_id:
+            - light.front_porch_lights
+            - light.backyard_garage_lights_lr
+      - action: switch.turn_off
+        continue_on_error: true
+        target:
+          entity_id: switch.basement_seahawks_switch_lr
+      - action: shell_command.govee_holiday
+        continue_on_error: true
+        data:
+          holiday: default
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.sports_lights_owner
+        data:
+          option: none
+      - stop: Daytime - lights turned off instead of applying scene
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: '{{ holiday_season != ''idle'' }}'
+        sequence:
+          - action: automation.trigger
+            target:
+              entity_id: automation.holiday_lights_apply_season
+    default:
+      - action: shell_command.govee_holiday
+        continue_on_error: true
+        data:
+          holiday: default
+      - action: switch.turn_on
+        target:
+          entity_id:
+            - light.backyard_garage_lights_lr
+            - light.front_porch_lights
+      - delay:
+          seconds: 3
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.ally_ally_bright
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.back_yard_backyard_bright
+      - action: light.turn_on
+        continue_on_error: true
+        target:
+          entity_id: light.front_porch_lights
+      - delay:
+          seconds: 3
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.front_porch_front_porch_bright
+  - action: switch.turn_off
+    continue_on_error: true
+    target:
+      entity_id: switch.basement_seahawks_switch_lr
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.sports_lights_owner
+    data:
+      option: none
