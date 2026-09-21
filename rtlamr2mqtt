@@ -1,12 +1,15 @@
 general:
-  sleep_for: 0
+  sleep_for: 180
   verbosity: info
+  listen_mode: false
 custom_parameters:
-  rtltcp: "-g 40"
+  rtltcp: -g 40
+  rtlamr: -msgtype=scm,r900
 mqtt:
   ha_autodiscovery_topic: homeassistant
   ha_status_topic: homeassistant/status
   base_topic: rtlamr
+  discovery_interval: 300
   host: 192.168.1.31
   user: mqtt
   password: mackqtt
@@ -14,8 +17,16 @@ meters:
   - id: 49799372
     protocol: scm
     name: house_gas_meter
-    format: "######"
+    format: '######'
     unit_of_measurement: ft³
     device_class: gas
     state_class: total_increasing
     icon: mdi:fire
+  - id: 3709409992
+    protocol: r900
+    name: house_water_meter
+    format: '######'
+    unit_of_measurement: gal
+    device_class: water
+    state_class: total_increasing
+    icon: mdi:water
