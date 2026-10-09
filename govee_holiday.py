@@ -15,7 +15,7 @@ SCENES = {
     "stpats":     {"fence": 3970161, "pergola": 3970270, "playset": 3970314},
     "valentines": {"fence": 3970163, "pergola": 3970267, "playset": 3970309},
     "easter":     {"fence": 3970173, "pergola": 3970275, "playset": 2489584},
-    "halloween":  {"fence": 3970176, "pergola": 3970268, "playset": 3970308},
+    "halloween":  {"fence": 4282186, "pergola": 4282181, "playset": 3970308},
     "thanks":     {"fence": 3970179, "pergola": 3970269, "playset": 3970311},
     "rwb":        {"fence": 2614156, "pergola": 3970261, "playset": 3970298},
     "default":    {"fence": 3970319, "pergola": 3970321, "playset": 3970317},
