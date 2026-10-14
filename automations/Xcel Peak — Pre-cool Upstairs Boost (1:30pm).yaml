@@ -1,9 +1,9 @@
-alias: Xcel Peak — Pre-cool Start (2pm) (Optimized)
+alias: Xcel Peak — Pre-cool Upstairs Boost (1:30pm) (Optimized)
 description: >-
-  Safely triggers pre-cooling using sequential delays, explicit cooling mode
-  enforcement, and a cloud verification loop.
+  Safely steps down upstairs cooling before main pre-cool with explicit mode
+  enforcement and a cloud verification loop.
 triggers:
-  - at: '14:00:00'
+  - at: '13:30:00'
     trigger: time
 conditions:
   - condition: state
@@ -11,73 +11,41 @@ conditions:
     state: 'off'
   - condition: template
     value_template: '{{ now().month >= 5 and now().month <= 9 }}'
-  - condition: or
-    conditions:
-      - condition: state
-        entity_id: climate.honeywell_t_stat_main_floor
-        state: cool
-      - condition: state
-        entity_id: climate.honeywell_t_stat_upstairs
-        state: cool
+  - condition: numeric_state
+    entity_id: sensor.outside_temperature_temperature
+    above: 81
+  - condition: state
+    entity_id: climate.honeywell_t_stat_upstairs
+    state: cool
 actions:
-  - target:
-      entity_id: climate.honeywell_t_stat_main_floor
-    data:
-      hvac_mode: cool
-      temperature: 72
-    action: climate.set_temperature
-  - delay: '00:00:15'
   - target:
       entity_id: climate.honeywell_t_stat_upstairs
     data:
       hvac_mode: cool
-      temperature: 72
+      temperature: 71
     action: climate.set_temperature
-  - data:
-      title: 🌞 Pre-cooling started
-      message: >-
-        House is pre-cooling to 72°F. Peak hours start at 5pm — thermostats will
-        float warm then to maximize solar export.
-    action: notify.send_message
-    target:
-      entity_id: notify.notify
   - delay: '00:01:00'
   - action: homeassistant.update_entity
     target:
-      entity_id:
-        - climate.honeywell_t_stat_main_floor
-        - climate.honeywell_t_stat_upstairs
+      entity_id: climate.honeywell_t_stat_upstairs
   - if:
-      - condition: or
-        conditions:
-          - condition: numeric_state
-            entity_id: climate.honeywell_t_stat_main_floor
-            attribute: temperature
-            above: 72
-          - condition: numeric_state
-            entity_id: climate.honeywell_t_stat_upstairs
-            attribute: temperature
-            above: 72
+      - condition: numeric_state
+        entity_id: climate.honeywell_t_stat_upstairs
+        attribute: temperature
+        above: 71
     then:
-      - target:
-          entity_id: climate.honeywell_t_stat_main_floor
-        data:
-          hvac_mode: cool
-          temperature: 72
-        action: climate.set_temperature
-      - delay: '00:00:15'
       - target:
           entity_id: climate.honeywell_t_stat_upstairs
         data:
           hvac_mode: cool
-          temperature: 72
+          temperature: 71
         action: climate.set_temperature
       - data:
-          title: ⚠️ HVAC Pre-Cool Retry
+          title: ⚠️ HVAC Upstairs Boost Retry
           message: >-
-            One or more thermostats missed the 2pm pre-cool target. Sent a
-            forceful rewrite.
+            Upstairs missed the 1:30pm pre-cool boost target. Sent a forceful
+            rewrite.
         action: notify.send_message
         target:
-          entity_id: notify.notify
+          entity_id: notify.noitfy
 mode: single
