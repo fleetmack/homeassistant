@@ -1,10 +1,9 @@
-alias: Holiday Lights - Apply Season
-description: Applies holiday lighting scenes based on time of year
+id: "1782486935089"
+alias: "Holiday Lights - Apply Season"
+description: "Applies holiday lighting scenes based on time of year"
 triggers:
   - at: "00:01:00"
     trigger: time
-  - event: start
-    trigger: homeassistant
   - entity_id: sensor.holiday_season
     trigger: state
 conditions:
@@ -13,11 +12,17 @@ conditions:
 actions:
   - variables:
       season: "{{ season if season is defined else states('sensor.holiday_season') }}"
-  - data:
+  - action: shell_command.govee_holiday
+    data:
       holiday: "{{ season }}"
-    action: shell_command.govee_holiday
-
-  # Alley Hue
+  - action: switch.turn_on
+    target:
+      entity_id:
+        - light.backyard_garage_lights_lr
+        - light.front_porch_lights
+    data: {}
+  - delay:
+      seconds: 3
   - choose:
       - conditions:
           - condition: template
@@ -72,8 +77,6 @@ actions:
       - action: scene.turn_on
         target:
           entity_id: scene.ally_ally_bright
-
-  # Backyard Hue
   - choose:
       - conditions:
           - condition: template
@@ -128,8 +131,6 @@ actions:
       - action: scene.turn_on
         target:
           entity_id: scene.back_yard_backyard_bright
-
-  # Porch Hue
   - choose:
       - conditions:
           - condition: template
