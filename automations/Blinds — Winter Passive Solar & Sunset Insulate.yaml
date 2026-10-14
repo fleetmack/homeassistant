@@ -1,0 +1,169 @@
+alias: "Blinds — Winter Passive Solar & Sunset Insulate"
+description: >-
+  Opens East blinds at sunrise and West blinds in the afternoon for free solar
+  heating on cold days, then closes West blinds before sunset to trap heat.
+triggers:
+  - trigger: sun
+    event: sunrise
+    offset: "00:15:00"
+    id: morning_east_open
+  - trigger: numeric_state
+    entity_id: sun.sun
+    attribute: azimuth
+    above: 210
+    id: afternoon_west_open
+  - trigger: sun
+    event: sunset
+    offset: "-00:15:00"
+    id: sunset_west_close
+conditions:
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: climate.honeywell_t_stat_main_floor
+        state: heat
+      - condition: numeric_state
+        entity_id: sensor.today_forecast_high
+        below: 70.1
+actions:
+  - choose:
+      # 1. MORNING: Open East Blinds for Solar Gain
+      - conditions:
+          - condition: trigger
+            id: morning_east_open
+        sequence:
+          - repeat:
+              count: 3
+              sequence:
+                - action: cover.open_cover
+                  target:
+                    entity_id:
+                      - cover.entry_blinds_homekit
+                      - cover.top_of_stairs
+                - delay:
+                    seconds: 10
+                - action: cover.open_cover
+                  target:
+                    entity_id:
+                      - cover.laundy
+                      - cover.loft_loft_east_left
+                - delay:
+                    seconds: 10
+                - action: cover.open_cover
+                  target:
+                    entity_id:
+                      - cover.loft_loft_east_middle
+                      - cover.loft_loft_east_right
+                - delay:
+                    seconds: 10
+                - action: cover.open_cover
+                  target:
+                    entity_id:
+                      - cover.piano_blinds_piano_ne
+                      - cover.piano_blinds_piano_se
+                - delay:
+                    seconds: 20
+                - if:
+                    - condition: state
+                      entity_id: cover.entry_blinds_homekit
+                      state: open
+                    - condition: state
+                      entity_id: cover.top_of_stairs
+                      state: open
+                    - condition: state
+                      entity_id: cover.laundy
+                      state: open
+                    - condition: state
+                      entity_id: cover.loft_loft_east_left
+                      state: open
+                    - condition: state
+                      entity_id: cover.loft_loft_east_middle
+                      state: open
+                    - condition: state
+                      entity_id: cover.loft_loft_east_right
+                      state: open
+                    - condition: state
+                      entity_id: cover.piano_blinds_piano_ne
+                      state: open
+                    - condition: state
+                      entity_id: cover.piano_blinds_piano_se
+                      state: open
+                  then:
+                    - stop: All east blinds opened for morning solar gain
+
+      # 2. AFTERNOON: Open West Blinds for Pre-Peak Solar Gain
+      - conditions:
+          - condition: trigger
+            id: afternoon_west_open
+        sequence:
+          - repeat:
+              count: 3
+              sequence:
+                - action: cover.open_cover
+                  target:
+                    entity_id:
+                      - cover.kitchen_blinds_kitchen_wl
+                      - cover.kitchen_blinds_kitchen_wm
+                - delay:
+                    seconds: 10
+                - action: cover.open_cover
+                  target:
+                    entity_id:
+                      - cover.kitchen_blinds_kitchen_wr
+                      - cover.living_room_shades_all_homekit
+                - delay:
+                    seconds: 15
+                - if:
+                    - condition: state
+                      entity_id: cover.kitchen_blinds_kitchen_wl
+                      state: open
+                    - condition: state
+                      entity_id: cover.kitchen_blinds_kitchen_wm
+                      state: open
+                    - condition: state
+                      entity_id: cover.kitchen_blinds_kitchen_wr
+                      state: open
+                    - condition: state
+                      entity_id: cover.living_room_shades_all_homekit
+                      state: open
+                  then:
+                    - stop: All west blinds opened for afternoon solar gain
+
+      # 3. SUNSET: Close West Blinds to Insulate for 5-9pm Peak
+      - conditions:
+          - condition: trigger
+            id: sunset_west_close
+        sequence:
+          - repeat:
+              count: 3
+              sequence:
+                - action: cover.close_cover
+                  target:
+                    entity_id:
+                      - cover.kitchen_blinds_kitchen_wl
+                      - cover.kitchen_blinds_kitchen_wm
+                - delay:
+                    seconds: 10
+                - action: cover.close_cover
+                  target:
+                    entity_id:
+                      - cover.kitchen_blinds_kitchen_wr
+                      - cover.living_room_shades_all_homekit
+                - delay:
+                    seconds: 15
+                - if:
+                    - condition: state
+                      entity_id: cover.kitchen_blinds_kitchen_wl
+                      state: closed
+                    - condition: state
+                      entity_id: cover.kitchen_blinds_kitchen_wm
+                      state: closed
+                    - condition: state
+                      entity_id: cover.kitchen_blinds_kitchen_wr
+                      state: closed
+                    - condition: state
+                      entity_id: cover.living_room_shades_all_homekit
+                      state: closed
+                  then:
+                    - stop: All west blinds closed for evening insulation
+mode: queued
