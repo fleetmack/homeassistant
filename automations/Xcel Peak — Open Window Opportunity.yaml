@@ -1,32 +1,43 @@
-alias: Xcel Peak — Open Window Opportunity
-description: ''
+alias: Xcel Peak — Open Window Opportunity (Year-Round)
+description: >-
+  Alerts at 9pm when the house is in Cooling mode and outdoor temps have dropped
+  below indoor temps (between 50°F and 70°F).
 triggers:
-  - at: '21:00:00'
+  - at: "21:00:00"
     trigger: time
-  - at: '22:00:00'
+  - at: "22:00:00"
     trigger: time
     enabled: false
-  - at: '23:00:00'
+  - at: "23:00:00"
     trigger: time
     enabled: false
 conditions:
   - condition: state
     entity_id: input_boolean.hvac_killswitch
-    state: 'off'
-  - condition: template
-    value_template: '{{ now().month >= 5 and now().month <= 9 }}'
+    state: "off"
+  # 1. Only run if at least one thermostat is in COOL mode
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: climate.honeywell_t_stat_main_floor
+        state: cool
+      - condition: state
+        entity_id: climate.honeywell_t_stat_upstairs
+        state: cool
+  # 2. Check that outside is between 50°F and 70°F, AND cooler than inside
   - condition: template
     value_template: >
-      {% set outdoor = states('sensor.outside_temperature_temperature') |
-      float(999) %} {{ outdoor < 70 }}
+      {% set outdoor = states('sensor.outside_temperature_temperature') | float(999) %}
+      {% set indoor_main = state_attr('climate.honeywell_t_stat_main_floor', 'current_temperature') | float(0) %}
+      {% set indoor_up = state_attr('climate.honeywell_t_stat_upstairs', 'current_temperature') | float(0) %}
+      {% set max_indoor = [indoor_main, indoor_up] | max %}
+      {{ 50 <= outdoor < 70 and outdoor < (max_indoor - 2) }}
 actions:
-  - data:
+  - action: notify.notify
+    data:
       title: 🪟 Open windows tonight?
       message: >
-        It's {{ states('sensor.outside_temperature_temperature') }}°F outside —
-        cooler than indoors. Consider opening windows and skipping the A/C for
-        free overnight cooling. Classic Denver night!
-    action: notify.send_message
-    target:
-      entity_id: notify.notify
+        It's {{ states('sensor.outside_temperature_temperature') }}°F outside
+        (and {{ [state_attr('climate.honeywell_t_stat_main_floor', 'current_temperature') | float(0), state_attr('climate.honeywell_t_stat_upstairs', 'current_temperature') | float(0)] | max }}°F inside).
+        Consider opening windows and skipping the A/C for free overnight cooling!
 mode: single
