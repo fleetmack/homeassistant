@@ -20,6 +20,17 @@ cards:
               'on') else 'Climate: Active' }}
             tap_action:
               action: toggle
+          - type: template
+            entity: input_boolean.blinds_killswitch
+            icon: mdi:blinds
+            icon_color: >-
+              {{ 'red' if is_state('input_boolean.blinds_killswitch', 'on') else
+              'green' }}
+            content: >
+              {{ 'Blinds: KILLED' if is_state('input_boolean.blinds_killswitch',
+              'on') else 'Blinds: Active' }}
+            tap_action:
+              action: toggle
       - type: custom:mushroom-title-card
         title: Climate
       - type: grid
