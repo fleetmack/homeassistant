@@ -1,24 +1,71 @@
-alias: Killswitch On 24h+ Reminder
+alias: "Killswitch On 24h+ Reminder (HVAC & Blinds)"
+description: >-
+  Alerts when either the HVAC or Blinds killswitch has been left ON for 24+
+  hours, and repeats daily at 9am even across Home Assistant restarts.
 triggers:
-  - entity_id: input_boolean.hvac_killswitch
-    to: 'on'
+  # 1. Fires exactly 24 hours after either switch is turned on
+  - trigger: state
+    entity_id:
+      - input_boolean.hvac_killswitch
+      - input_boolean.blinds_killswitch
+    to: "on"
     for:
       hours: 24
-    trigger: state
+    id: initial_24h
+  # 2. Reboot-safe daily check at 9:00 AM for any switch on > 24 hours
+  - trigger: time
+    at: "09:00:00"
+    id: daily_followup
+conditions: []
 actions:
-  - repeat:
-      while:
-        - condition: state
-          entity_id: input_boolean.hvac_killswitch
-          state: 'on'
-      sequence:
-        - data:
-            title: Climate Killswitch Still ON
-            message: >-
-              It's been on since {{
-              as_timestamp(states.input_boolean.hvac_killswitch.last_changed) |
-              timestamp_custom('%b %d, %I:%M %p') }}. Your thermostat/blinds
-              automations are disabled.
-          action: notify.notify
-        - delay:
-            hours: 24
+  - choose:
+      # --- BRANCH 1: Exact 24-Hour Mark ---
+      - conditions:
+          - condition: trigger
+            id: initial_24h
+        sequence:
+          - action: notify.notify
+            data:
+              title: >
+                ⚠️ {{ 'Climate' if trigger.entity_id == 'input_boolean.hvac_killswitch' else 'Blinds' }} Killswitch Still ON
+              message: >
+                It's been on since {{ as_timestamp(trigger.to_state.last_changed) | timestamp_custom('%b %d, %I:%M %p') }}.
+                Your {{ 'thermostat' if trigger.entity_id == 'input_boolean.hvac_killswitch' else 'blinds' }} automations are disabled.
+
+      # --- BRANCH 2: Daily 9:00 AM Follow-Up (Survives Reboots) ---
+      - conditions:
+          - condition: trigger
+            id: daily_followup
+        sequence:
+          # Check HVAC Killswitch (> 24 hours)
+          - if:
+              - condition: state
+                entity_id: input_boolean.hvac_killswitch
+                state: "on"
+              - condition: template
+                value_template: >
+                  {{ (now() - states.input_boolean.hvac_killswitch.last_changed).total_seconds() > 86400 }}
+            then:
+              - action: notify.notify
+                data:
+                  title: "⚠️ Climate Killswitch Still ON"
+                  message: >
+                    It's been on since {{ as_timestamp(states.input_boolean.hvac_killswitch.last_changed) | timestamp_custom('%b %d, %I:%M %p') }}.
+                    Your thermostat automations are disabled.
+          # Check Blinds Killswitch (> 24 hours)
+          - if:
+              - condition: state
+                entity_id: input_boolean.blinds_killswitch
+                state: "on"
+              - condition: template
+                value_template: >
+                  {{ (now() - states.input_boolean.blinds_killswitch.last_changed).total_seconds() > 86400 }}
+            then:
+              - action: notify.notify
+                data:
+                  title: "⚠️ Blinds Killswitch Still ON"
+                  message: >
+                    It's been on since {{ as_timestamp(states.input_boolean.blinds_killswitch.last_changed) | timestamp_custom('%b %d, %I:%M %p') }}.
+                    Your blinds automations are disabled.
+mode: parallel
+max: 2
