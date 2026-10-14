@@ -1,15 +1,20 @@
 alias: Xcel Peak — Open Window Opportunity
-description: ""
+description: ''
 triggers:
-  - at: "21:00:00"
+  - at: '21:00:00'
     trigger: time
-  - at: "22:00:00"
+  - at: '22:00:00'
     trigger: time
-  - at: "23:00:00"
+    enabled: false
+  - at: '23:00:00'
     trigger: time
+    enabled: false
 conditions:
+  - condition: state
+    entity_id: input_boolean.hvac_killswitch
+    state: 'off'
   - condition: template
-    value_template: "{{ now().month >= 5 and now().month <= 9 }}"
+    value_template: '{{ now().month >= 5 and now().month <= 9 }}'
   - condition: template
     value_template: >
       {% set outdoor = states('sensor.outside_temperature_temperature') |
@@ -23,5 +28,5 @@ actions:
         free overnight cooling. Classic Denver night!
     action: notify.send_message
     target:
-      entity_id: notify.pixel_9_pro
+      entity_id: notify.notify
 mode: single
