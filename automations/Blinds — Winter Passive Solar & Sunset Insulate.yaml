@@ -1,7 +1,8 @@
 alias: "Blinds — Winter Passive Solar & Sunset Insulate"
 description: >-
-  Opens East blinds at sunrise and West blinds in the afternoon for free solar
-  heating on cold days, then closes West blinds before sunset to trap heat.
+  Opens East/West blinds for free solar heating ONLY on sunny cold days (cloud
+  coverage < 60%), and closes West blinds before sunset to trap heat (unless
+  killswitch is ON).
 triggers:
   - trigger: sun
     event: sunrise
@@ -17,6 +18,9 @@ triggers:
     offset: "-00:15:00"
     id: sunset_west_close
 conditions:
+  - condition: state
+    entity_id: input_boolean.blinds_killswitch
+    state: "off"
   - condition: or
     conditions:
       - condition: state
@@ -27,10 +31,20 @@ conditions:
         below: 70.1
 actions:
   - choose:
-      # 1. MORNING: Open East Blinds for Solar Gain
+      # 1. MORNING: Open East Blinds ONLY if Sunny (< 60% Cloud Coverage)
       - conditions:
           - condition: trigger
             id: morning_east_open
+          - condition: numeric_state
+            entity_id: weather.forecast_home_2
+            attribute: cloud_coverage
+            below: 60
+          - condition: state
+            entity_id: weather.forecast_home_2
+            state:
+              - sunny
+              - partlycloudy
+              - windy
         sequence:
           - repeat:
               count: 3
@@ -91,10 +105,20 @@ actions:
                   then:
                     - stop: All east blinds opened for morning solar gain
 
-      # 2. AFTERNOON: Open West Blinds for Pre-Peak Solar Gain
+      # 2. AFTERNOON: Open West Blinds ONLY if Sunny (< 60% Cloud Coverage)
       - conditions:
           - condition: trigger
             id: afternoon_west_open
+          - condition: numeric_state
+            entity_id: weather.forecast_home_2
+            attribute: cloud_coverage
+            below: 60
+          - condition: state
+            entity_id: weather.forecast_home_2
+            state:
+              - sunny
+              - partlycloudy
+              - windy
         sequence:
           - repeat:
               count: 3
@@ -129,7 +153,7 @@ actions:
                   then:
                     - stop: All west blinds opened for afternoon solar gain
 
-      # 3. SUNSET: Close West Blinds to Insulate for 5-9pm Peak
+      # 3. SUNSET: Always Close West Blinds to Insulate (Unless Killswitch is ON)
       - conditions:
           - condition: trigger
             id: sunset_west_close
