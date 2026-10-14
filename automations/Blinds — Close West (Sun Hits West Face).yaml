@@ -1,17 +1,31 @@
-alias: "Blinds — Close West (Sun Hits West Face - Warm Days)"
+alias: "Blinds — Close West (Sun Hits West Face - Warm Sunny Days)"
 description: >-
-  Blocks hot afternoon sun on West windows only when cooling or forecast high is
-  above 70°F. Leaves them open on cold days for free passive solar heat.
+  Blocks hot afternoon sun on West windows ONLY on warm days when cloud coverage
+  is below 60% and the blinds killswitch is OFF.
 triggers:
   - trigger: numeric_state
     entity_id: sun.sun
     attribute: azimuth
     above: 225
 conditions:
+  - condition: state
+    entity_id: input_boolean.blinds_killswitch
+    state: "off"
   - condition: numeric_state
     entity_id: sun.sun
     attribute: elevation
     above: 10
+  # Only close to block heat if the sun is actually shining (< 60% clouds)
+  - condition: numeric_state
+    entity_id: weather.forecast_home_2
+    attribute: cloud_coverage
+    below: 60
+  - condition: state
+    entity_id: weather.forecast_home_2
+    state:
+      - sunny
+      - partlycloudy
+      - windy
   - condition: or
     conditions:
       - condition: state
