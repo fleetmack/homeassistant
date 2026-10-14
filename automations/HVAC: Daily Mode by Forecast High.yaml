@@ -1,16 +1,15 @@
-alias: 'HVAC: Daily Mode by Forecast High (Optimized)'
-description: >-
-  Sets HVAC mode once a day based purely on the forecasted high temperature with
-  state checking.
+alias: "HVAC: Daily Mode by Forecast (Year-Round Denver)"
+description: Sets HVAC mode at 6am using both high and low temps so chilly 65°F winter days still get heat.
 triggers:
   - trigger: time
-    at: '06:00:00'
+    at: "06:00:00"
 conditions:
   - condition: state
     entity_id: input_boolean.hvac_killswitch
-    state: 'off'
+    state: "off"
 actions:
   - choose:
+      # SUMMER / HOT DAY: High > 78°F -> COOL
       - conditions:
           - condition: numeric_state
             entity_id: sensor.today_forecast_high
@@ -23,12 +22,12 @@ actions:
                     entity_id: climate.honeywell_t_stat_main_floor
                     state: cool
             then:
-              - target:
+              - action: climate.set_hvac_mode
+                target:
                   entity_id: climate.honeywell_t_stat_main_floor
                 data:
                   hvac_mode: cool
-                action: climate.set_hvac_mode
-          - delay: '00:00:10'
+          - delay: "00:00:10"
           - if:
               - condition: not
                 conditions:
@@ -36,19 +35,26 @@ actions:
                     entity_id: climate.honeywell_t_stat_upstairs
                     state: cool
             then:
-              - target:
+              - action: climate.set_hvac_mode
+                target:
                   entity_id: climate.honeywell_t_stat_upstairs
                 data:
                   hvac_mode: cool
-                action: climate.set_hvac_mode
-          - data:
+          - action: notify.pixel_9_pro
+            data:
               title: HVAC Update ❄️
-              message: Today's high is over 78°F. System set to COOL.
-            action: notify.notify
+              message: "Today's high is over 78°F. System set to COOL."
+
+      # WINTER / COLD DAY: High < 65°F OR Current Outdoor Temp at 6am < 45°F -> HEAT
       - conditions:
-          - condition: numeric_state
-            entity_id: sensor.today_forecast_high
-            below: 60
+          - condition: or
+            conditions:
+              - condition: numeric_state
+                entity_id: sensor.today_forecast_high
+                below: 65
+              - condition: numeric_state
+                entity_id: sensor.outside_temperature_temperature
+                below: 45
         sequence:
           - if:
               - condition: not
@@ -57,12 +63,12 @@ actions:
                     entity_id: climate.honeywell_t_stat_main_floor
                     state: heat
             then:
-              - target:
+              - action: climate.set_hvac_mode
+                target:
                   entity_id: climate.honeywell_t_stat_main_floor
                 data:
                   hvac_mode: heat
-                action: climate.set_hvac_mode
-          - delay: '00:00:10'
+          - delay: "00:00:10"
           - if:
               - condition: not
                 conditions:
@@ -70,42 +76,44 @@ actions:
                     entity_id: climate.honeywell_t_stat_upstairs
                     state: heat
             then:
-              - target:
+              - action: climate.set_hvac_mode
+                target:
                   entity_id: climate.honeywell_t_stat_upstairs
                 data:
                   hvac_mode: heat
-                action: climate.set_hvac_mode
-          - data:
-              title: HVAC Update 🌡️
-              message: Today's high is below 60°F. System set to HEAT.
-            action: notify.notify
+          - action: notify.pixel_9_pro
+            data:
+              title: HVAC Update 🔥
+              message: "Chilly morning or high below 65°F. System set to HEAT."
+
+    # MILD SHOULDER DAY (High 65-78°F AND Morning > 45°F) -> OFF
     default:
       - if:
           - condition: not
             conditions:
               - condition: state
                 entity_id: climate.honeywell_t_stat_main_floor
-                state: 'off'
+                state: "off"
         then:
-          - target:
+          - action: climate.set_hvac_mode
+            target:
               entity_id: climate.honeywell_t_stat_main_floor
             data:
-              hvac_mode: 'off'
-            action: climate.set_hvac_mode
-      - delay: '00:00:10'
+              hvac_mode: "off"
+      - delay: "00:00:10"
       - if:
           - condition: not
             conditions:
               - condition: state
                 entity_id: climate.honeywell_t_stat_upstairs
-                state: 'off'
+                state: "off"
         then:
-          - target:
+          - action: climate.set_hvac_mode
+            target:
               entity_id: climate.honeywell_t_stat_upstairs
             data:
-              hvac_mode: 'off'
-            action: climate.set_hvac_mode
-      - data:
+              hvac_mode: "off"
+      - action: notify.pixel_9_pro
+        data:
           title: HVAC Update 🌬️
-          message: Today's high is mild. System turned OFF.
-        action: notify.notify
+          message: "Mild day ahead. System turned OFF."
