@@ -1,53 +1,47 @@
-alias: Blinds — Close East (Sun Leaves East Face)
-description: ''
+alias: "Blinds — Close East (Sun Leaves East Face) (Year-Round)"
+description: >-
+  Closes East blinds after morning sun leaves the East face (shades in summer,
+  insulates shaded glass in winter).
 triggers:
-  - entity_id: sun.sun
+  - trigger: numeric_state
+    entity_id: sun.sun
     attribute: azimuth
     above: 135
-    trigger: numeric_state
 conditions:
   - condition: numeric_state
     entity_id: sun.sun
     attribute: elevation
-    above: 10
-  - condition: or
-    conditions:
-      - condition: state
-        entity_id: climate.honeywell_t_stat_main_floor
-        state: cool
-      - condition: numeric_state
-        entity_id: sensor.today_forecast_high
-        above: 70
+    above: 5
 actions:
   - repeat:
       count: 3
       sequence:
-        - target:
+        - action: cover.close_cover
+          target:
             entity_id:
               - cover.entry_blinds_homekit
               - cover.top_of_stairs
-          action: cover.close_cover
         - delay:
             seconds: 10
-        - target:
+        - action: cover.close_cover
+          target:
             entity_id:
               - cover.laundy
               - cover.loft_loft_east_left
-          action: cover.close_cover
         - delay:
             seconds: 10
-        - target:
+        - action: cover.close_cover
+          target:
             entity_id:
               - cover.loft_loft_east_middle
               - cover.loft_loft_east_right
-          action: cover.close_cover
         - delay:
             seconds: 10
-        - target:
+        - action: cover.close_cover
+          target:
             entity_id:
               - cover.piano_blinds_piano_ne
               - cover.piano_blinds_piano_se
-          action: cover.close_cover
         - delay:
             seconds: 20
         - if:
