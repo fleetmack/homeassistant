@@ -1,40 +1,84 @@
-alias: Xcel Peak — Begin Float (5pm) (Optimized)
+alias: "Xcel Peak — Begin Float (5pm) (Year-Round)"
 description: >-
-  Sets energy-saving targets at peak pricing hours with robust error catching
-  and mode enforcement.
+  Floats temperatures during Xcel weekday peak hours (5-9pm) for both Cooling
+  (Summer) and Heating (Winter) with cloud verification.
 triggers:
-  - at: '17:00:00'
-    trigger: time
+  - trigger: time
+    at: "17:00:00"
 conditions:
   - condition: state
     entity_id: input_boolean.hvac_killswitch
-    state: 'off'
-  - condition: template
-    value_template: '{{ now().month >= 5 and now().month <= 9 }}'
+    state: "off"
+  # Xcel TOU Peak only applies Monday-Friday!
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
   - condition: or
     conditions:
       - condition: state
         entity_id: climate.honeywell_t_stat_main_floor
-        state: cool
+        state:
+          - cool
+          - heat
       - condition: state
         entity_id: climate.honeywell_t_stat_upstairs
-        state: cool
-    alias: Run if either thermostat is actively configured to cool
+        state:
+          - cool
+          - heat
 actions:
-  - target:
-      entity_id: climate.honeywell_t_stat_main_floor
-    data:
-      hvac_mode: cool
-      temperature: 79
-    action: climate.set_temperature
-  - delay: '00:00:15'
-  - target:
-      entity_id: climate.honeywell_t_stat_upstairs
-    data:
-      hvac_mode: cool
-      temperature: 80
-    action: climate.set_temperature
-  - delay: '00:01:00'
+  # --- MAIN FLOOR ---
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: climate.honeywell_t_stat_main_floor
+            state: cool
+        sequence:
+          - action: climate.set_temperature
+            target:
+              entity_id: climate.honeywell_t_stat_main_floor
+            data:
+              temperature: 79
+      - conditions:
+          - condition: state
+            entity_id: climate.honeywell_t_stat_main_floor
+            state: heat
+        sequence:
+          - action: climate.set_temperature
+            target:
+              entity_id: climate.honeywell_t_stat_main_floor
+            data:
+              temperature: 66
+  - delay: "00:00:15"
+
+  # --- UPSTAIRS ---
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: climate.honeywell_t_stat_upstairs
+            state: cool
+        sequence:
+          - action: climate.set_temperature
+            target:
+              entity_id: climate.honeywell_t_stat_upstairs
+            data:
+              temperature: 80
+      - conditions:
+          - condition: state
+            entity_id: climate.honeywell_t_stat_upstairs
+            state: heat
+        sequence:
+          - action: climate.set_temperature
+            target:
+              entity_id: climate.honeywell_t_stat_upstairs
+            data:
+              temperature: 66
+
+  # --- CLOUD VERIFICATION & RETRY ---
+  - delay: "00:01:00"
   - action: homeassistant.update_entity
     target:
       entity_id:
@@ -43,34 +87,33 @@ actions:
   - if:
       - condition: or
         conditions:
-          - condition: numeric_state
-            entity_id: climate.honeywell_t_stat_main_floor
-            attribute: temperature
-            below: 79
-          - condition: numeric_state
-            entity_id: climate.honeywell_t_stat_upstairs
-            attribute: temperature
-            below: 80
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: climate.honeywell_t_stat_main_floor
+                state: cool
+              - condition: numeric_state
+                entity_id: climate.honeywell_t_stat_main_floor
+                attribute: temperature
+                below: 79
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: climate.honeywell_t_stat_main_floor
+                state: heat
+              - condition: numeric_state
+                entity_id: climate.honeywell_t_stat_main_floor
+                attribute: temperature
+                above: 66
     then:
-      - target:
+      - action: climate.set_temperature
+        target:
           entity_id: climate.honeywell_t_stat_main_floor
         data:
-          hvac_mode: cool
-          temperature: 79
-        action: climate.set_temperature
-      - delay: '00:00:15'
-      - target:
-          entity_id: climate.honeywell_t_stat_upstairs
+          temperature: >
+            {{ 79 if is_state('climate.honeywell_t_stat_main_floor', 'cool') else 66 }}
+      - action: notify.pixel_9_pro
         data:
-          hvac_mode: cool
-          temperature: 80
-        action: climate.set_temperature
-      - data:
           title: ⚡ HVAC Retry Executed
-          message: >-
-            One or more thermostats missed their Xcel Peak targets. Pushed a
-            forceful rewrite command.
-        action: notify.send_message
-        target:
-          entity_id: notify.pixel_9_pro
+          message: "Main floor thermostat missed Xcel Peak target. Pushed rewrite."
 mode: single
