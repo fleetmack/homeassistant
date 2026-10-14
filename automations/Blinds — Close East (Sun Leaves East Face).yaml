@@ -1,13 +1,16 @@
 alias: "Blinds — Close East (Sun Leaves East Face) (Year-Round)"
 description: >-
   Closes East blinds after morning sun leaves the East face (shades in summer,
-  insulates shaded glass in winter).
+  insulates shaded glass in winter) unless the blinds killswitch is ON.
 triggers:
   - trigger: numeric_state
     entity_id: sun.sun
     attribute: azimuth
     above: 135
 conditions:
+  - condition: state
+    entity_id: input_boolean.blinds_killswitch
+    state: "off"
   - condition: numeric_state
     entity_id: sun.sun
     attribute: elevation
