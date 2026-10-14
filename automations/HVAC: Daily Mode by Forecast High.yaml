@@ -78,7 +78,7 @@ actions:
           - data:
               title: HVAC Update 🌡️
               message: Today's high is below 60°F. System set to HEAT.
-            action: notify.pixel_9_pro
+            action: notify.notify
     default:
       - if:
           - condition: not
