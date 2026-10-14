@@ -6,7 +6,7 @@ triggers:
   - entity_id:
       - binary_sensor.patio_door
       - binary_sensor.front_door
-      - binary_sensor.garage_yard
+      - binary_sensor.garage_house_door
     to: 'on'
     for:
       minutes: 30
@@ -61,10 +61,10 @@ actions:
     action: notify.notify
   - wait_for_trigger:
       - value_template: >
-          {{ is_state('binary_sensor.kitching_sliding_door_sensor_contact',
+          {{ is_state('binary_sensor.patio_door',
           'off') and
-             is_state('binary_sensor.front_door_sensor_contact', 'off') and
-             is_state('binary_sensor.garage_yard_door_sensor_contact', 'off') }}
+             is_state('binary_sensor.front_door', 'off') and
+             is_state('binary_sensor.garage_house_door', 'off') }}
         trigger: template
     timeout: '08:00:00'
     continue_on_timeout: false
