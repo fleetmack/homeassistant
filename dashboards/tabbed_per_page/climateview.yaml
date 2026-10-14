@@ -8,15 +8,6 @@ layout:
     "header header header"
     "sidebar main calendar"
   grid-gap: 10px
-background:
-  opacity: 100
-  alignment: center
-  size: cover
-  repeat: repeat
-  attachment: scroll
-  image:
-    media_content_id: media-source://image_upload/8d3c6f0e528ca139e833ce669b24cc9a
-    media_content_type: image/jpeg
 cards:
   - type: custom:decluttering-card
     template: global_header
@@ -33,8 +24,6 @@ cards:
       style: |
         ha-card { 
           background: rgba(30, 30, 30, 0.3) !important;
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
           border-radius: 20px;
           border: 1px solid rgba(255, 255, 255, 0.15); 
           padding: 10px; 
@@ -49,7 +38,7 @@ cards:
               entity: sensor.today_forecast_high
               icon: mdi:thermometer-chevron-up
               icon_color: orange
-              content: "Today's High Temp: {{ states(entity) }}°"
+              content: 'Today''s High Temp: {{ states(entity) }}°'
             - type: template
               entity: input_boolean.hvac_killswitch
               icon: mdi:power
@@ -59,6 +48,18 @@ cards:
               content: >
                 {{ 'Climate: KILLED' if
                 is_state('input_boolean.hvac_killswitch', 'on') else 'Climate:
+                Active' }}
+              tap_action:
+                action: toggle
+            - type: template
+              entity: input_boolean.blinds_killswitch
+              icon: mdi:blinds
+              icon_color: >-
+                {{ 'red' if is_state('input_boolean.blinds_killswitch', 'off')
+                else 'green' }}
+              content: >
+                {{ 'Blinds: KILLED' if
+                is_state('input_boolean.blinds_killswitch', 'on') else 'Blinds:
                 Active' }}
               tap_action:
                 action: toggle
@@ -73,7 +74,7 @@ cards:
                   hvac_modes:
                     - heat
                     - cool
-                    - "off"
+                    - 'off'
             - type: thermostat
               entity: climate.honeywell_t_stat_upstairs
               features:
@@ -81,7 +82,7 @@ cards:
                   hvac_modes:
                     - heat
                     - cool
-                    - "off"
+                    - 'off'
         - type: markdown
           card_mod:
             style: >-
