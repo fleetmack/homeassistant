@@ -34,6 +34,18 @@ sensor:
       - 'time'
       - 'date'
 
+  # Grid demand averaged over 10 minutes, then recorded once per 10 minutes.
+  # The raw 4-second sensor is excluded from the recorder (see recorder: below).
+  - platform: filter
+    name: "Grid demand 10 min"
+    entity_id: sensor.xcel_itron_5_instantaneous_demand_value
+    filters:
+      - filter: time_simple_moving_average
+        window_size: "00:10"
+        precision: 0
+      - filter: time_throttle
+        window_size: "00:10"
+
 template:
   # Static / Calculation Sensors
   - sensor:
@@ -113,31 +125,31 @@ template:
   - binary_sensor:
       - name: "Basement Window"
         device_class: window
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_basement_window', 'on') }}"
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_basement_window', 'off') }}"
 
       - name: "Kitchen Window"
         device_class: window
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_kitchen_window', 'on') }}"
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_kitchen_window', 'off') }}"
 
       - name: "Main Bathroom Window"
         device_class: window
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_main_bathroom', 'on') }}"
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_main_bathroom', 'off') }}"
 
       - name: "Front Door"
         device_class: door
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_front_door', 'on') }}"
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_front_door', 'off') }}"
 
       - name: "Garage House Door"
         device_class: door
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_garage_house_door', 'on') }}"
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_garage_house_door', 'off') }}"
 
       - name: "Garage Yard Door"
         device_class: door
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_garage_yard_door', 'on') }}"
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_garage_yard_door', 'off') }}"
 
       - name: "Patio Door"
         device_class: door
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_patio_door', 'on') }}"
+        state: "{{ not is_state('binary_sensor.alarm_hub_kit_patio_door', 'off') }}"
 
   # Trigger-based Weather Sensors
   - trigger:
@@ -230,3 +242,30 @@ scene: !include scenes.yaml
 shell_command:
   govee_holiday: "python3 /config/scripts/govee_holiday.py {{ holiday }}"
   govee_basement: "python3 /config/scripts/govee_basement.py {{ scene }}"
+
+ ## Ignore Errors at startup  
+logger:
+  logs:
+  ## Denon receiver is turned off, spits an error, we should ignore this
+    denonavr.api: critical  
+    
+## =============================================================================
+##  DATABASE / RECORDER
+## =============================================================================
+recorder:
+  purge_keep_days: 7
+  commit_interval: 30
+  exclude:
+    domains:
+      - updater
+    entity_globs:
+      # Fully Kiosk / Companion App tablet diagnostics
+      - sensor.*onntablet*
+      - sensor.onn_11_tablet_pro_*
+      - sensor.*_free_memory*
+      - sensor.*_internal_storage*
+    entities:
+      # Camera state changes constantly and has no useful history
+      - camera.album_slideshow_clairebear
+      # Raw 4-second demand; use sensor.grid_demand_10_min for history instead
+      - sensor.xcel_itron_5_instantaneous_demand_value
