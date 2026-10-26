@@ -1,46 +1,84 @@
-alias: "Multi-Tablet Shared Charger Protection"
-description: "Turns shared tablet charger on below 30% and off when all tablets exceed 80%."
-trigger:
-  - platform: template
-    value_template: >
-      {% set batteries = [
-        states('sensor.tablet_1_battery'),
-        states('sensor.tablet_2_battery'),
-        states('sensor.master_bedroom_onntablet_master_battery')
-      ] %}
-      {{ batteries | map('is_number') | list | min
-         and (batteries | map('float') | list | min) < 30 }}
+id: "1788192164914"
+alias: Multi-Tablet Shared Charger Protection
+description: >-
+  Turns shared tablet charger on below 30% and off when both tablets exceed 80%,
+  with Z-Wave retry and 5-minute watchdog.
+triggers:
+  - trigger: numeric_state
+    entity_id:
+      - sensor.onn_11_tablet_pro_battery_2
+      - sensor.master_bedroom_onntablet_master_battery
+    below: 30
     id: need_charge
-
-  - platform: template
-    value_template: >
-      {% set batteries = [
-        states('sensor.tablet_1_battery'),
-        states('sensor.tablet_2_battery'),
-        states('sensor.master_bedroom_onntablet_master_battery')
-      ] %}
-      {{ batteries | map('is_number') | list | min
-         and (batteries | map('float') | list | min) > 80 }}
+  - trigger: numeric_state
+    entity_id:
+      - sensor.onn_11_tablet_pro_battery_2
+      - sensor.master_bedroom_onntablet_master_battery
+    above: 80
     id: fully_charged
-
-condition: []
-
-action:
+  - trigger: time_pattern
+    minutes: /5
+    id: watchdog
+  - trigger: homeassistant
+    event: start
+    id: reevaluate
+  - trigger: state
+    entity_id: switch.tablet_power_supply
+    to:
+      - "on"
+      - "off"
+    id: reevaluate
+conditions: []
+actions:
   - choose:
       - conditions:
-          - condition: trigger
-            id: need_charge
+          - condition: state
+            entity_id: switch.tablet_power_supply
+            state: "off"
+          - condition: or
+            conditions:
+              - condition: numeric_state
+                entity_id: sensor.onn_11_tablet_pro_battery_2
+                below: 30
+              - condition: numeric_state
+                entity_id: sensor.master_bedroom_onntablet_master_battery
+                below: 30
         sequence:
-          - service: homeassistant.turn_on
-            target:
-              entity_id: switch.tablet_power_supply
-
+          - repeat:
+              count: 3
+              sequence:
+                - condition: not
+                  conditions:
+                    - condition: state
+                      entity_id: switch.tablet_power_supply
+                      state: "on"
+                - action: switch.turn_on
+                  target:
+                    entity_id: switch.tablet_power_supply
+                - delay:
+                    seconds: 10
       - conditions:
-          - condition: trigger
-            id: fully_charged
+          - condition: state
+            entity_id: switch.tablet_power_supply
+            state: "on"
+          - condition: numeric_state
+            entity_id: sensor.onn_11_tablet_pro_battery_2
+            above: 80
+          - condition: numeric_state
+            entity_id: sensor.master_bedroom_onntablet_master_battery
+            above: 80
         sequence:
-          - service: homeassistant.turn_off
-            target:
-              entity_id: switch.tablet_power_supply
-
-mode: single
+          - repeat:
+              count: 3
+              sequence:
+                - condition: not
+                  conditions:
+                    - condition: state
+                      entity_id: switch.tablet_power_supply
+                      state: "off"
+                - action: switch.turn_off
+                  target:
+                    entity_id: switch.tablet_power_supply
+                - delay:
+                    seconds: 10
+mode: restart
