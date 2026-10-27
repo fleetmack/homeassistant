@@ -44,7 +44,7 @@ decluttering_templates:
       type: custom:layout-card
       layout_type: custom:grid-layout
       layout:
-        grid-template-columns: 20% 20% 40% 20%
+        grid-template-columns: 32% 20% 28% 20%
         grid-template-rows: auto
         margin: 0px
         padding: 0px
@@ -52,10 +52,22 @@ decluttering_templates:
         - type: custom:clock-weather-card
           entity: weather.forecast_home_2
           sun_entity: sun.sun
-          forecast_rows: 4
-          scale: 0.4
+          sections:
+            forecast_strip:
+              hide: true
+            forecast_list:
+              forecast_type: daily
+              count: 5
           card_mod:
-            style: 'ha-card { height: 220px; border: none; background: transparent; }'
+            style: |
+              ha-card { 
+                min-height: 220px; 
+                border: none; 
+                background: transparent; 
+              }
+              .time {
+                font-size: 2.2rem !important;
+              }
         - type: picture-entity
           entity: camera.unifidoorbell_low_resolution_channel
           camera_view: live
@@ -70,11 +82,10 @@ decluttering_templates:
               alignment: left
               card_mod:
                 style: >
-                  ha-card { --chip-spacing: 4px; border: none; background:
-                  transparent; } .chip-container
-                  mushroom-template-chip:nth-child(1) { 
-                    --chip-background: none; --chip-box-shadow: none; --chip-font-weight: bold;
-                  }
+                  ha-card { --chip-spacing: 2px; border: none; background:
+                  transparent; }
+
+                  .chip-container { flex-wrap: nowrap; overflow-x: auto; }
               chips:
                 - type: template
                   content: 'Gates:'
@@ -103,11 +114,10 @@ decluttering_templates:
               alignment: left
               card_mod:
                 style: >
-                  ha-card { --chip-spacing: 4px; border: none; background:
-                  transparent; } .chip-container
-                  mushroom-template-chip:nth-child(1) { 
-                    --chip-background: none; --chip-box-shadow: none; --chip-font-weight: bold;
-                  }
+                  ha-card { --chip-spacing: 2px; border: none; background:
+                  transparent; }
+
+                  .chip-container { flex-wrap: nowrap; overflow-x: auto; }
               chips:
                 - type: template
                   icon: mdi:lock
@@ -143,11 +153,10 @@ decluttering_templates:
               alignment: left
               card_mod:
                 style: >
-                  ha-card { --chip-spacing: 4px; border: none; background:
-                  transparent; } .chip-container
-                  mushroom-template-chip:nth-child(1) { 
-                    --chip-background: none; --chip-box-shadow: none; --chip-font-weight: bold;
-                  }
+                  ha-card { --chip-spacing: 2px; border: none; background:
+                  transparent; }
+
+                  .chip-container { flex-wrap: nowrap; overflow-x: auto; }
               chips:
                 - type: template
                   icon: mdi:door-closed
@@ -197,11 +206,10 @@ decluttering_templates:
               alignment: left
               card_mod:
                 style: >
-                  ha-card { --chip-spacing: 4px; border: none; background:
-                  transparent; } .chip-container
-                  mushroom-template-chip:nth-child(1) { 
-                    --chip-background: none; --chip-box-shadow: none; --chip-font-weight: bold;
-                  }
+                  ha-card { --chip-spacing: 2px; border: none; background:
+                  transparent; }
+
+                  .chip-container { flex-wrap: nowrap; overflow-x: auto; }
               chips:
                 - type: template
                   icon: mdi:fridge
@@ -224,11 +232,10 @@ decluttering_templates:
               alignment: left
               card_mod:
                 style: >
-                  ha-card { --chip-spacing: 4px; border: none; background:
-                  transparent; } .chip-container
-                  mushroom-template-chip:nth-child(1) { 
-                    --chip-background: none; --chip-box-shadow: none; --chip-font-weight: bold;
-                  }
+                  ha-card { --chip-spacing: 2px; border: none; background:
+                  transparent; }
+
+                  .chip-container { flex-wrap: nowrap; overflow-x: auto; }
               chips:
                 - type: template
                   icon: mdi:snowflake
@@ -252,15 +259,15 @@ decluttering_templates:
             - type: custom:mushroom-chips-card
               alignment: center
               card_mod:
-                style: >-
+                style: >
                   ha-card { height: 40px; border: none; background: transparent;
                   }
               chips:
                 - type: template
                   entity: sensor.virtual_hsm_status_mirror_hsm_status
                   icon: >
-                    {% if is_state(entity, 'disarmed') %} mdi:shield-check {%
-                    elif is_state(entity, 'armedHome') %} mdi:shield-home {%
+                    {% if is_state(entity, 'disarmed') %} mdi:shield-check  {%
+                    elif is_state(entity, 'armedHome') %} mdi:shield-home  {%
                     else %} mdi:shield-lock {% endif %}
                   icon_color: '{{ ''green'' if is_state(entity, ''disarmed'') else ''orange'' }}'
                   content: 'Status: {{ states(entity) | capitalize }}'
@@ -277,9 +284,9 @@ decluttering_templates:
                 style: |
                   ha-card {
                     height: 120px !important;
-                    background-image: url("/local/parrot.jpg");
+                    background-image: url("/local/redpanda.jpg");
                     background-size: cover;
-                    background-position: center 15%;
+                    background-position: center 55%;
                     border-radius: 12px;
                     --is-status-color: transparent;
                   }
@@ -325,13 +332,13 @@ decluttering_templates:
           cards:
             - type: custom:button-card
               template: sidebar_nav
-              name: Calendar
-              icon: mdi:calendar-month
+              name: Groceries
+              icon: mdi:cart
               variables:
-                path: calendar
+                path: groceries
               tap_action:
                 action: navigate
-                navigation_path: /dashboard-twopointoh/calendar
+                navigation_path: /dashboard-twopointoh/groceries
             - type: custom:button-card
               template: sidebar_nav
               name: Kitchen
@@ -679,6 +686,7 @@ views:
                 - type: custom:mushroom-light-card
                   entity: light.front_entry_lights
                   name: Entry
+                  icon: mdi:door-open
                 - type: custom:mushroom-light-card
                   entity: light.upstairs_lights
                   name: Upstairs
@@ -2094,7 +2102,7 @@ views:
                           ha-card { height: 100%; }
                     - type: custom:mushroom-template-card
                       entity: light.claire_light_strip
-                      primary: Strip
+                      primary: Lava Lamp
                       secondary: Tap for Color
                       icon: mdi:led-strip-variant
                       layout: horizontal
@@ -2516,6 +2524,18 @@ views:
                     'Climate: Active' }}
                   tap_action:
                     action: toggle
+                - type: template
+                  entity: input_boolean.blinds_killswitch
+                  icon: mdi:blinds
+                  icon_color: >-
+                    {{ 'red' if is_state('input_boolean.blinds_killswitch',
+                    'off') else 'green' }}
+                  content: >
+                    {{ 'Blinds: KILLED' if
+                    is_state('input_boolean.blinds_killswitch', 'on') else
+                    'Blinds: Active' }}
+                  tap_action:
+                    action: toggle
             - type: grid
               columns: 2
               square: false
@@ -2735,7 +2755,7 @@ views:
                     '%.2f'|format(states('sensor.total_utility_cost_today')|float(0))
                     }}**</font> |
                   card_mod:
-                    style: >
+                    style: |
                       ha-card { 
                         border: none; 
                         font-size: 0.85em;
@@ -2982,7 +3002,7 @@ views:
                         border-radius: 12px;
                         border: 2px solid #F1BE48;
                         background: rgba(200, 16, 46, 0.3) !important;
-                      }                  
+                      }     
       - type: custom:decluttering-card
         template: global_calendar
         view_layout:
@@ -3107,33 +3127,52 @@ views:
         template: global_calendar
         view_layout:
           grid-area: calendar
-  - title: Calendar
-    path: calendar
-    type: panel
+  - title: Groceries
+    path: groceries
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: 260px 1fr 300px
+      grid-template-rows: auto 1fr
+      grid-template-areas: |
+        "header header header"
+        "sidebar main calendar"
+      grid-gap: 10px
     cards:
-      - type: vertical-stack
-        cards:
-          - type: custom:button-card
-            name: Back to Dashboard
-            icon: mdi:arrow-left
-            styles:
-              card:
-                - height: 44px
-                - border-radius: 12px
-                - width: 160px
-              name:
-                - font-weight: bold
-            tap_action:
-              action: navigate
-              navigation_path: /dashboard-twopointoh/kitchen
-          - type: calendar
-            entities:
-              - calendar.fleetmack_gmail_com
-              - calendar.family
-            initial_view: dayGridMonth
-            card_mod:
-              style: |
-                ha-card {
-                  height: calc(100vh - 70px) !important;
-                  border-radius: 20px;
-                }
+      - type: custom:decluttering-card
+        template: global_header
+        view_layout:
+          grid-area: header
+      - type: custom:decluttering-card
+        template: global_sidebar
+        view_layout:
+          grid-area: sidebar
+      - type: custom:mod-card
+        view_layout:
+          grid-area: main
+        card_mod:
+          style: |
+            ha-card { 
+              background: rgba(30, 30, 30, 0.3) !important; 
+              border-radius: 20px;
+              border: 1px solid rgba(255, 255, 255, 0.15); 
+              padding: 10px; 
+            }
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:mushroom-title-card
+              title: Groceries
+            - type: todo-list
+              entity: todo.google_keep_my_shopping_list
+              title: ''
+              card_mod:
+                style: |
+                  ha-card {
+                    background: transparent !important;
+                    border: none !important;
+                    box-shadow: none !important;
+                  }
+      - type: custom:decluttering-card
+        template: global_calendar
+        view_layout:
+          grid-area: calendar
