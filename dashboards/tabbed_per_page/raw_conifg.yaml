@@ -283,10 +283,10 @@ decluttering_templates:
               card_mod:
                 style: |
                   ha-card {
-                    height: 120px !important;
+                    height: 165px !important;
                     background-image: url("/local/redpanda.jpg");
                     background-size: cover;
-                    background-position: center 55%;
+                    background-position: center center;
                     border-radius: 12px;
                     --is-status-color: transparent;
                   }
