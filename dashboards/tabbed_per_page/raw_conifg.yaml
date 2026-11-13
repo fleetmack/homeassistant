@@ -161,28 +161,28 @@ decluttering_templates:
                 - type: template
                   icon: mdi:door-closed
                 - type: template
-                  entity: binary_sensor.front_door
+                  entity: binary_sensor.alarm_hub_kit_front_door
                   icon: >-
                     {{ 'mdi:door-open' if is_state(entity, 'on') else
                     'mdi:door-closed' }}
                   icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
                   content: Front
                 - type: template
-                  entity: binary_sensor.garage_house_door
+                  entity: binary_sensor.alarm_hub_kit_garage_house_door
                   icon: >-
                     {{ 'mdi:door-open' if is_state(entity, 'on') else
                     'mdi:door-closed' }}
                   icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
                   content: Mud
                 - type: template
-                  entity: binary_sensor.garage_yard_door
+                  entity: binary_sensor.alarm_hub_kit_garage_yard_door
                   icon: >-
                     {{ 'mdi:door-open' if is_state(entity, 'on') else
                     'mdi:door-closed' }}
                   icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''green'' }}'
                   content: Yard
                 - type: template
-                  entity: binary_sensor.patio_door
+                  entity: binary_sensor.alarm_hub_kit_patio_door
                   icon: >-
                     {{ 'mdi:door-open' if is_state(entity, 'on') else
                     'mdi:door-closed' }}
@@ -571,6 +571,15 @@ views:
                   icon_color: >-
                     {{ 'deep-orange' if is_state(entity, 'on') else 'disabled'
                     }}
+                  tap_action:
+                    action: toggle
+                - type: template
+                  content: Christmas Tree
+                  entity: switch.christmas_tree
+                  icon: >-
+                    {{ 'mdi:pine-tree' if is_state(entity, 'on') else
+                    'mdi:pine-tree-variant-outline' }}
+                  icon_color: '{{ ''green'' if is_state(entity, ''on'') else ''disabled'' }}'
                   tap_action:
                     action: toggle
             - type: conditional
@@ -1420,6 +1429,54 @@ views:
                   icon_color: '{{ ''red'' if is_state(entity, ''on'') else ''disabled'' }}'
                   tap_action:
                     action: toggle
+                - content: Outdoor Holiday Lights
+                  entity: light.christmas_lights_north
+                  icon: >-
+                    {{ 'mdi:string-lights' if
+                    is_state('light.christmas_lights_north', 'on') or
+                    is_state('light.christmas_lights_south', 'on') else
+                    'mdi:string-lights-off' }}
+                  icon_color: >-
+                    {{ 'amber' if is_state('light.christmas_lights_north', 'on')
+                    or is_state('light.christmas_lights_south', 'on') else
+                    'disabled' }}
+                  tap_action:
+                    action: perform-action
+                    perform_action: light.toggle
+                    target:
+                      entity_id:
+                        - light.christmas_lights_north
+                        - light.christmas_lights_south
+                  type: template
+                - type: template
+                  content: Basement Holiday Lights
+                  entity: light.basement_basement_xmas_stair_lights
+                  icon: >-
+                    {{ 'mdi:string-lights' if
+                    is_state('light.basement_basement_xmas_stair_lights', 'on')
+                    or is_state('switch.basement_xmas_christmas_tree', 'on')
+                    else 'mdi:string-lights-off' }}
+                  icon_color: >-
+                    {{ 'amber' if
+                    is_state('light.basement_basement_xmas_stair_lights', 'on')
+                    or is_state('switch.basement_xmas_christmas_tree', 'on')
+                    else 'disabled' }}
+                  tap_action:
+                    action: perform-action
+                    perform_action: homeassistant.toggle
+                    target:
+                      entity_id:
+                        - light.basement_basement_xmas_stair_lights
+                        - switch.basement_xmas_christmas_tree
+                - type: template
+                  content: Christmas Tree
+                  entity: switch.christmas_tree
+                  icon: >-
+                    {{ 'mdi:pine-tree' if is_state(entity, 'on') else
+                    'mdi:pine-tree-variant-outline' }}
+                  icon_color: '{{ ''green'' if is_state(entity, ''on'') else ''disabled'' }}'
+                  tap_action:
+                    action: toggle
             - type: grid
               columns: 3
               square: true
@@ -1692,6 +1749,26 @@ views:
                       entity_id: input_select.basement_scene
                     data:
                       option: 'off'
+                - type: template
+                  content: Basement Holiday Lights
+                  entity: light.basement_basement_xmas_stair_lights
+                  icon: >-
+                    {{ 'mdi:string-lights' if
+                    is_state('light.basement_basement_xmas_stair_lights', 'on')
+                    or is_state('switch.basement_xmas_christmas_tree', 'on')
+                    else 'mdi:string-lights-off' }}
+                  icon_color: >-
+                    {{ 'amber' if
+                    is_state('light.basement_basement_xmas_stair_lights', 'on')
+                    or is_state('switch.basement_xmas_christmas_tree', 'on')
+                    else 'disabled' }}
+                  tap_action:
+                    action: perform-action
+                    perform_action: homeassistant.toggle
+                    target:
+                      entity_id:
+                        - light.basement_basement_xmas_stair_lights
+                        - switch.basement_xmas_christmas_tree
             - type: horizontal-stack
               cards:
                 - type: conditional
