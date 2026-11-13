@@ -122,35 +122,6 @@ template:
         state: "{{ states('sensor.plant_fiddle_leaf_fig_kitchen_humidity') }}"
         icon: mdi:water-percent
 
-  - binary_sensor:
-      - name: "Basement Window"
-        device_class: window
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_basement_window', 'off') }}"
-
-      - name: "Kitchen Window"
-        device_class: window
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_kitchen_window', 'off') }}"
-
-      - name: "Main Bathroom Window"
-        device_class: window
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_main_bathroom', 'off') }}"
-
-      - name: "Front Door"
-        device_class: door
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_front_door', 'off') }}"
-
-      - name: "Garage House Door"
-        device_class: door
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_garage_house_door', 'off') }}"
-
-      - name: "Garage Yard Door"
-        device_class: door
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_garage_yard_door', 'off') }}"
-
-      - name: "Patio Door"
-        device_class: door
-        state: "{{ not is_state('binary_sensor.alarm_hub_kit_patio_door', 'off') }}"
-
   # Trigger-based Weather Sensors
   - trigger:
       - platform: time_pattern
