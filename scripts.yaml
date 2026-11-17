@@ -1,0 +1,316 @@
+sensor.holiday_seasontoggle_rachio_zone:
+  alias: Toggle Rachio Zone
+  mode: parallel
+  fields:
+    zone_id:
+      description: The entity ID of the zone
+      example: switch.front_yard_north
+  sequence:
+  - if:
+    - condition: template
+      value_template: '{{ is_state(zone_id, ''off'') }}'
+    then:
+    - action: rachio.start_watering
+      data:
+        entity_id: '{{ zone_id }}'
+        duration: '{{ states(''input_number.manual_watering_duration'') | int }}'
+    else:
+    - action: homeassistant.turn_off
+      target:
+        entity_id: '{{ zone_id }}'
+  description: ''
+sports_lights_apply_team:
+  alias: Sports Lights - Apply Team
+  description: Powers required Hue zones and applies the requested sports theme
+  mode: restart
+  fields:
+    team:
+      description: Team lighting theme
+      example: seahawks
+  sequence:
+  - action: switch.turn_on
+    target:
+      entity_id:
+      - light.backyard_garage_lights_lr
+      - light.front_porch_lights
+    data: {}
+  - delay:
+      seconds: 3
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ team == ''huskers'' }}'
+      sequence:
+      - action: shell_command.govee_holiday
+        continue_on_error: true
+        data:
+          holiday: huskers
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.ally_ally_alley_cyhusk
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.back_yard_backyard_backyard_red
+      - action: light.turn_on
+        continue_on_error: true
+        target:
+          entity_id: light.front_porch_lights
+      - delay:
+          seconds: 3
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.front_porch_front_porch_hue_porch_huskers
+    - conditions:
+      - condition: template
+        value_template: '{{ team == ''cyclones'' }}'
+      sequence:
+      - action: shell_command.govee_holiday
+        continue_on_error: true
+        data:
+          holiday: cyclones
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.ally_ally_alley_cyhusk
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.back_yard_backyard_backyard_red
+      - action: light.turn_on
+        continue_on_error: true
+        target:
+          entity_id: light.front_porch_lights
+      - delay:
+          seconds: 3
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.front_porch_front_porch_hue_porch_cyclones
+    - conditions:
+      - condition: template
+        value_template: '{{ team == ''seahawks'' }}'
+      sequence:
+      - action: shell_command.govee_holiday
+        continue_on_error: true
+        data:
+          holiday: seahawks
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.ally_ally_seahawks
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.back_yard_backyard_seahawks
+      - action: light.turn_on
+        continue_on_error: true
+        target:
+          entity_id: light.front_porch_lights
+      - delay:
+          seconds: 3
+      - action: scene.turn_on
+        continue_on_error: true
+        target:
+          entity_id: scene.front_porch_front_porch_seahawks
+sports_lights_restore_normal:
+  alias: Sports Lights - Restore Normal
+  description: Restores current holiday lighting or normal default lighting
+  mode: restart
+  sequence:
+  - variables:
+      holiday_season: '{{ states(''sensor.holiday_season'') }}'
+      is_daytime: '{{ is_state(''sun.sun'', ''above_horizon'') }}'
+  - if:
+    - condition: template
+      value_template: '{{ is_daytime }}'
+    then:
+    - action: light.turn_off
+      target:
+        entity_id:
+        - light.front_porch_lights
+        - light.backyard_garage_lights_lr
+    - action: shell_command.govee_holiday
+      continue_on_error: true
+      data:
+        holiday: default
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.sports_lights_owner
+      data:
+        option: none
+    - stop: Daytime - lights turned off instead of applying scene
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ holiday_season != ''idle'' }}'
+      sequence:
+      - action: automation.trigger
+        target:
+          entity_id: automation.holiday_lights_apply_season
+    default:
+    - action: shell_command.govee_holiday
+      continue_on_error: true
+      data:
+        holiday: default
+    - action: switch.turn_on
+      target:
+        entity_id:
+        - light.backyard_garage_lights_lr
+        - light.front_porch_lights
+    - delay:
+        seconds: 3
+    - action: scene.turn_on
+      continue_on_error: true
+      target:
+        entity_id: scene.ally_ally_bright
+    - action: scene.turn_on
+      continue_on_error: true
+      target:
+        entity_id: scene.back_yard_backyard_bright
+    - action: light.turn_on
+      continue_on_error: true
+      target:
+        entity_id: light.front_porch_lights
+    - delay:
+        seconds: 3
+    - action: scene.turn_on
+      continue_on_error: true
+      target:
+        entity_id: scene.front_porch_front_porch_bright
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.sports_lights_owner
+    data:
+      option: none
+hudson_team_lights:
+  alias: Hudson Room - Team Lights
+  description: Applies sports team color themes (Seahawks, Royals, Cyclones, Huskers)
+    to Hudson's room Hue lights and light strip.
+  fields:
+    team:
+      description: Team theme (seahawks, royals, cyclones, huskers)
+      example: seahawks
+  icon: mdi:stadium-variant
+  mode: restart
+  sequence:
+  - action: light.turn_on
+    continue_on_error: true
+    data:
+      brightness_pct: 100
+    target:
+      entity_id: light.hudson_lights
+  - action: switch.turn_on
+    continue_on_error: true
+    target:
+      entity_id: switch.hudson_aux_switch
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ team == ''seahawks'' }}'
+      sequence:
+      - action: light.turn_on
+        continue_on_error: true
+        data:
+          brightness_pct: 100
+          rgb_color:
+          - 0
+          - 85
+          - 255
+        target:
+          entity_id:
+          - light.hudson_hue_hud_dome_1
+          - light.hudson_hue_hud_dome_3
+      - action: light.turn_on
+        continue_on_error: true
+        data:
+          brightness_pct: 100
+          rgb_color:
+          - 105
+          - 190
+          - 40
+        target:
+          entity_id:
+          - light.hudson_hue_hud_dome_2
+          - light.hudson_hue_hud_light_strip
+    - conditions:
+      - condition: template
+        value_template: '{{ team == ''royals'' }}'
+      sequence:
+      - action: light.turn_on
+        continue_on_error: true
+        data:
+          brightness_pct: 100
+          rgb_color:
+          - 0
+          - 115
+          - 230
+        target:
+          entity_id:
+          - light.hudson_hue_hud_dome_1
+          - light.hudson_hue_hud_dome_3
+          - light.hudson_hue_hud_light_strip
+      - action: light.turn_on
+        continue_on_error: true
+        data:
+          brightness_pct: 100
+          rgb_color:
+          - 255
+          - 195
+          - 70
+        target:
+          entity_id: light.hudson_hue_hud_dome_2
+    - conditions:
+      - condition: template
+        value_template: '{{ team == ''cyclones'' }}'
+      sequence:
+      - action: light.turn_on
+        continue_on_error: true
+        data:
+          brightness_pct: 100
+          rgb_color:
+          - 210
+          - 16
+          - 46
+        target:
+          entity_id:
+          - light.hudson_hue_hud_dome_1
+          - light.hudson_hue_hud_dome_3
+      - action: light.turn_on
+        continue_on_error: true
+        data:
+          brightness_pct: 100
+          rgb_color:
+          - 255
+          - 199
+          - 44
+        target:
+          entity_id:
+          - light.hudson_hue_hud_dome_2
+          - light.hudson_hue_hud_light_strip
+    - conditions:
+      - condition: template
+        value_template: '{{ team == ''huskers'' }}'
+      sequence:
+      - action: light.turn_on
+        continue_on_error: true
+        data:
+          brightness_pct: 100
+          rgb_color:
+          - 228
+          - 28
+          - 56
+        target:
+          entity_id:
+          - light.hudson_hue_hud_dome_1
+          - light.hudson_hue_hud_dome_3
+          - light.hudson_hue_hud_light_strip
+      - action: light.turn_on
+        continue_on_error: true
+        data:
+          brightness_pct: 100
+          color_temp_kelvin: 4500
+        target:
+          entity_id: light.hudson_hue_hud_dome_2
